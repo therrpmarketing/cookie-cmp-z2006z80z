@@ -1,34 +1,30 @@
-/* Resetting default styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* General Layout */
 body {
+  margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #f7f7f7;
-  color: #333;
+  background-color: #f7f7f7;
 }
 
-/* Container for admin layout */
 .admin-container {
   display: flex;
   min-height: 100vh;
 }
 
-/* Sidebar styling */
+/* Sidebar */
 .admin-sidebar {
   width: 240px;
-  background-color: #2a3d58;
+  background-color: #1e293b;
   color: #fff;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .sidebar .brand {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .sidebar .brand img {
@@ -37,7 +33,7 @@ body {
 }
 
 .sidebar h2 {
-  font-size: 22px;
+  font-size: 18px;
   margin: 0;
 }
 
@@ -54,69 +50,60 @@ body {
   color: #cbd5e1;
   text-decoration: none;
   font-weight: 500;
-  transition: all 0.3s ease;
 }
 
 .sidebar ul li a:hover {
   color: #fff;
-  padding-left: 10px;
 }
 
-/* Main content area */
+/* Content Section */
 .admin-content {
   flex-grow: 1;
   padding: 30px;
   background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Title styling */
 .admin-content h1 {
-  font-size: 28px;
-  color: #333;
+  font-size: 24px;
   margin-bottom: 20px;
+  color: #333;
 }
 
-/* Metrics container and card styling */
-.metrics-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+/* Dashboard Cards */
+.dashboard-cards {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 40px;
 }
 
 .metric-card {
-  background-color: #fff;
+  background-color: #ffffff;
+  border-radius: 8px;
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  transition: all 0.3s ease;
-}
-
-.metric-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 30%;
 }
 
 .metric-card h3 {
-  font-size: 22px;
-  margin-bottom: 10px;
+  font-size: 18px;
   color: #666;
+  margin-bottom: 10px;
 }
 
-.metric-card p {
-  font-size: 32px;
-  font-weight: bold;
-  color: #4CAF50;
-}
-
-/* Recent Activity styling */
-.recent-activity h2 {
+.metric-value {
   font-size: 24px;
-  margin-bottom: 15px;
+  font-weight: bold;
+  color: #1e293b;
+}
+
+/* Recent Activity */
+.recent-activity h3 {
+  font-size: 20px;
   color: #333;
+  margin-bottom: 20px;
 }
 
 .recent-activity ul {
@@ -125,21 +112,25 @@ body {
 }
 
 .recent-activity ul li {
-  background-color: #f1f1f1;
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 8px;
   font-size: 16px;
-  color: #333;
+  color: #555;
+  margin-bottom: 10px;
 }
 
 .recent-activity ul li:hover {
-  background-color: #e0e0e0;
+  color: #0073e6;
+  cursor: pointer;
 }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-  .metrics-container {
-    grid-template-columns: 1fr;
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .dashboard-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .metric-card {
+    width: 80%;
+    margin-bottom: 20px;
   }
 }
