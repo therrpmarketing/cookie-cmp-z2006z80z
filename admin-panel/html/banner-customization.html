@@ -1,1 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Banner Customization</title>
+  <link rel="stylesheet" href="../css/banner-customization.css" />
+</head>
+<body>
+  <div class="customization-panel">
+    <h1>Customize Cookie Banner</h1>
+
+    <form id="bannerForm">
+      <label>
+        Banner Text:
+        <textarea id="bannerText" rows="3"></textarea>
+      </label>
+
+      <label>
+        Background Color:
+        <input type="color" id="backgroundColor" />
+      </label>
+
+      <label>
+        Text Color:
+        <input type="color" id="textColor" />
+      </label>
+
+      <label>
+        Button Color:
+        <input type="color" id="buttonColor" />
+      </label>
+
+      <label>
+        Position:
+        <select id="bannerPosition">
+          <option value="bottom">Bottom</option>
+          <option value="top">Top</option>
+        </select>
+      </label>
+
+      <button type="submit">Save Settings</button>
+    </form>
+
+    <p class="status" id="statusMsg"></p>
+  </div>
+
+  <script src="../js/banner-customization.js"></script>
+</body>
+</html>
 
