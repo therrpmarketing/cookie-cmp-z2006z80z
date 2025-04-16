@@ -1,62 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard</title>
+  <title>Admin Dashboard | Cookie CMP</title>
   <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css" />
 </head>
-<body class="admin-layout">
 
-  <div class="admin-container">
+<body>
+  <div class="layout">
     <!-- Sidebar -->
-    <div class="admin-sidebar">
-      <div class="sidebar">
-        <div class="brand">
-          <img src="/assets/logo.svg" alt="Brand Logo" />
-          <h2>Cookie CMP</h2>
-        </div>
-        <ul>
-          <li><a href="admin-dashboard.html" class="active">Dashboard</a></li>
-          <li><a href="cookie-categories.html">Cookie Categories</a></li>
-          <li><a href="banner-customization.html">Customize Banner</a></li>
-          <li><a href="consent-logs.html">Consent Logs</a></li>
-          <li><a href="analytics-dashboard.html">Consent Analytics</a></li>
-          <li><a href="user-preferences.html">User Preferences</a></li>
-          <li><a href="advanced-settings.html">Advanced Settings</a></li>
-        </ul>
-      </div>
-    </div>
+    <aside class="sidebar">
+      <h1 class="logo">Cookie CMP</h1>
+      <nav class="nav">
+        <a href="admin-dashboard.html" class="nav-link active">Dashboard</a>
+        <a href="cookie-categories.html" class="nav-link">Cookie Categories</a>
+        <a href="customize-banner.html" class="nav-link">Customize Banner</a>
+        <a href="consent-logs.html" class="nav-link">Consent Logs</a>
+        <a href="consent-analytics.html" class="nav-link">Consent Analytics</a>
+        <a href="user-preferences.html" class="nav-link">User Preferences</a>
+        <a href="advanced-settings.html" class="nav-link">Advanced Settings</a>
+      </nav>
+    </aside>
 
-    <!-- Main Content -->
-    <div class="admin-content">
-      <h1>Admin Dashboard</h1>
+    <!-- Main content -->
+    <main class="main">
+      <header class="topbar">
+        <h2>Admin Dashboard</h2>
+      </header>
 
-      <div class="dashboard-grid">
-        <div class="card metric-card">
-          <h3>Total Users</h3>
-          <p class="metric-number">3,245</p>
-        </div>
-        <div class="card metric-card">
-          <h3>Active Consent</h3>
-          <p class="metric-number">92%</p>
-        </div>
-        <div class="card metric-card">
-          <h3>Pending Actions</h3>
-          <p class="metric-number">12</p>
-        </div>
-      </div>
+      <section class="dashboard">
+        <p class="welcome-msg">Welcome to the Cookie CMP Admin Panel. Manage your settings, monitor user consent, and analyze data.</p>
 
-      <div class="card recent-activity">
-        <h3>Recent Activity</h3>
-        <ul>
-          <li>User <strong>John Doe</strong> accepted all cookies.</li>
-          <li>User <strong>Jane Smith</strong> customized preferences.</li>
-          <li>New consent log created for <strong>Doe Corporation</strong>.</li>
-        </ul>
-      </div>
-    </div>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Total Users</h3>
+            <p class="metric">3,245</p>
+          </div>
+          <div class="card">
+            <h3>Active Consent</h3>
+            <p class="metric">92%</p>
+          </div>
+          <div class="card">
+            <h3>Pending Actions</h3>
+            <p class="metric">12</p>
+          </div>
+        </div>
+
+        <div class="activity-log">
+          <h3>Recent Activity</h3>
+          <ul>
+            <li>User "John Doe" accepted all cookies.</li>
+            <li>User "Jane Smith" customized preferences.</li>
+            <li>New consent log created for "Doe Corporation".</li>
+          </ul>
+        </div>
+      </section>
+    </main>
   </div>
-
 </body>
+
 </html>
