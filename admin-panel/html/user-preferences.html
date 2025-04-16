@@ -1,1 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Preferences</title>
+  <link rel="stylesheet" href="../css/user-preferences.css">
+</head>
+<body>
+  <div class="user-preferences-panel">
+    <h1>User Cookie Preferences</h1>
+    <form id="userPreferencesForm">
+      <h3>Select your cookie preferences:</h3>
+      <div class="checkbox-container">
+        <label>
+          <input type="checkbox" id="necessary" checked disabled />
+          Necessary Cookies (Always On)
+        </label>
+        <label>
+          <input type="checkbox" id="analytics" />
+          Analytics Cookies
+        </label>
+        <label>
+          <input type="checkbox" id="functional" />
+          Functional Cookies
+        </label>
+        <label>
+          <input type="checkbox" id="advertisement" />
+          Advertisement Cookies
+        </label>
+      </div>
+      
+      <div class="buttons">
+        <button type="button" id="acceptAll">Accept All</button>
+        <button type="button" id="rejectAll">Reject All</button>
+        <button type="submit">Save Preferences</button>
+      </div>
+    </form>
+
+    <div id="preferenceStatus"></div>
+  </div>
+
+  <script src="../js/user-preferences.js"></script>
+</body>
+</html>
 
