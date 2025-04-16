@@ -6,9 +6,9 @@
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css" />
 </head>
-<body>
+<body class="admin-layout">
+
   <div class="admin-container">
-    <!-- Sidebar -->
     <div class="admin-sidebar">
       <div class="sidebar">
         <div class="brand">
@@ -27,31 +27,27 @@
       </div>
     </div>
 
-    <!-- Main Content -->
     <div class="admin-content">
-      <h1>Admin Dashboard</h1>
-      <p class="intro-text">Welcome to the Cookie CMP Admin Panel. Manage your settings, monitor user consent, and analyze data.</p>
+      <h1 class="page-title">Admin Dashboard</h1>
 
-      <!-- Metrics -->
-      <div class="dashboard-metrics">
-        <div class="metric-card">
-          <div class="metric-title">Total Users</div>
-          <div class="metric-value">3,245</div>
+      <div class="dashboard-cards">
+        <div class="card stat-card">
+          <h3>Total Users</h3>
+          <p class="stat-number">3,245</p>
         </div>
-        <div class="metric-card">
-          <div class="metric-title">Active Consent</div>
-          <div class="metric-value">92%</div>
+        <div class="card stat-card">
+          <h3>Active Consent</h3>
+          <p class="stat-number">92%</p>
         </div>
-        <div class="metric-card">
-          <div class="metric-title">Pending Actions</div>
-          <div class="metric-value">12</div>
+        <div class="card stat-card">
+          <h3>Pending Actions</h3>
+          <p class="stat-number">12</p>
         </div>
       </div>
 
-      <!-- Activity -->
-      <div class="activity-feed">
+      <div class="card recent-activity">
         <h2>Recent Activity</h2>
-        <ul>
+        <ul class="activity-list">
           <li>User <strong>John Doe</strong> accepted all cookies.</li>
           <li>User <strong>Jane Smith</strong> customized preferences.</li>
           <li>New consent log created for <strong>Doe Corporation</strong>.</li>
@@ -59,5 +55,6 @@
       </div>
     </div>
   </div>
+
 </body>
 </html>
