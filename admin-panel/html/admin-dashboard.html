@@ -49,5 +49,59 @@
       })
       .catch(error => console.error('Error loading sidebar:', error));
   </script>
+
+  <script>
+  const ctx = document.getElementById('graphCanvas').getContext('2d');
+  const barBtn = document.getElementById('barViewBtn');
+  const lineBtn = document.getElementById('lineViewBtn');
+
+  let currentGraph = 'bar';
+
+  const dataPoints = [20, 35, 40, 55, 38, 60, 70];
+
+  function drawBarGraph() {
+    ctx.clearRect(0, 0, 600, 300);
+    ctx.fillStyle = '#4F46E5';
+    const barWidth = 50;
+    const spacing = 70;
+
+    dataPoints.forEach((val, i) => {
+      const height = val * 3;
+      ctx.fillRect(i * spacing + 20, 300 - height, barWidth, height);
+    });
+  }
+
+  function drawLineGraph() {
+    ctx.clearRect(0, 0, 600, 300);
+    ctx.strokeStyle = '#4F46E5';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    dataPoints.forEach((val, i) => {
+      const x = i * 85 + 25;
+      const y = 300 - val * 3;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+  }
+
+  barBtn.onclick = () => {
+    currentGraph = 'bar';
+    barBtn.classList.add('active');
+    lineBtn.classList.remove('active');
+    drawBarGraph();
+  };
+
+  lineBtn.onclick = () => {
+    currentGraph = 'line';
+    lineBtn.classList.add('active');
+    barBtn.classList.remove('active');
+    drawLineGraph();
+  };
+
+  // Initial Graph
+  drawBarGraph();
+</script>
+
 </body>
 </html>
