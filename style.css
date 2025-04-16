@@ -1,47 +1,54 @@
-/* General Styles for CMP Banner */
-#cookie-banner {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #000000;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    font-family: Arial, sans-serif;
-    z-index: 10000;
+/* === Global Reset & Base === */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
 }
 
-#cookie-banner .button {
-    background-color: #E10000;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    margin: 5px;
-    cursor: pointer;
-    font-size: 16px;
+/* === Container Styling === */
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-#cookie-banner .button:hover {
-    background-color: #A10000;
+/* === Headings === */
+h1, h2, h3 {
+  color: #1a1a1a;
 }
 
-/* Style the Customize Preferences Popup */
-#cookie-preferences {
-    display: none;
-    background-color: white;
-    color: black;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10001;
-    width: 300px;
+/* === Stat Cards === */
+.card {
+  background: #eef3ff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #103178;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Additional styling for buttons, content, etc. */
-.button.accept { background-color: #28a745; }
-.button.reject { background-color: #dc3545; }
+/* === Quick Access Links === */
+.link-group {
+  margin-top: 30px;
+}
+
+.link-group a {
+  display: inline-block;
+  margin-right: 15px;
+  text-decoration: none;
+  color: #0056d2;
+  font-weight: 500;
+}
+
+.link-group a:hover {
+  text-decoration: underline;
+}
