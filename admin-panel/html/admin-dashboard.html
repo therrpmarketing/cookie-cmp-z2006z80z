@@ -11,9 +11,25 @@
   <div id="sidebar-placeholder"></div>
 
   <!-- Main Content -->
-  <div class="main-content">
-    <h1>Admin Dashboard</h1>
-    <p>Welcome to the Cookie CMP Admin Dashboard.</p>
+ <div class="main-content">
+  <h1>Admin Dashboard</h1>
+  <p>Welcome to the Cookie CMP Admin Dashboard.</p>
+
+  <!-- Start of Graph Section -->
+  <div class="dashboard-graph-section">
+    <div class="graph-header">
+      <h2>Consent Trends</h2>
+      <div class="toggle-icons">
+        <button id="barViewBtn" class="active">📊</button>
+        <button id="lineViewBtn">📈</button>
+      </div>
+    </div>
+    <canvas id="graphCanvas" width="600" height="300"></canvas>
+  </div>
+  <!-- End of Graph Section -->
+
+</div>
+
 
     <!-- 🔽 Add This New Section Below the Intro -->
     <div class="dashboard-cards">
