@@ -1,57 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <!-- Correctly linking the full path to style.css -->
+  <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css" />
 </head>
-<body>
-    <div class="admin-wrapper">
-        <!-- Left Sidebar -->
-        <div class="admin-sidebar">
-            <div class="brand">
-<!--                 <img src="assets/Re-logo.jpg" alt="Logo" /> -->
-                <h2>Cookie CMP</h2>
-            </div>
-            <ul>
-                <li><a href="#" class="active">Dashboard</a></li>
-                <li><a href="#">Cookie Categories</a></li>
-                <li><a href="#">Customize Banner</a></li>
-                <li><a href="#">Consent Logs</a></li>
-                <li><a href="#">Consent Analytics</a></li>
-                <li><a href="#">User Preferences</a></li>
-                <li><a href="#">Advanced Settings</a></li>
-            </ul>
-        </div>
+<body class="admin-layout">
 
-        <!-- Main Content -->
-        <div class="admin-content">
-            <h1>Welcome to the Cookie CMP Admin Panel</h1>
-            <p>Manage your settings, monitor user consent, and analyze data.</p>
+  <!-- Admin Container for Sidebar and Content -->
+  <div class="admin-container">
 
-            <div class="metrics">
-                <div class="metric-card">
-                    <h3>Total Users</h3>
-                    <p>3,245</p>
-                </div>
-                <div class="metric-card">
-                    <h3>Active Consent</h3>
-                    <p>92%</p>
-                </div>
-                <div class="metric-card">
-                    <h3>Pending Actions</h3>
-                    <p>12</p>
-                </div>
-            </div>
+    <!-- Sidebar Container (dynamic loading) -->
+    <div class="admin-sidebar" id="sidebar-container"></div>
 
-            <h2>Recent Activity</h2>
-            <ul class="activity-list">
-                <li>User "John Doe" accepted all cookies.</li>
-                <li>User "Jane Smith" customized preferences.</li>
-                <li>New consent log created for "Doe Corporation".</li>
-            </ul>
-        </div>
+    <!-- Main Content -->
+    <div class="admin-content">
+      <h1>Admin Dashboard</h1>
+      <p>Welcome to the Cookie CMP Admin Panel.</p>
+      <!-- Your content here -->
     </div>
+    
+  </div>
+
+  <!-- Fetch Sidebar Dynamically -->
+  <script>
+    // Dynamically load sidebar from the shared folder
+    fetch('/shared/sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar-container').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading sidebar:', error));
+  </script>
+  
 </body>
 </html>
