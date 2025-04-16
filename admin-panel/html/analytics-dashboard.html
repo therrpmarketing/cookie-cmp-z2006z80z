@@ -1,1 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics Dashboard</title>
+  <link rel="stylesheet" href="../css/analytics-dashboard.css">
+</head>
+<body>
+  <div class="analytics-dashboard">
+    <h1>Analytics Dashboard</h1>
+    <div class="statistics-container">
+      <h3>Consent Statistics</h3>
+      <div class="stat-box" id="acceptCount">
+        <p>Accepted</p>
+        <span>0</span>
+      </div>
+      <div class="stat-box" id="rejectCount">
+        <p>Rejected</p>
+        <span>0</span>
+      </div>
+      <div class="stat-box" id="customCount">
+        <p>Customized</p>
+        <span>0</span>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <h3>Recent User Interactions</h3>
+      <table id="userInteractionTable">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Preferences</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Data will be inserted dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="../js/analytics-dashboard.js"></script>
+</body>
+</html>
 
