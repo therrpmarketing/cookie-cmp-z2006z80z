@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard - Cookie CMP</title>
-  <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css">
+  <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css" />
 </head>
 <body>
-  <div id="sidebar-container"></div>
+
+  <div id="sidebar-placeholder"></div>
 
   <div class="main-content">
     <h1>Admin Dashboard</h1>
@@ -15,35 +16,34 @@
 
     <div class="dashboard-cards">
       <div class="card">
-        <h2>Total Users</h2>
+        <h3>Total Users</h3>
         <p>3,245</p>
       </div>
       <div class="card">
-        <h2>Active Consent</h2>
+        <h3>Active Consent</h3>
         <p>92%</p>
       </div>
       <div class="card">
-        <h2>Pending Actions</h2>
+        <h3>Pending Actions</h3>
         <p>12</p>
       </div>
     </div>
 
     <div class="recent-activity">
-      <h2>Recent Activity</h2>
+      <h3>Recent Activity</h3>
       <ul>
-        <li>User <strong>John Doe</strong> accepted all cookies.</li>
-        <li>User <strong>Jane Smith</strong> customized preferences.</li>
-        <li>New consent log created for <strong>Doe Corporation</strong>.</li>
+        <li>User "John Doe" accepted all cookies.</li>
+        <li>User "Jane Smith" customized preferences.</li>
+        <li>New consent log created for "Doe Corporation".</li>
       </ul>
     </div>
   </div>
 
   <script>
-    // Load shared sidebar into #sidebar-container
     fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
       .then(res => res.text())
       .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
+        document.getElementById('sidebar-placeholder').innerHTML = data;
       });
   </script>
 </body>
