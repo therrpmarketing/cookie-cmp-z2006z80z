@@ -1,54 +1,118 @@
-/* === Global Reset & Base === */
+/* Body and Container */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f6f9;
   margin: 0;
-  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f7f7f7;
   color: #333;
 }
 
-/* === Container Styling === */
-.container {
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
-
-/* === Headings === */
-h1, h2, h3 {
-  color: #1a1a1a;
-}
-
-/* === Stat Cards === */
-.card {
-  background: #eef3ff;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  font-weight: 600;
-  color: #103178;
-  font-size: 20px;
+.admin-container {
   display: flex;
-  justify-content: space-between;
+  min-height: 100vh;
+}
+
+.admin-sidebar {
+  width: 240px;
+  background: #1e293b;
+  color: #fff;
+  padding: 20px;
+}
+
+.sidebar .brand {
+  display: flex;
   align-items: center;
+  margin-bottom: 40px;
 }
 
-/* === Quick Access Links === */
-.link-group {
-  margin-top: 30px;
+.sidebar .brand img {
+  height: 40px;
+  margin-right: 10px;
 }
 
-.link-group a {
-  display: inline-block;
-  margin-right: 15px;
+.sidebar h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+}
+
+.sidebar ul li a {
+  color: #cbd5e1;
   text-decoration: none;
-  color: #0056d2;
   font-weight: 500;
+  display: block;
+  padding: 8px 12px;
+  border-radius: 4px;
 }
 
-.link-group a:hover {
-  text-decoration: underline;
+.sidebar ul li a:hover {
+  color: #fff;
+  background: #3b4c60;
+}
+
+.admin-content {
+  flex-grow: 1;
+  padding: 30px;
+  background: #fff;
+}
+
+.admin-content h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #1e293b;
+}
+
+.content-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.content-box p {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Button Styling */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-container {
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .admin-content {
+    padding: 15px;
+  }
+
+  .sidebar h2 {
+    font-size: 18px;
+  }
 }
