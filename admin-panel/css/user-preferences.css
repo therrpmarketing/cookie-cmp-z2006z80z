@@ -1,1 +1,68 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f4f4;
+  padding: 40px;
+}
+
+.user-preferences-panel {
+  background: #fff;
+  max-width: 700px;
+  margin: auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+  color: #2d2d2d;
+  margin-bottom: 20px;
+}
+
+h3 {
+  margin-top: 20px;
+  color: #333;
+}
+
+.checkbox-container {
+  margin-bottom: 20px;
+}
+
+.checkbox-container label {
+  display: block;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+#acceptAll {
+  background-color: #0066cc;
+  color: white;
+}
+
+#rejectAll {
+  background-color: #cc0000;
+  color: white;
+}
+
+button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+}
 
