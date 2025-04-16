@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css">
 </head>
 <body>
-<div class="layout-wrapper">
   <!-- Sidebar Placeholder -->
   <div id="sidebar-placeholder"></div>
 
@@ -20,38 +19,22 @@
     <div class="dashboard-graph-section">
       <div class="graph-header">
         <h2>Consent Trends</h2>
+        <div class="date-filter">
+          <label for="dateRange">Date Range:</label>
+          <select id="dateRange">
+            <option value="7">Last 7 Days</option>
+            <option value="30">Last 30 Days</option>
+            <option value="90">Last 90 Days</option>
+          </select>
+        </div>
         <div class="toggle-icons">
           <button id="barViewBtn" class="active">📊</button>
           <button id="lineViewBtn">📈</button>
         </div>
       </div>
-      <canvas id="graphCanvas" width="600" height="300"></canvas>
-    </div>
-  </div>
-</div>
 
-    <!-- 🔽 Add This New Section Below the Intro -->
-    <div class="dashboard-cards">
-      <div class="card">
-        <h3>Total Users</h3>
-        <p class="stat">3,245</p>
-        <span class="subtext">+4% this week</span>
-      </div>
-      <div class="card">
-        <h3>Active Consents</h3>
-        <p class="stat">92%</p>
-        <span class="subtext green">+2%</span>
-      </div>
-      <div class="card">
-        <h3>Pending Actions</h3>
-        <p class="stat">12</p>
-        <span class="subtext orange">-1 from yesterday</span>
-      </div>
-      <div class="card">
-        <h3>Consent Rejection Rate</h3>
-        <p class="stat">8%</p>
-        <span class="subtext red">-0.5%</span>
-      </div>
+      <!-- Canvas for Graph -->
+      <canvas id="graphCanvas" width="600" height="300"></canvas>
     </div>
   </div>
 
@@ -65,58 +48,57 @@
       .catch(error => console.error('Error loading sidebar:', error));
   </script>
 
+  <!-- Script to Handle Graph Toggle -->
   <script>
-  const ctx = document.getElementById('graphCanvas').getContext('2d');
-  const barBtn = document.getElementById('barViewBtn');
-  const lineBtn = document.getElementById('lineViewBtn');
+    // Sample graph data, adjust as per the actual data
+    const barData = [12, 19, 3, 5, 2, 3];
+    const lineData = [1, 4, 6, 8, 5, 3];
 
-  let currentGraph = 'bar';
+    let activeGraphData = barData; // Default to bar graph
 
-  const dataPoints = [20, 35, 40, 55, 38, 60, 70];
+    // Draw the initial graph
+    function drawGraph() {
+      const ctx = document.getElementById('graphCanvas').getContext('2d');
+      const chartType = (activeGraphData === barData) ? 'bar' : 'line';
 
-  function drawBarGraph() {
-    ctx.clearRect(0, 0, 600, 300);
-    ctx.fillStyle = '#4F46E5';
-    const barWidth = 50;
-    const spacing = 70;
+      new Chart(ctx, {
+        type: chartType,
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [{
+            label: 'Consent Data',
+            data: activeGraphData,
+            backgroundColor: chartType === 'bar' ? 'rgba(0, 123, 255, 0.5)' : 'transparent',
+            borderColor: 'rgba(0, 123, 255, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true }
+          }
+        });
+    }
 
-    dataPoints.forEach((val, i) => {
-      const height = val * 3;
-      ctx.fillRect(i * spacing + 20, 300 - height, barWidth, height);
+    // Switch to bar graph
+    document.getElementById('barViewBtn').addEventListener('click', () => {
+      activeGraphData = barData;
+      drawGraph();
+      document.getElementById('barViewBtn').classList.add('active');
+      document.getElementById('lineViewBtn').classList.remove('active');
     });
-  }
 
-  function drawLineGraph() {
-    ctx.clearRect(0, 0, 600, 300);
-    ctx.strokeStyle = '#4F46E5';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    dataPoints.forEach((val, i) => {
-      const x = i * 85 + 25;
-      const y = 300 - val * 3;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
+    // Switch to line graph
+    document.getElementById('lineViewBtn').addEventListener('click', () => {
+      activeGraphData = lineData;
+      drawGraph();
+      document.getElementById('lineViewBtn').classList.add('active');
+      document.getElementById('barViewBtn').classList.remove('active');
     });
-    ctx.stroke();
-  }
 
-  barBtn.onclick = () => {
-    currentGraph = 'bar';
-    barBtn.classList.add('active');
-    lineBtn.classList.remove('active');
-    drawBarGraph();
-  };
-
-  lineBtn.onclick = () => {
-    currentGraph = 'line';
-    lineBtn.classList.add('active');
-    barBtn.classList.remove('active');
-    drawLineGraph();
-  };
-
-  // Initial Graph
-  drawBarGraph();
-</script>
-
+    // Initial drawing of the bar chart
+    drawGraph();
+  </script>
 </body>
 </html>
