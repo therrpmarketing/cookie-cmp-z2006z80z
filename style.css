@@ -124,3 +124,33 @@ body {
   color: #e74c3c;
 }
 
+.dashboard-graph-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.graph-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toggle-icons button {
+  font-size: 18px;
+  padding: 6px 12px;
+  background-color: #f3f4f6;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.toggle-icons button.active {
+  background-color: #4F46E5;
+  color: white;
+}
+
+
