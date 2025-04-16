@@ -16,12 +16,14 @@
     <p>Manage the categories of cookies used on your website.</p>
   </div>
 
+  <!-- Script to Load Sidebar -->
   <script>
     fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
-      .then(res => res.text())
+      .then(response => response.text())
       .then(data => {
         document.getElementById('sidebar-placeholder').innerHTML = data;
-      });
+      })
+      .catch(error => console.error('Error loading sidebar:', error));
   </script>
 </body>
 </html>
