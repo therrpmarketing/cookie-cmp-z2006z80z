@@ -1,37 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cookie Categories</title>
-    <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookie Categories</title>
+  <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css">
 </head>
 <body>
-    <div class="admin-wrapper">
-        <!-- Left Sidebar (Shared Across Pages) -->
-        <div class="admin-sidebar">
-            <div class="brand">
-<!--                 <img src="your-logo.png" alt="Logo" /> -->
-                <h2>Cookie CMP</h2>
-            </div>
-            <ul>
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#" class="active">Cookie Categories</a></li>
-                <li><a href="#">Customize Banner</a></li>
-                <li><a href="#">Consent Logs</a></li>
-                <li><a href="#">Consent Analytics</a></li>
-                <li><a href="#">User Preferences</a></li>
-                <li><a href="#">Advanced Settings</a></li>
-            </ul>
-        </div>
+  <!-- Sidebar Placeholder -->
+  <div id="sidebar-placeholder"></div>
 
-        <!-- Main Content (Page Specific) -->
-        <div class="admin-content cookie-categories">
-            <h1>Cookie Categories</h1>
-            <div class="cookie-table">
-                <!-- Your table for cookie categories goes here -->
-            </div>
-        </div>
-    </div>
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1>Cookie Categories</h1>
+    <p>Manage the categories of cookies used on your website.</p>
+  </div>
+
+  <script>
+    fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('sidebar-placeholder').innerHTML = data;
+      });
+  </script>
 </body>
 </html>
