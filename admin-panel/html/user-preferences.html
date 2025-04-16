@@ -1,46 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Preferences</title>
-  <link rel="stylesheet" href="../css/user-preferences.css">
+  <link rel="stylesheet" href="/style.css" />
 </head>
-<body>
-  <div class="user-preferences-panel">
-    <h1>User Cookie Preferences</h1>
-    <form id="userPreferencesForm">
-      <h3>Select your cookie preferences:</h3>
-      <div class="checkbox-container">
-        <label>
-          <input type="checkbox" id="necessary" checked disabled />
-          Necessary Cookies (Always On)
-        </label>
-        <label>
-          <input type="checkbox" id="analytics" />
-          Analytics Cookies
-        </label>
-        <label>
-          <input type="checkbox" id="functional" />
-          Functional Cookies
-        </label>
-        <label>
-          <input type="checkbox" id="advertisement" />
-          Advertisement Cookies
-        </label>
-      </div>
-      
-      <div class="buttons">
-        <button type="button" id="acceptAll">Accept All</button>
-        <button type="button" id="rejectAll">Reject All</button>
-        <button type="submit">Save Preferences</button>
-      </div>
-    </form>
+<body class="admin-layout">
 
-    <div id="preferenceStatus"></div>
+  <!-- Sidebar -->
+  <div class="admin-container">
+    <div class="admin-sidebar">
+      <div class="sidebar">
+        <div class="brand">
+          <img src="/assets/logo.svg" alt="Brand Logo" />
+          <h2>Cookie CMP</h2>
+        </div>
+        <ul>
+          <li><a href="admin-dashboard.html">Dashboard</a></li>
+          <li><a href="cookie-categories.html">Cookie Categories</a></li>
+          <li><a href="banner-customization.html">Customize Banner</a></li>
+          <li><a href="consent-logs.html">Consent Logs</a></li>
+          <li><a href="analytics-dashboard.html">Consent Analytics</a></li>
+          <li><a href="user-preferences.html">User Preferences</a></li>
+          <li><a href="advanced-settings.html">Advanced Settings</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="admin-content">
+      <h1>User Preferences</h1>
+
+      <div class="content-box">
+        <p>Manage user preferences for consent categories.</p>
+        
+        <form>
+          <label for="necessary-cookies">Necessary Cookies:</label>
+          <input type="checkbox" id="necessary-cookies" checked>
+          
+          <label for="analytics-cookies">Analytics Cookies:</label>
+          <input type="checkbox" id="analytics-cookies">
+          
+          <label for="ads-cookies">Advertisement Cookies:</label>
+          <input type="checkbox" id="ads-cookies">
+          
+          <button class="btn-primary">Save Preferences</button>
+        </form>
+      </div>
+    </div>
   </div>
 
-  <script src="../js/user-preferences.js"></script>
 </body>
 </html>
-
