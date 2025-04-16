@@ -1,139 +1,75 @@
-/* Admin Wrapper for Flexbox Layout */
-.admin-wrapper {
-  display: flex;
-  height: 100vh;
-  background-color: #f5f7fa; /* Soft, professional background */
+/* Base layout */
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f5f6f8;
+  color: #333;
 }
 
-/* Sidebar Styles */
-.admin-sidebar {
+/* Sidebar styles */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
   width: 240px;
-  background-color: #232F3E; /* Dark blue background */
-  color: #fff;
-  padding: 20px;
-  height: 100vh;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
+  background-color: #1e2a38;
+  padding: 1rem;
+  color: white;
 }
 
-.admin-sidebar .brand {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 30px;
+.sidebar h2 {
+  font-size: 1.5rem;
+  margin: 1rem 0;
 }
 
-.admin-sidebar .brand img {
-  max-width: 40px;
-  margin-right: 10px;
+.sidebar ul {
+  list-style: none;
+  padding: 0;
 }
 
-.admin-sidebar .brand h2 {
-  font-size: 24px;
-  font-weight: bold;
-  color: #fff;
-}
-
-/* Sidebar Links */
-.admin-sidebar ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.admin-sidebar ul li {
-  margin: 15px 0;
-}
-
-.admin-sidebar ul li a {
-  text-decoration: none;
-  color: #C6D0D9; /* Light gray-blue color for links */
-  font-size: 16px;
-  font-weight: 500;
+.sidebar ul li a {
+  color: white;
   display: block;
-  padding: 8px 12px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  padding: 0.75rem;
+  border-radius: 8px;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
 }
 
-.admin-sidebar ul li a:hover {
-  background-color: #4B7D8B; /* Lighter blue for hover */
-  color: #ffffff; /* White text on hover */
+.sidebar ul li a:hover {
+  background-color: #2f3e52;
 }
 
-.admin-sidebar ul li a.active {
-  background-color: #4B7D8B; /* Active link background */
-  color: #fff;
+/* Main content */
+.main-content {
+  margin-left: 260px;
+  padding: 2rem;
 }
 
-/* Main Content Styles */
-.admin-content {
-  flex-grow: 1;
-  padding: 30px;
-  background-color: #f7f7f7;
-  height: 100vh;
-  overflow-y: auto;
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
-/* Heading Styles */
-.admin-content h1 {
-  font-size: 30px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
+.card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: 0.3s;
 }
 
-.admin-content h2 {
-  font-size: 24px;
-  color: #333;
-  margin-top: 30px;
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* Metric Cards */
-.metrics {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 30px;
-}
-
-.metric-card {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  width: 30%;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  font-size: 18px;
-}
-
-.metric-card h3 {
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-}
-
-.metric-card p {
-  font-size: 30px;
-  font-weight: bold;
-  color: #0077cc; /* Color for the numbers */
-}
-
-/* Activity List */
-.activity-list {
-  margin-top: 30px;
-  font-size: 16px;
-  color: #333;
-}
-
-.activity-list li {
-  background-color: #fff;
-  padding: 12px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  transition: background-color 0.3s ease;
-}
-
-.activity-list li:hover {
-  background-color: #f1f1f1;
+.recent-activity {
+  margin-top: 3rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
