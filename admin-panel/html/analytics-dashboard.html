@@ -1,48 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Analytics Dashboard</title>
-  <link rel="stylesheet" href="../css/analytics-dashboard.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consent Analytics</title>
+  <link rel="stylesheet" href="/style.css" />
 </head>
-<body>
-  <div class="analytics-dashboard">
-    <h1>Analytics Dashboard</h1>
-    <div class="statistics-container">
-      <h3>Consent Statistics</h3>
-      <div class="stat-box" id="acceptCount">
-        <p>Accepted</p>
-        <span>0</span>
-      </div>
-      <div class="stat-box" id="rejectCount">
-        <p>Rejected</p>
-        <span>0</span>
-      </div>
-      <div class="stat-box" id="customCount">
-        <p>Customized</p>
-        <span>0</span>
+<body class="admin-layout">
+
+  <!-- Sidebar -->
+  <div class="admin-container">
+    <div class="admin-sidebar">
+      <div class="sidebar">
+        <div class="brand">
+          <img src="/assets/logo.svg" alt="Brand Logo" />
+          <h2>Cookie CMP</h2>
+        </div>
+        <ul>
+          <li><a href="admin-dashboard.html">Dashboard</a></li>
+          <li><a href="cookie-categories.html">Cookie Categories</a></li>
+          <li><a href="banner-customization.html">Customize Banner</a></li>
+          <li><a href="consent-logs.html">Consent Logs</a></li>
+          <li><a href="analytics-dashboard.html">Consent Analytics</a></li>
+          <li><a href="user-preferences.html">User Preferences</a></li>
+          <li><a href="advanced-settings.html">Advanced Settings</a></li>
+        </ul>
       </div>
     </div>
 
-    <div class="table-container">
-      <h3>Recent User Interactions</h3>
-      <table id="userInteractionTable">
-        <thead>
-          <tr>
-            <th>User</th>
-            <th>Preferences</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Data will be inserted dynamically -->
-        </tbody>
-      </table>
+    <!-- Main Content -->
+    <div class="admin-content">
+      <h1>Consent Analytics</h1>
+
+      <div class="content-box">
+        <p>View insights and analytics on user consent preferences.</p>
+
+        <!-- Sample chart or graph placeholder -->
+        <div class="chart-placeholder">[Analytics Chart]</div>
+        
+        <button class="btn-primary">Export Report</button>
+      </div>
     </div>
   </div>
 
-  <script src="../js/analytics-dashboard.js"></script>
 </body>
 </html>
-
