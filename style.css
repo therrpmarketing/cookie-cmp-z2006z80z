@@ -1,0 +1,47 @@
+/* General Styles for CMP Banner */
+#cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000000;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    z-index: 10000;
+}
+
+#cookie-banner .button {
+    background-color: #E10000;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#cookie-banner .button:hover {
+    background-color: #A10000;
+}
+
+/* Style the Customize Preferences Popup */
+#cookie-preferences {
+    display: none;
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10001;
+    width: 300px;
+}
+
+/* Additional styling for buttons, content, etc. */
+.button.accept { background-color: #28a745; }
+.button.reject { background-color: #dc3545; }
