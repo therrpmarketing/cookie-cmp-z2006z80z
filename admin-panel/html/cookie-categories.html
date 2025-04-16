@@ -1,1 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Cookie Categories</title>
+  <link rel="stylesheet" href="../css/cookie-categories.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Manage Cookie Categories</h1>
+    <form id="add-category-form">
+      <input type="text" id="category-name" placeholder="Category Name" required />
+      <textarea id="category-description" placeholder="Category Description" required></textarea>
+      <button type="submit">Add Category</button>
+    </form>
+
+    <div id="category-list">
+      <!-- Categories will be rendered here -->
+    </div>
+  </div>
+
+  <script src="../js/cookie-categories.js"></script>
+</body>
+</html>
 
