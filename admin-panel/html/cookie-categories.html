@@ -2,25 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Manage Cookie Categories</title>
-  <link rel="stylesheet" href="../css/cookie-categories.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cookie Categories</title>
+  <link rel="stylesheet" href="/style.css" />
 </head>
-<body>
-  <div class="container">
-    <h1>Manage Cookie Categories</h1>
-    <form id="add-category-form">
-      <input type="text" id="category-name" placeholder="Category Name" required />
-      <textarea id="category-description" placeholder="Category Description" required></textarea>
-      <button type="submit">Add Category</button>
-    </form>
+<body class="admin-layout">
 
-    <div id="category-list">
-      <!-- Categories will be rendered here -->
+  <!-- Sidebar -->
+  <div class="admin-container">
+    <div class="admin-sidebar">
+      <div class="sidebar">
+        <div class="brand">
+          <img src="/assets/logo.svg" alt="Brand Logo" />
+          <h2>Cookie CMP</h2>
+        </div>
+        <ul>
+          <li><a href="admin-dashboard.html">Dashboard</a></li>
+          <li><a href="cookie-categories.html">Cookie Categories</a></li>
+          <li><a href="banner-customization.html">Customize Banner</a></li>
+          <li><a href="consent-logs.html">Consent Logs</a></li>
+          <li><a href="analytics-dashboard.html">Consent Analytics</a></li>
+          <li><a href="user-preferences.html">User Preferences</a></li>
+          <li><a href="advanced-settings.html">Advanced Settings</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="admin-content">
+      <h1>Cookie Categories</h1>
+
+      <div class="content-box">
+        <p>This section allows you to manage the various cookie categories used by the website. You can add, edit, or remove cookie categories that help define user consent preferences.</p>
+        
+        <!-- Add category management functionality here -->
+        <button class="btn-primary">Add New Category</button>
+        <table>
+          <thead>
+            <tr>
+              <th>Category Name</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Essential Cookies</td>
+              <td>Cookies that are essential for website functionality.</td>
+              <td><button class="btn-edit">Edit</button></td>
+            </tr>
+            <tr>
+              <td>Analytics Cookies</td>
+              <td>Cookies used to track user behavior for analytics.</td>
+              <td><button class="btn-edit">Edit</button></td>
+            </tr>
+            <!-- More rows as needed -->
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
-  <script src="../js/cookie-categories.js"></script>
 </body>
 </html>
-
