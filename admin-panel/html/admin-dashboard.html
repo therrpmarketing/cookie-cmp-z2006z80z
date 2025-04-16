@@ -14,28 +14,6 @@
   <div class="main-content">
     <h1>Admin Dashboard</h1>
     <p>Welcome to the Cookie CMP Admin Dashboard.</p>
-
-    <!-- Graph Section -->
-    <div class="dashboard-graph-section">
-      <div class="graph-header">
-        <h2>Consent Trends</h2>
-        <div class="date-filter">
-          <label for="dateRange">Date Range:</label>
-          <select id="dateRange">
-            <option value="7">Last 7 Days</option>
-            <option value="30">Last 30 Days</option>
-            <option value="90">Last 90 Days</option>
-          </select>
-        </div>
-        <div class="toggle-icons">
-          <button id="barViewBtn" class="active">📊</button>
-          <button id="lineViewBtn">📈</button>
-        </div>
-      </div>
-
-      <!-- Canvas for Graph -->
-      <canvas id="graphCanvas" width="600" height="300"></canvas>
-    </div>
   </div>
 
   <!-- Script to Load Sidebar -->
@@ -46,59 +24,6 @@
         document.getElementById('sidebar-placeholder').innerHTML = data;
       })
       .catch(error => console.error('Error loading sidebar:', error));
-  </script>
-
-  <!-- Script to Handle Graph Toggle -->
-  <script>
-    // Sample graph data, adjust as per the actual data
-    const barData = [12, 19, 3, 5, 2, 3];
-    const lineData = [1, 4, 6, 8, 5, 3];
-
-    let activeGraphData = barData; // Default to bar graph
-
-    // Draw the initial graph
-    function drawGraph() {
-      const ctx = document.getElementById('graphCanvas').getContext('2d');
-      const chartType = (activeGraphData === barData) ? 'bar' : 'line';
-
-      new Chart(ctx, {
-        type: chartType,
-        data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-          datasets: [{
-            label: 'Consent Data',
-            data: activeGraphData,
-            backgroundColor: chartType === 'bar' ? 'rgba(0, 123, 255, 0.5)' : 'transparent',
-            borderColor: 'rgba(0, 123, 255, 1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: { beginAtZero: true }
-          }
-        });
-    }
-
-    // Switch to bar graph
-    document.getElementById('barViewBtn').addEventListener('click', () => {
-      activeGraphData = barData;
-      drawGraph();
-      document.getElementById('barViewBtn').classList.add('active');
-      document.getElementById('lineViewBtn').classList.remove('active');
-    });
-
-    // Switch to line graph
-    document.getElementById('lineViewBtn').addEventListener('click', () => {
-      activeGraphData = lineData;
-      drawGraph();
-      document.getElementById('lineViewBtn').classList.add('active');
-      document.getElementById('barViewBtn').classList.remove('active');
-    });
-
-    // Initial drawing of the bar chart
-    drawGraph();
   </script>
 </body>
 </html>
