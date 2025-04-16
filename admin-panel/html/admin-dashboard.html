@@ -3,47 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../../style.css">
-  <title>Admin Dashboard | CMP</title>
-  <link rel="stylesheet" href="../css/admin-dashboard.css" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/style.css" />
 </head>
-<body>
-  <div class="dashboard-container">
-    <header>
-      <h1>Cookie CMP Admin Dashboard</h1>
-    </header>
+<body class="admin-layout">
 
-    <section class="stats-overview">
-      <div class="stat-box" id="total-consents">
-        <h2>Total Consents</h2>
-        <p>Loading...</p>
+  <!-- Sidebar -->
+  <div class="admin-container">
+    <div class="admin-sidebar">
+      <div class="sidebar">
+        <div class="brand">
+          <img src="/assets/logo.svg" alt="Brand Logo" />
+          <h2>Cookie CMP</h2>
+        </div>
+        <ul>
+          <li><a href="admin-dashboard.html">Dashboard</a></li>
+          <li><a href="cookie-categories.html">Cookie Categories</a></li>
+          <li><a href="banner-customization.html">Customize Banner</a></li>
+          <li><a href="consent-logs.html">Consent Logs</a></li>
+          <li><a href="analytics-dashboard.html">Consent Analytics</a></li>
+          <li><a href="user-preferences.html">User Preferences</a></li>
+          <li><a href="advanced-settings.html">Advanced Settings</a></li>
+        </ul>
       </div>
-      <div class="stat-box" id="accepted-consents">
-        <h2>Accepted</h2>
-        <p>Loading...</p>
-      </div>
-      <div class="stat-box" id="rejected-consents">
-        <h2>Rejected</h2>
-        <p>Loading...</p>
-      </div>
-      <div class="stat-box" id="customized-consents">
-        <h2>Customized</h2>
-        <p>Loading...</p>
-      </div>
-    </section>
+    </div>
 
-    <section class="quick-links">
-      <h3>Quick Access</h3>
-      <ul>
-        <li><a href="cookie-categories.html">Manage Cookie Categories</a></li>
-        <li><a href="banner-customization.html">Customize Banner</a></li>
-        <li><a href="consent-logs.html">View Consent Logs</a></li>
-        <li><a href="analytics-dashboard.html">Consent Analytics</a></li>
-      </ul>
-    </section>
+    <!-- Main Content -->
+    <div class="admin-content">
+      <h1>Admin Dashboard</h1>
+
+      <div class="content-box">
+        <p>Welcome to the Cookie CMP Admin Panel.</p>
+        <p>From here, you can manage categories, banners, user consent logs, preferences, and analytics.</p>
+      </div>
+    </div>
   </div>
 
-  <script src="../js/admin-dashboard.js"></script>
 </body>
 </html>
-
