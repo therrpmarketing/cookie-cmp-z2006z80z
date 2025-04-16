@@ -1,29 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cookie Categories</title>
-  <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Categories</title>
+    <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css">
 </head>
 <body>
-  <!-- Sidebar Placeholder -->
-  <div id="sidebar-placeholder"></div>
+    <!-- Sidebar -->
+    <div id="sidebar"></div>
 
-  <!-- Main Content -->
-  <div class="main-content">
-    <h1>Cookie Categories</h1>
-    <p>Manage the categories of cookies used on your website.</p>
-  </div>
+    <div class="main-content">
+        <h1>Cookie Categories</h1>
+        <p>Manage cookie categories here.</p>
+    </div>
 
-  <!-- Script to Load Sidebar -->
-  <script>
-    fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-placeholder').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading sidebar:', error));
-  </script>
+    <script>
+        fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('sidebar').innerHTML = data;
+        });
+    </script>
 </body>
 </html>
