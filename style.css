@@ -2,20 +2,21 @@
 .admin-wrapper {
   display: flex;
   height: 100vh;
-  background-color: #f7f7f7; /* Light background for the main area */
+  background-color: #f5f7fa; /* Soft, professional background */
 }
 
 /* Sidebar Styles */
 .admin-sidebar {
   width: 240px;
-  background-color: #1e293b; /* Dark blue background */
+  background-color: #232F3E; /* Dark blue background */
   color: #fff;
   padding: 20px;
   height: 100vh;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Branding in Sidebar */
 .admin-sidebar .brand {
   display: flex;
   align-items: center;
@@ -31,9 +32,10 @@
 .admin-sidebar .brand h2 {
   font-size: 24px;
   font-weight: bold;
+  color: #fff;
 }
 
-/* Links in Sidebar */
+/* Sidebar Links */
 .admin-sidebar ul {
   list-style-type: none;
   padding-left: 0;
@@ -45,7 +47,7 @@
 
 .admin-sidebar ul li a {
   text-decoration: none;
-  color: #b0c4de; /* Light blue-gray color for links */
+  color: #C6D0D9; /* Light gray-blue color for links */
   font-size: 16px;
   font-weight: 500;
   display: block;
@@ -55,13 +57,12 @@
 }
 
 .admin-sidebar ul li a:hover {
-  background-color: #4b7d8b; /* Lighter blue for hover */
+  background-color: #4B7D8B; /* Lighter blue for hover */
   color: #ffffff; /* White text on hover */
 }
 
-/* Active Link */
 .admin-sidebar ul li a.active {
-  background-color: #4b7d8b; /* Active link background */
+  background-color: #4B7D8B; /* Active link background */
   color: #fff;
 }
 
@@ -74,12 +75,18 @@
   overflow-y: auto;
 }
 
-/* Header Styles */
+/* Heading Styles */
 .admin-content h1 {
-  font-size: 28px;
+  font-size: 30px;
   font-weight: bold;
   color: #333;
   margin-bottom: 20px;
+}
+
+.admin-content h2 {
+  font-size: 24px;
+  color: #333;
+  margin-top: 30px;
 }
 
 /* Metric Cards */
@@ -129,16 +136,4 @@
 
 .activity-list li:hover {
   background-color: #f1f1f1;
-}
-
-/* Footer (optional, you can customize or add a footer if needed) */
-.admin-footer {
-  padding: 20px;
-  text-align: center;
-  font-size: 14px;
-  background-color: #1e293b;
-  color: #fff;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
 }
