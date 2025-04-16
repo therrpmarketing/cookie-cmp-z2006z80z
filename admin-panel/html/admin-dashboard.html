@@ -1,50 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard - Cookie CMP</title>
-  <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookie Categories</title>
+  <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css">
 </head>
 <body>
-
+  <!-- Sidebar Placeholder -->
   <div id="sidebar-placeholder"></div>
 
+  <!-- Main Content -->
   <div class="main-content">
-    <h1>Admin Dashboard</h1>
-    <p>Welcome to the Cookie CMP Admin Panel. Manage your settings, monitor user consent, and analyze data.</p>
-
-    <div class="dashboard-cards">
-      <div class="card">
-        <h3>Total Users</h3>
-        <p>3,245</p>
-      </div>
-      <div class="card">
-        <h3>Active Consent</h3>
-        <p>92%</p>
-      </div>
-      <div class="card">
-        <h3>Pending Actions</h3>
-        <p>12</p>
-      </div>
-    </div>
-
-    <div class="recent-activity">
-      <h3>Recent Activity</h3>
-      <ul>
-        <li>User "John Doe" accepted all cookies.</li>
-        <li>User "Jane Smith" customized preferences.</li>
-        <li>New consent log created for "Doe Corporation".</li>
-      </ul>
-    </div>
+    <h1>Cookie Categories</h1>
+    <p>Manage the categories of cookies used on your website.</p>
   </div>
 
+  <!-- Script to Load Sidebar -->
   <script>
     fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
-      .then(res => res.text())
+      .then(response => response.text())
       .then(data => {
         document.getElementById('sidebar-placeholder').innerHTML = data;
-      });
+      })
+      .catch(error => console.error('Error loading sidebar:', error));
   </script>
 </body>
 </html>
