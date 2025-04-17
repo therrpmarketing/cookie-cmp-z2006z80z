@@ -178,4 +178,45 @@
       document.getElementById('active-consent').textContent = data.activeConsent.toFixed(2) + '%';
       document.getElementById('pending-actions').textContent = data.pendingActions;
 
-      const recentActivity
+      const recentActivityList = document.getElementById('recent-activity-list');
+      recentActivityList.innerHTML = '';
+      data.recentActivity.forEach(action => {
+        const li = document.createElement('li');
+        li.textContent = action;
+        recentActivityList.appendChild(li);
+      });
+
+      // Display preferences
+      document.getElementById('pref-functional').textContent = data.preferences.functional ? '✅' : '❌';
+      document.getElementById('pref-analytics').textContent = data.preferences.analytics ? '✅' : '❌';
+      document.getElementById('pref-performance').textContent = data.preferences.performance ? '✅' : '❌';
+    }
+
+    window.onload = function() {
+      const sessionId = getOrCreateSessionUser();
+      storeConsentUserStatus();
+      updateDashboard();
+
+      // Consent logs from Firestore
+      db.collection("consentLogs").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+        const tableBody = document.getElementById('consent-log-table').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = ''; // Clear existing logs
+
+        snapshot.forEach(doc => {
+          const logData = doc.data();
+          const row = tableBody.insertRow();
+          row.innerHTML = `
+            <td>${new Date(logData.timestamp.seconds * 1000).toLocaleString()}</td>
+            <td>${logData.action}</td>
+            <td>${logData.functional ? '✅' : '❌'}</td>
+            <td>${logData.analytics ? '✅' : '❌'}</td>
+            <td>${logData.performance ? '✅' : '❌'}</td>
+            <td>${logData.advertisement ? '✅' : '❌'}</td>
+            <td>${logData.sessionId}</td>
+          `;
+        });
+      });
+    };
+  </script>
+</body>
+</html>
