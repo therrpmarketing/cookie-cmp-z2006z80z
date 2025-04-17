@@ -17,30 +17,12 @@
 
     <!-- Dashboard Cards Section -->
     <div class="dashboard-cards">
-      <div class="card">
-        <h3>Total Users</h3>
-        <p class="card-value" id="total-users">0</p>
-      </div>
-      <div class="card">
-        <h3>Accepted Users</h3>
-        <p class="card-value" id="accepted-users">0</p>
-      </div>
-      <div class="card">
-        <h3>Rejected Users</h3>
-        <p class="card-value" id="rejected-users">0</p>
-      </div>
-      <div class="card">
-        <h3>Customized Users</h3>
-        <p class="card-value" id="customized-users">0</p>
-      </div>
-      <div class="card">
-        <h3>Active Consent</h3>
-        <p class="card-value" id="active-consent">0%</p>
-      </div>
-      <div class="card">
-        <h3>Pending Actions</h3>
-        <p class="card-value" id="pending-actions">0</p>
-      </div>
+      <div class="card"><h3>Total Users</h3><p class="card-value" id="total-users">0</p></div>
+      <div class="card"><h3>Accepted Users</h3><p class="card-value" id="accepted-users">0</p></div>
+      <div class="card"><h3>Rejected Users</h3><p class="card-value" id="rejected-users">0</p></div>
+      <div class="card"><h3>Customized Users</h3><p class="card-value" id="customized-users">0</p></div>
+      <div class="card"><h3>Active Consent</h3><p class="card-value" id="active-consent">0%</p></div>
+      <div class="card"><h3>Pending Actions</h3><p class="card-value" id="pending-actions">0</p></div>
     </div>
 
     <!-- Recent Activity Section -->
@@ -73,7 +55,6 @@
 
   <!-- Dashboard Script -->
   <script>
-    // Utility: Get or generate a unique session ID
     function getOrCreateSessionUser() {
       let sessionId = sessionStorage.getItem('session-user-id');
       if (!sessionId) {
@@ -88,6 +69,46 @@
       }
 
       return sessionId;
+    }
+
+    function storeConsentUserStatus() {
+      const sessionId = sessionStorage.getItem('session-user-id');
+      const consent = JSON.parse(localStorage.getItem('cookieConsent') || '{}');
+      const preferences = {
+        functional: !!consent.functional,
+        analytics: !!consent.analytics,
+        performance: !!consent.performance,
+      };
+
+      localStorage.setItem('cookie-preferences', JSON.stringify(preferences));
+
+      const recentLog = JSON.parse(localStorage.getItem('recent-activity') || '[]');
+
+      // Decide what kind of user it is
+      if (consent.accepted) {
+        let list = JSON.parse(localStorage.getItem('accepted-users') || '[]');
+        if (!list.includes(sessionId)) {
+          list.push(sessionId);
+          localStorage.setItem('accepted-users', JSON.stringify(list));
+          recentLog.push(`User "${sessionId}" accepted cookies.`);
+        }
+      } else if (consent.rejected) {
+        let list = JSON.parse(localStorage.getItem('rejected-users') || '[]');
+        if (!list.includes(sessionId)) {
+          list.push(sessionId);
+          localStorage.setItem('rejected-users', JSON.stringify(list));
+          recentLog.push(`User "${sessionId}" rejected cookies.`);
+        }
+      } else if (consent.customized) {
+        let list = JSON.parse(localStorage.getItem('customized-users') || '[]');
+        if (!list.includes(sessionId)) {
+          list.push(sessionId);
+          localStorage.setItem('customized-users', JSON.stringify(list));
+          recentLog.push(`User "${sessionId}" customized cookie preferences.`);
+        }
+      }
+
+      localStorage.setItem('recent-activity', JSON.stringify(recentLog));
     }
 
     function getConsentData() {
@@ -138,26 +159,12 @@
       document.getElementById('pref-performance').textContent = data.preferences.performance ? '✔️' : '❌';
     }
 
-    function updateConsentData(action, userName = 'Anonymous User') {
-      const key = `${action}-users`;
-      const list = JSON.parse(localStorage.getItem(key) || '[]');
-      list.push(userName);
-      localStorage.setItem(key, JSON.stringify(list));
-
-      const log = JSON.parse(localStorage.getItem('recent-activity') || '[]');
-      log.push(`User "${userName}" ${action} cookies.`);
-      localStorage.setItem('recent-activity', JSON.stringify(log));
-
-      updateDashboard();
-    }
-
-    // On load
+    // On page load
     window.onload = function () {
       getOrCreateSessionUser();
+      storeConsentUserStatus();
       updateDashboard();
     };
-
-    // Example: updateConsentData('accepted', 'John Doe');
   </script>
 </body>
 </html>
