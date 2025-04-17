@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-N5QLJ5XR');</script>
-<!-- End Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-N5QLJ5XR');</script>
+    <!-- End Google Tag Manager -->
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,10 +17,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </head>
 <body>
     
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5QLJ5XR"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5QLJ5XR"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     
     <div class="cmp-container">
         <header>
@@ -39,27 +38,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <p>&copy; 2025 CookiePie</p>
         </footer>
     </div>
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-  authDomain: "cookie-cmp-sys.firebaseapp.com",
-  databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
-  projectId: "cookie-cmp-sys",
-  storageBucket: "cookie-cmp-sys.firebasestorage.app",
-  messagingSenderId: "252822009652",
-  appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
-  measurementId: "G-DLGR6XFPP5"
-};
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
+    <script>
+        // Your Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+            authDomain: "cookie-cmp-sys.firebaseapp.com",
+            databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+            projectId: "cookie-cmp-sys",
+            storageBucket: "cookie-cmp-sys.firebasestorage.app",
+            messagingSenderId: "252822009652",
+            appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
+            measurementId: "G-DLGR6XFPP5"
+        };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // You can now use Firebase Analytics and other services here
+        var analytics = firebase.analytics();
+    </script>
 </body>
 </html>
