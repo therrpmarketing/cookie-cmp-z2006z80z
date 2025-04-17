@@ -62,7 +62,7 @@
 
     <!-- Script for Admin Dashboard -->
     <script>
-      // Function to retrieve and calculate metrics based on localStorage
+      // Function to retrieve and calculate metrics based on sessionStorage and localStorage
       function getConsentData() {
         const totalUsers = localStorage.getItem('total-users') || 0;
         const accepted = JSON.parse(localStorage.getItem('accepted-users') || '[]').length;
@@ -70,10 +70,18 @@
         const customized = JSON.parse(localStorage.getItem('customized-users') || '[]').length;
         const totalActions = accepted + rejected + customized;
 
-        // Safely calculate active consent percentage
+        // Calculate active consent percentage
         const activeConsent = totalActions > 0 ? ((accepted + customized) / totalActions) * 100 : 0;
 
-        // Ensure pending actions are not negative
+        // Track session-based users and update pending actions
+        const sessionUserId = sessionStorage.getItem('session-user-id');
+        let sessionUsers = JSON.parse(localStorage.getItem('session-users') || '[]');
+        if (!sessionUserId && !sessionUsers.includes(sessionUserId)) {
+          sessionUsers.push(sessionUserId);
+          localStorage.setItem('session-users', JSON.stringify(sessionUsers));
+        }
+
+        // Calculate pending actions (users who have not interacted yet)
         const pendingActions = totalUsers - totalActions;
 
         // Retrieve recent activity from localStorage
