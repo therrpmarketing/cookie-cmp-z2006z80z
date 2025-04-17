@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css">
+  <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css" />
 </head>
 <body>
   <!-- Sidebar Placeholder -->
@@ -14,12 +14,24 @@
   <div class="main-content">
     <h1>Admin Dashboard</h1>
     <p>Welcome to the Cookie CMP Admin Dashboard.</p>
-    
+
     <!-- Dashboard Cards Section -->
     <div class="dashboard-cards">
       <div class="card">
         <h3>Total Users</h3>
         <p class="card-value" id="total-users">0</p>
+      </div>
+      <div class="card">
+        <h3>Accepted Users</h3>
+        <p class="card-value" id="accepted-users">0</p>
+      </div>
+      <div class="card">
+        <h3>Rejected Users</h3>
+        <p class="card-value" id="rejected-users">0</p>
+      </div>
+      <div class="card">
+        <h3>Customized Users</h3>
+        <p class="card-value" id="customized-users">0</p>
       </div>
       <div class="card">
         <h3>Active Consent</h3>
@@ -34,9 +46,7 @@
     <!-- Recent Activity Section -->
     <div class="recent-activity">
       <h3>Recent Activity</h3>
-      <ul id="recent-activity-list">
-        <!-- This will be dynamically updated when users interact with the banner -->
-      </ul>
+      <ul id="recent-activity-list"></ul>
     </div>
 
     <!-- Consent Preferences Section -->
@@ -44,126 +54,110 @@
       <h3>Consent Preferences</h3>
       <ul>
         <li>Necessary: ✅ (Always on)</li>
-        <li>Functional: <span id="pref-functional"></span></li>
-        <li>Analytics: <span id="pref-analytics"></span></li>
-        <li>Performance: <span id="pref-performance"></span></li>
+        <li>Functional: <span id="pref-functional">❌</span></li>
+        <li>Analytics: <span id="pref-analytics">❌</span></li>
+        <li>Performance: <span id="pref-performance">❌</span></li>
       </ul>
     </div>
-
-    <!-- Script to Load Sidebar -->
-    <script>
-      fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('sidebar-placeholder').innerHTML = data;
-        })
-        .catch(error => console.error('Error loading sidebar:', error));
-    </script>
-
-    <!-- Script for Admin Dashboard -->
-    <script>
-      // Function to retrieve and calculate metrics based on sessionStorage and localStorage
-      function getConsentData() {
-        const totalUsers = localStorage.getItem('total-users') || 0;
-        const accepted = JSON.parse(localStorage.getItem('accepted-users') || '[]').length;
-        const rejected = JSON.parse(localStorage.getItem('rejected-users') || '[]').length;
-        const customized = JSON.parse(localStorage.getItem('customized-users') || '[]').length;
-        const totalActions = accepted + rejected + customized;
-
-        // Calculate active consent percentage
-        const activeConsent = totalActions > 0 ? ((accepted + customized) / totalActions) * 100 : 0;
-
-        // Track session-based users and update pending actions
-        const sessionUserId = sessionStorage.getItem('session-user-id');
-        let sessionUsers = JSON.parse(localStorage.getItem('session-users') || '[]');
-        if (!sessionUserId && !sessionUsers.includes(sessionUserId)) {
-          sessionUsers.push(sessionUserId);
-          localStorage.setItem('session-users', JSON.stringify(sessionUsers));
-        }
-
-        // Calculate pending actions (users who have not interacted yet)
-        const pendingActions = totalUsers - totalActions;
-
-        // Retrieve recent activity from localStorage
-        const recentActivity = JSON.parse(localStorage.getItem('recent-activity') || '[]');
-
-        // Retrieve cookie preferences
-        const prefs = JSON.parse(localStorage.getItem('cookie-preferences')) || {};
-
-        return {
-          totalUsers: totalUsers,
-          accepted: accepted,
-          rejected: rejected,
-          customized: customized,
-          activeConsent: activeConsent,
-          pendingActions: pendingActions,
-          recentActivity: recentActivity,
-          preferences: prefs
-        };
-      }
-
-      // Function to update the dashboard with the latest data
-      function updateDashboard() {
-        const data = getConsentData();
-
-        // Update the dashboard cards
-        document.getElementById('total-users').textContent = data.totalUsers;
-        document.getElementById('active-consent').textContent = data.activeConsent.toFixed(2) + '%';
-        document.getElementById('pending-actions').textContent = data.pendingActions;
-
-        // Update the recent activity list
-        const recentActivityList = document.getElementById('recent-activity-list');
-        recentActivityList.innerHTML = ''; // Clear the current list
-
-        data.recentActivity.forEach(item => {
-          const listItem = document.createElement('li');
-          listItem.textContent = item;
-          recentActivityList.appendChild(listItem);
-        });
-
-        // Update consent preferences
-        document.getElementById('pref-functional').innerText = data.preferences.functional ? '✔️' : '❌';
-        document.getElementById('pref-analytics').innerText = data.preferences.analytics ? '✔️' : '❌';
-        document.getElementById('pref-performance').innerText = data.preferences.performance ? '✔️' : '❌';
-      }
-
-      // Call the updateDashboard function when the page loads
-      window.onload = updateDashboard;
-
-      // Example of how data can be updated when a user interacts with the consent banner
-      // This should be triggered when consent changes in the actual CMP script
-      function updateConsentData(action, userName) {
-        const recentActivity = JSON.parse(localStorage.getItem('recent-activity') || '[]');
-
-        if (action === 'accepted') {
-          let acceptedUsers = JSON.parse(localStorage.getItem('accepted-users') || '[]');
-          acceptedUsers.push(userName);
-          localStorage.setItem('accepted-users', JSON.stringify(acceptedUsers));
-          recentActivity.push(`User "${userName}" accepted all cookies.`);
-        } else if (action === 'customized') {
-          let customizedUsers = JSON.parse(localStorage.getItem('customized-users') || '[]');
-          customizedUsers.push(userName);
-          localStorage.setItem('customized-users', JSON.stringify(customizedUsers));
-          recentActivity.push(`User "${userName}" customized cookies.`);
-        } else if (action === 'rejected') {
-          let rejectedUsers = JSON.parse(localStorage.getItem('rejected-users') || '[]');
-          rejectedUsers.push(userName);
-          localStorage.setItem('rejected-users', JSON.stringify(rejectedUsers));
-          recentActivity.push(`User "${userName}" rejected cookies.`);
-        }
-
-        // Save updated recent activity
-        localStorage.setItem('recent-activity', JSON.stringify(recentActivity));
-
-        // Update dashboard with the new data
-        updateDashboard();
-      }
-
-      // Example usage of updating consent data (you can call this based on actual actions)
-      // For testing purposes, the below lines can be called after an action is made in the banner
-      // updateConsentData('accepted', 'John Doe');
-      // updateConsentData('customized', 'Jane Smith');
-    </script>
   </div>
+
+  <!-- Sidebar Load Script -->
+  <script>
+    fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading sidebar:', error));
+  </script>
+
+  <!-- Dashboard Script -->
+  <script>
+    // Utility: Get or generate a unique session ID
+    function getOrCreateSessionUser() {
+      let sessionId = sessionStorage.getItem('session-user-id');
+      if (!sessionId) {
+        sessionId = 'user_' + Date.now();
+        sessionStorage.setItem('session-user-id', sessionId);
+      }
+
+      let userList = JSON.parse(localStorage.getItem('all-users') || '[]');
+      if (!userList.includes(sessionId)) {
+        userList.push(sessionId);
+        localStorage.setItem('all-users', JSON.stringify(userList));
+      }
+
+      return sessionId;
+    }
+
+    function getConsentData() {
+      const allUsers = JSON.parse(localStorage.getItem('all-users') || '[]');
+      const acceptedUsers = JSON.parse(localStorage.getItem('accepted-users') || '[]');
+      const rejectedUsers = JSON.parse(localStorage.getItem('rejected-users') || '[]');
+      const customizedUsers = JSON.parse(localStorage.getItem('customized-users') || '[]');
+      const recentActivity = JSON.parse(localStorage.getItem('recent-activity') || '[]');
+      const prefs = JSON.parse(localStorage.getItem('cookie-preferences') || '{}');
+
+      const totalUsers = allUsers.length;
+      const totalActions = acceptedUsers.length + rejectedUsers.length + customizedUsers.length;
+      const pendingActions = totalUsers - totalActions;
+      const activeConsent = totalUsers > 0 ? ((acceptedUsers.length + customizedUsers.length) / totalUsers) * 100 : 0;
+
+      return {
+        totalUsers,
+        accepted: acceptedUsers.length,
+        rejected: rejectedUsers.length,
+        customized: customizedUsers.length,
+        pendingActions,
+        activeConsent,
+        recentActivity,
+        preferences: prefs
+      };
+    }
+
+    function updateDashboard() {
+      const data = getConsentData();
+
+      document.getElementById('total-users').textContent = data.totalUsers;
+      document.getElementById('accepted-users').textContent = data.accepted;
+      document.getElementById('rejected-users').textContent = data.rejected;
+      document.getElementById('customized-users').textContent = data.customized;
+      document.getElementById('active-consent').textContent = data.activeConsent.toFixed(2) + '%';
+      document.getElementById('pending-actions').textContent = data.pendingActions;
+
+      const recentActivityList = document.getElementById('recent-activity-list');
+      recentActivityList.innerHTML = '';
+      data.recentActivity.slice(-10).reverse().forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        recentActivityList.appendChild(li);
+      });
+
+      document.getElementById('pref-functional').textContent = data.preferences.functional ? '✔️' : '❌';
+      document.getElementById('pref-analytics').textContent = data.preferences.analytics ? '✔️' : '❌';
+      document.getElementById('pref-performance').textContent = data.preferences.performance ? '✔️' : '❌';
+    }
+
+    function updateConsentData(action, userName = 'Anonymous User') {
+      const key = `${action}-users`;
+      const list = JSON.parse(localStorage.getItem(key) || '[]');
+      list.push(userName);
+      localStorage.setItem(key, JSON.stringify(list));
+
+      const log = JSON.parse(localStorage.getItem('recent-activity') || '[]');
+      log.push(`User "${userName}" ${action} cookies.`);
+      localStorage.setItem('recent-activity', JSON.stringify(log));
+
+      updateDashboard();
+    }
+
+    // On load
+    window.onload = function () {
+      getOrCreateSessionUser();
+      updateDashboard();
+    };
+
+    // Example: updateConsentData('accepted', 'John Doe');
+  </script>
 </body>
 </html>
