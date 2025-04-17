@@ -116,7 +116,7 @@
 
       const recentLog = JSON.parse(localStorage.getItem('recent-activity') || '[]');
 
-      // Decide what kind of user it is
+      // Track Accept All, Reject All, and Customize actions
       if (consent.accepted) {
         let list = JSON.parse(localStorage.getItem('accepted-users') || '[]');
         if (!list.includes(sessionId)) {
