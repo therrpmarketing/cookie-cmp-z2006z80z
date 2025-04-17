@@ -178,48 +178,4 @@
       document.getElementById('active-consent').textContent = data.activeConsent.toFixed(2) + '%';
       document.getElementById('pending-actions').textContent = data.pendingActions;
 
-      const recentActivityList = document.getElementById('recent-activity-list');
-      recentActivityList.innerHTML = '';
-      data.recentActivity.slice(-10).reverse().forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        recentActivityList.appendChild(li);
-      });
-
-      document.getElementById('pref-functional').textContent = data.preferences.functional ? '✔️' : '❌';
-      document.getElementById('pref-analytics').textContent = data.preferences.analytics ? '✔️' : '❌';
-      document.getElementById('pref-performance').textContent = data.preferences.performance ? '✔️' : '❌';
-    }
-
-    // On page load
-    window.onload = function () {
-      getOrCreateSessionUser();
-      storeConsentUserStatus();
-      updateDashboard();
-
-      // Fetch and display consent logs from Firestore
-      db.collection("consent_logs").orderBy("timestamp", "desc").limit(100)
-        .onSnapshot(function (snapshot) {
-          var tbody = document.querySelector("#consent-log-table tbody");
-          tbody.innerHTML = ""; // Clear previous rows
-
-          snapshot.forEach(function (doc) {
-            var data = doc.data();
-            var row = document.createElement("tr");
-
-            row.innerHTML = `
-              <td>${new Date(data.timestamp).toLocaleString()}</td>
-              <td>${data.action}</td>
-              <td>${data.preferences?.functional ? "✔️" : "❌"}</td>
-              <td>${data.preferences?.analytics ? "✔️" : "❌"}</td>
-              <td>${data.preferences?.performance ? "✔️" : "❌"}</td>
-              <td>${data.preferences?.advertisement ? "✔️" : "❌"}</td>
-              <td>${data.sessionId}</td>
-            `;
-            tbody.appendChild(row);
-          });
-        });
-    };
-  </script>
-</body>
-</html>
+      const recentActivity
