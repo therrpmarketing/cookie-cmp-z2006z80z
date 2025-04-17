@@ -41,6 +41,25 @@
         <li>Performance: <span id="pref-performance">❌</span></li>
       </ul>
     </div>
+
+    <!-- Consent Logs Section -->
+    <div class="consent-logs">
+      <h3>Consent Logs</h3>
+      <table id="consent-log-table" border="1">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Action</th>
+            <th>Functional</th>
+            <th>Analytics</th>
+            <th>Performance</th>
+            <th>Advertisement</th>
+            <th>Session ID</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </div>
 
   <!-- Sidebar Load Script -->
@@ -51,6 +70,19 @@
         document.getElementById('sidebar-placeholder').innerHTML = data;
       })
       .catch(error => console.error('Error loading sidebar:', error));
+  </script>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+      authDomain: "cookie-cmp-sys.firebaseapp.com",
+      projectId: "cookie-cmp-sys"
+    };
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
   </script>
 
   <!-- Dashboard Script -->
@@ -164,6 +196,29 @@
       getOrCreateSessionUser();
       storeConsentUserStatus();
       updateDashboard();
+
+      // Fetch and display consent logs from Firestore
+      db.collection("consent_logs").orderBy("timestamp", "desc").limit(100)
+        .onSnapshot(function (snapshot) {
+          var tbody = document.querySelector("#consent-log-table tbody");
+          tbody.innerHTML = ""; // Clear previous rows
+
+          snapshot.forEach(function (doc) {
+            var data = doc.data();
+            var row = document.createElement("tr");
+
+            row.innerHTML = `
+              <td>${new Date(data.timestamp).toLocaleString()}</td>
+              <td>${data.action}</td>
+              <td>${data.preferences?.functional ? "✔️" : "❌"}</td>
+              <td>${data.preferences?.analytics ? "✔️" : "❌"}</td>
+              <td>${data.preferences?.performance ? "✔️" : "❌"}</td>
+              <td>${data.preferences?.advertisement ? "✔️" : "❌"}</td>
+              <td>${data.sessionId}</td>
+            `;
+            tbody.appendChild(row);
+          });
+        });
     };
   </script>
 </body>
