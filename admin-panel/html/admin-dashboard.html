@@ -32,109 +32,130 @@
     </div>
 
     <!-- Recent Activity Section -->
-<div class="recent-activity">
-  <h3>Recent Activity</h3>
-  <ul id="recent-activity-list">
-    <!-- This will be dynamically updated when users interact with the banner -->
-  </ul>
-</div>
+    <div class="recent-activity">
+      <h3>Recent Activity</h3>
+      <ul id="recent-activity-list">
+        <!-- This will be dynamically updated when users interact with the banner -->
+      </ul>
+    </div>
 
-  <!-- Script to Load Sidebar -->
-  <script>
-    fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-placeholder').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading sidebar:', error));
-  </script>
+    <!-- Consent Preferences Section -->
+    <div class="consent-preferences">
+      <h3>Consent Preferences</h3>
+      <ul>
+        <li>Necessary: ✅ (Always on)</li>
+        <li>Functional: <span id="pref-functional"></span></li>
+        <li>Analytics: <span id="pref-analytics"></span></li>
+        <li>Performance: <span id="pref-performance"></span></li>
+      </ul>
+    </div>
 
-  <!-- Script for Admin Dashboard -->
-  <script>
-    // Function to retrieve and calculate metrics based on localStorage
-    function getConsentData() {
-      const totalUsers = localStorage.getItem('total-users') || 0;
-      const accepted = JSON.parse(localStorage.getItem('accepted-users') || '[]').length;
-      const rejected = JSON.parse(localStorage.getItem('rejected-users') || '[]').length;
-      const customized = JSON.parse(localStorage.getItem('customized-users') || '[]').length;
-      const totalActions = accepted + rejected + customized;
+    <!-- Script to Load Sidebar -->
+    <script>
+      fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('sidebar-placeholder').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading sidebar:', error));
+    </script>
 
-      // Safely calculate active consent percentage
-      const activeConsent = totalActions > 0 ? ((accepted + customized) / totalActions) * 100 : 0;
+    <!-- Script for Admin Dashboard -->
+    <script>
+      // Function to retrieve and calculate metrics based on localStorage
+      function getConsentData() {
+        const totalUsers = localStorage.getItem('total-users') || 0;
+        const accepted = JSON.parse(localStorage.getItem('accepted-users') || '[]').length;
+        const rejected = JSON.parse(localStorage.getItem('rejected-users') || '[]').length;
+        const customized = JSON.parse(localStorage.getItem('customized-users') || '[]').length;
+        const totalActions = accepted + rejected + customized;
 
-      // Ensure pending actions are not negative
-      const pendingActions = totalUsers - totalActions;
+        // Safely calculate active consent percentage
+        const activeConsent = totalActions > 0 ? ((accepted + customized) / totalActions) * 100 : 0;
 
-      // Retrieve recent activity from localStorage
-      const recentActivity = JSON.parse(localStorage.getItem('recent-activity') || '[]');
+        // Ensure pending actions are not negative
+        const pendingActions = totalUsers - totalActions;
 
-      return {
-        totalUsers: totalUsers,
-        accepted: accepted,
-        rejected: rejected,
-        customized: customized,
-        activeConsent: activeConsent,
-        pendingActions: pendingActions,
-        recentActivity: recentActivity
-      };
-    }
+        // Retrieve recent activity from localStorage
+        const recentActivity = JSON.parse(localStorage.getItem('recent-activity') || '[]');
 
-    // Function to update the dashboard with the latest data
-    function updateDashboard() {
-      const data = getConsentData();
+        // Retrieve cookie preferences
+        const prefs = JSON.parse(localStorage.getItem('cookie-preferences')) || {};
 
-      // Update the dashboard cards
-      document.getElementById('total-users').textContent = data.totalUsers;
-      document.getElementById('active-consent').textContent = data.activeConsent.toFixed(2) + '%';
-      document.getElementById('pending-actions').textContent = data.pendingActions;
-
-      // Update the recent activity list
-      const recentActivityList = document.getElementById('recent-activity-list');
-      recentActivityList.innerHTML = ''; // Clear the current list
-
-      data.recentActivity.forEach(item => {
-        const listItem = document.createElement('li');
-        listItem.textContent = item;
-        recentActivityList.appendChild(listItem);
-      });
-    }
-
-    // Call the updateDashboard function when the page loads
-    window.onload = updateDashboard;
-
-    // Example of how data can be updated when a user interacts with the consent banner
-    // This should be triggered when consent changes in the actual CMP script
-    function updateConsentData(action, userName) {
-      const recentActivity = JSON.parse(localStorage.getItem('recent-activity') || '[]');
-
-      if (action === 'accepted') {
-        let acceptedUsers = JSON.parse(localStorage.getItem('accepted-users') || '[]');
-        acceptedUsers.push(userName);
-        localStorage.setItem('accepted-users', JSON.stringify(acceptedUsers));
-        recentActivity.push(`User "${userName}" accepted all cookies.`);
-      } else if (action === 'customized') {
-        let customizedUsers = JSON.parse(localStorage.getItem('customized-users') || '[]');
-        customizedUsers.push(userName);
-        localStorage.setItem('customized-users', JSON.stringify(customizedUsers));
-        recentActivity.push(`User "${userName}" customized cookies.`);
-      } else if (action === 'rejected') {
-        let rejectedUsers = JSON.parse(localStorage.getItem('rejected-users') || '[]');
-        rejectedUsers.push(userName);
-        localStorage.setItem('rejected-users', JSON.stringify(rejectedUsers));
-        recentActivity.push(`User "${userName}" rejected cookies.`);
+        return {
+          totalUsers: totalUsers,
+          accepted: accepted,
+          rejected: rejected,
+          customized: customized,
+          activeConsent: activeConsent,
+          pendingActions: pendingActions,
+          recentActivity: recentActivity,
+          preferences: prefs
+        };
       }
 
-      // Save updated recent activity
-      localStorage.setItem('recent-activity', JSON.stringify(recentActivity));
+      // Function to update the dashboard with the latest data
+      function updateDashboard() {
+        const data = getConsentData();
 
-      // Update dashboard with the new data
-      updateDashboard();
-    }
+        // Update the dashboard cards
+        document.getElementById('total-users').textContent = data.totalUsers;
+        document.getElementById('active-consent').textContent = data.activeConsent.toFixed(2) + '%';
+        document.getElementById('pending-actions').textContent = data.pendingActions;
 
-    // Example usage of updating consent data (you can call this based on actual actions)
-    // For testing purposes, the below lines can be called after an action is made in the banner
-    // updateConsentData('accepted', 'John Doe');
-    // updateConsentData('customized', 'Jane Smith');
-  </script>
+        // Update the recent activity list
+        const recentActivityList = document.getElementById('recent-activity-list');
+        recentActivityList.innerHTML = ''; // Clear the current list
+
+        data.recentActivity.forEach(item => {
+          const listItem = document.createElement('li');
+          listItem.textContent = item;
+          recentActivityList.appendChild(listItem);
+        });
+
+        // Update consent preferences
+        document.getElementById('pref-functional').innerText = data.preferences.functional ? '✔️' : '❌';
+        document.getElementById('pref-analytics').innerText = data.preferences.analytics ? '✔️' : '❌';
+        document.getElementById('pref-performance').innerText = data.preferences.performance ? '✔️' : '❌';
+      }
+
+      // Call the updateDashboard function when the page loads
+      window.onload = updateDashboard;
+
+      // Example of how data can be updated when a user interacts with the consent banner
+      // This should be triggered when consent changes in the actual CMP script
+      function updateConsentData(action, userName) {
+        const recentActivity = JSON.parse(localStorage.getItem('recent-activity') || '[]');
+
+        if (action === 'accepted') {
+          let acceptedUsers = JSON.parse(localStorage.getItem('accepted-users') || '[]');
+          acceptedUsers.push(userName);
+          localStorage.setItem('accepted-users', JSON.stringify(acceptedUsers));
+          recentActivity.push(`User "${userName}" accepted all cookies.`);
+        } else if (action === 'customized') {
+          let customizedUsers = JSON.parse(localStorage.getItem('customized-users') || '[]');
+          customizedUsers.push(userName);
+          localStorage.setItem('customized-users', JSON.stringify(customizedUsers));
+          recentActivity.push(`User "${userName}" customized cookies.`);
+        } else if (action === 'rejected') {
+          let rejectedUsers = JSON.parse(localStorage.getItem('rejected-users') || '[]');
+          rejectedUsers.push(userName);
+          localStorage.setItem('rejected-users', JSON.stringify(rejectedUsers));
+          recentActivity.push(`User "${userName}" rejected cookies.`);
+        }
+
+        // Save updated recent activity
+        localStorage.setItem('recent-activity', JSON.stringify(recentActivity));
+
+        // Update dashboard with the new data
+        updateDashboard();
+      }
+
+      // Example usage of updating consent data (you can call this based on actual actions)
+      // For testing purposes, the below lines can be called after an action is made in the banner
+      // updateConsentData('accepted', 'John Doe');
+      // updateConsentData('customized', 'Jane Smith');
+    </script>
+  </div>
 </body>
 </html>
