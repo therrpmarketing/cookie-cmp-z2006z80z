@@ -1,265 +1,135 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css" />
-</head>
-<body>
-  <div class="dashboard-wrapper">
-    <!-- Sidebar will be loaded here dynamically -->
-    <aside class="sidebar" id="sidebar-placeholder"></aside>
+// Ensure that the script is only run after the DOM has loaded
+document.addEventListener("DOMContentLoaded", function() {
 
-    <!-- Main Content -->
-    <main class="main-content">
-      <header class="main-header">
-        <h1>Admin Dashboard</h1>
-      </header>
-
-      <!-- Stat Cards -->
-      <section class="stat-cards">
-        <div class="card" id="accept-count">
-          <h2>✅ Accepted</h2>
-          <p>0</p>
-        </div>
-        <div class="card" id="reject-count">
-          <h2>❌ Rejected</h2>
-          <p>0</p>
-        </div>
-        <div class="card" id="customize-count">
-          <h2>⚙️ Customized</h2>
-          <p>0</p>
-        </div>
-      </section>
-
-      <!-- Consent Graph -->
-      <section class="graph-section">
-        <h2>Consent Trends (Last 7 Days)</h2>
-        <canvas id="consentChart" width="600" height="300"></canvas>
-      </section>
-    </main>
-  </div>
-
-  <script>
-    // Dynamically load the Sidebar HTML from /shared/sidebar.html
-    fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        // Insert the fetched sidebar HTML into the sidebar-placeholder element
-        document.getElementById('sidebar-placeholder').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading sidebar:', error));
-
-    // Firebase Config (replace with yours)
-    const firebaseConfig = {
-      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-      authDomain: "cookie-cmp-sys.firebaseapp.com",
-      databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
-      projectId: "cookie-cmp-sys",
-      storageBucket: "cookie-cmp-sys.firebasestorage.app",
-      messagingSenderId: "252822009652",
-      appId: "1:252822009652:web:6bfbdf28d98953ccb89761"
-    };
-
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    function updateCounts() {
-      const ref = db.ref("cookie-consent");
-      ref.once("value", (snapshot) => {
-        let accept = 0, reject = 0, customize = 0;
-        snapshot.forEach((child) => {
-          const val = child.val();
-          if (val.action === "accept") accept++;
-          else if (val.action === "reject") reject++;
-          else if (val.action === "customize") customize++;
-        });
-
-        document.getElementById("accept-count").querySelector("p").textContent = accept;
-        document.getElementById("reject-count").querySelector("p").textContent = reject;
-        document.getElementById("customize-count").querySelector("p").textContent = customize;
-      });
+    // Function to generate a unique session ID (e.g., using a timestamp or a random string)
+    function generateUniqueSessionID() {
+        return 'session_' + new Date().getTime() + Math.random().toString(36).substring(2);
     }
 
-    // Call once and then repeat
-    updateCounts();
-    setInterval(updateCounts, 5000);
-
-    // Graph Data Function
-    function drawChart(data) {
-      const canvas = document.getElementById("consentChart");
-      const ctx = canvas.getContext("2d");
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const days = data.map(item => item.date);
-      const acceptCounts = data.map(item => item.accept);
-      const rejectCounts = data.map(item => item.reject);
-      const customizeCounts = data.map(item => item.customize);
-
-      const maxVal = Math.max(...acceptCounts, ...rejectCounts, ...customizeCounts, 10);
-      const barWidth = 40;
-      const spacing = 80;
-
-      days.forEach((day, index) => {
-        const x = index * spacing + 60;
-        const scale = 200 / maxVal;
-
-        ctx.fillStyle = "#4CAF50";
-        ctx.fillRect(x, 280 - acceptCounts[index] * scale, barWidth, acceptCounts[index] * scale);
-
-        ctx.fillStyle = "#F44336";
-        ctx.fillRect(x + barWidth + 5, 280 - rejectCounts[index] * scale, barWidth, rejectCounts[index] * scale);
-
-        ctx.fillStyle = "#FF9800";
-        ctx.fillRect(x + 2 * (barWidth + 5), 280 - customizeCounts[index] * scale, barWidth, customizeCounts[index] * scale);
-
-        ctx.fillStyle = "#000";
-        ctx.font = "12px Arial";
-        ctx.fillText(day, x + 15, 295);
-      });
+    // Initialize session ID (store it in localStorage for persistence across pages)
+    if (!localStorage.getItem('sessionID')) {
+        localStorage.setItem('sessionID', generateUniqueSessionID());
     }
+    const sessionID = localStorage.getItem('sessionID');
 
-    // Fetch and Prepare Chart Data
-    function updateChart() {
-      const ref = db.ref("cookie-consent");
-      ref.once("value", (snapshot) => {
-        const counts = {};
-
-        snapshot.forEach(child => {
-          const val = child.val();
-          const date = new Date(val.timestamp || Date.now());
-          const key = date.toISOString().split('T')[0];
-
-          if (!counts[key]) {
-            counts[key] = { accept: 0, reject: 0, customize: 0, date: key };
-          }
-
-          if (val.action === "accept") counts[key].accept++;
-          else if (val.action === "reject") counts[key].reject++;
-          else if (val.action === "customize") counts[key].customize++;
-        });
-
-        const sorted = Object.values(counts).sort((a, b) => a.date.localeCompare(b.date)).slice(-7);
-        drawChart(sorted);
-      });
-    }
-
-    updateChart();
-    setInterval(updateChart, 10000);
-  </script>
-
-  <script>
-    // Firebase Config (Do NOT use import/export in GTM)
-    var firebaseConfig = {
-      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-      authDomain: "cookie-cmp-sys.firebaseapp.com",
-      databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
-      projectId: "cookie-cmp-sys",
-      storageBucket: "cookie-cmp-sys.appspot.com",
-      messagingSenderId: "252822009652",
-      appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
-      measurementId: "G-DLGR6XFPP5"
-    };
-
-    (function() {
-      var script1 = document.createElement('script');
-      script1.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js';
-      script1.onload = function() {
-        var script2 = document.createElement('script');
-        script2.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js';
-        script2.onload = function() {
-          firebase.initializeApp(firebaseConfig);
-          var db = firebase.database();
-
-          // Utilities
-          function generateSessionId() {
-            return 'sess_' + Math.random().toString(36).substr(2, 9);
-          }
-
-          function saveConsentLog(action, preferences) {
-            var sessionId = localStorage.getItem('user_session_id') || generateSessionId();
-            localStorage.setItem('user_session_id', sessionId);
-            var timestamp = new Date().toISOString();
-            var logData = {
-              session_id: sessionId,
-              action: action,
-              preferences: preferences,
-              timestamp: timestamp
-            };
-            db.ref('consent_logs/' + sessionId).set(logData);
-          }
-
-          function updateConsentMode(preferences) {
-            if (typeof window.gtag === 'function') {
-              window.gtag('consent', 'update', preferences);
-            }
-          }
-
-          // Banner HTML + CSS
-          var banner = document.createElement('div');
-          banner.id = 'cookie-banner';
-          banner.style = 'position: fixed; bottom: 20px; right: 20px; max-width: 360px; background: #fff; border: 1px solid #ccc; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.15); border-radius: 10px; z-index: 99999; font-family: Arial, sans-serif;';
-          banner.innerHTML =
-            '<strong style="font-size: 18px; display:block; margin-bottom: 10px;">We use cookies 🍪</strong>' +
-            '<p style="font-size: 14px; margin-bottom: 10px;">To improve your experience. You can manage your preferences.</p>' +
-            '<button id="acceptAll" style="margin-right: 10px; padding: 8px 12px; background-color: #2E7D32; color: white; border: none; border-radius: 4px;">Accept All</button>' +
-            '<button id="rejectAll" style="margin-right: 10px; padding: 8px 12px; background-color: #C62828; color: white; border: none; border-radius: 4px;">Reject All</button>' +
-            '<button id="customize" style="padding: 8px 12px; background-color: #0277BD; color: white; border: none; border-radius: 4px;">Customize</button>' +
-            '<div id="customPanel" style="display:none; margin-top:15px;">' +
-              '<label><input type="checkbox" id="functional" checked /> Functional</label><br>' +
-              '<label><input type="checkbox" id="analytics" /> Analytics</label><br>' +
-              '<label><input type="checkbox" id="performance" /> Performance</label><br>' +
-              '<br><button id="savePrefs" style="padding: 6px 10px; background:#555; color:#fff; border:none; border-radius:4px;">Save Preferences</button>' +
-            '</div>';
-
-          document.body.appendChild(banner);
-
-          // Button Handlers
-          document.getElementById('acceptAll').onclick = function() {
-            var prefs = {
-              ad_storage: 'granted',
-              analytics_storage: 'granted',
-              functional_storage: 'granted',
-              performance_storage: 'granted'
-            };
-            saveConsentLog('accept', prefs);
-            updateConsentMode(prefs);
-            banner.style.display = 'none';
-          };
-
-          document.getElementById('rejectAll').onclick = function() {
-            var prefs = {
-              ad_storage: 'denied',
-              analytics_storage: 'denied',
-              functional_storage: 'denied',
-              performance_storage: 'denied'
-            };
-            saveConsentLog('reject', prefs);
-            updateConsentMode(prefs);
-            banner.style.display = 'none';
-          };
-
-          document.getElementById('customize').onclick = function() {
-            document.getElementById('customPanel').style.display = 'block';
-          };
-
-          document.getElementById('savePrefs').onclick = function() {
-            var prefs = {
-              ad_storage: document.getElementById('functional').checked ? 'granted' : 'denied',
-              analytics_storage: document.getElementById('analytics').checked ? 'granted' : 'denied',
-              performance_storage: document.getElementById('performance').checked ? 'granted' : 'denied'
-            };
-            saveConsentLog('customize', prefs);
-            updateConsentMode(prefs);
-            banner.style.display = 'none';
-          };
+    // Function to log consent actions with the session ID
+    function recordConsentAction(action) {
+        const consentData = {
+            sessionID: sessionID,
+            action: action,  // 'accept', 'reject', 'customize'
+            timestamp: new Date().toISOString(),
         };
-        document.body.appendChild(script2);
-      };
-      document.body.appendChild(script1);
-    })();
-  </script>
-</body>
-</html>
+
+        // Log consent data to Firebase or another backend (this example uses Firebase)
+        firebase.database().ref('consent_logs').push(consentData);
+    }
+
+    // Listen for the "Accept All" button click
+    const acceptAllBtn = document.getElementById('accept-all');
+    if (acceptAllBtn) {
+        acceptAllBtn.addEventListener('click', function() {
+            // Update Google Consent Mode (example)
+            gtag('consent', 'update', {
+                'ad_storage': 'granted',
+                'analytics_storage': 'granted',
+                'functionality_storage': 'granted',
+                'personalization_storage': 'granted',
+            });
+
+            // Record the consent action
+            recordConsentAction('accept');
+        });
+    }
+
+    // Listen for the "Reject All" button click
+    const rejectAllBtn = document.getElementById('reject-all');
+    if (rejectAllBtn) {
+        rejectAllBtn.addEventListener('click', function() {
+            // Update Google Consent Mode (example)
+            gtag('consent', 'update', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'denied',
+                'functionality_storage': 'denied',
+                'personalization_storage': 'denied',
+            });
+
+            // Record the consent action
+            recordConsentAction('reject');
+        });
+    }
+
+    // Listen for the "Customize" button click
+    const customizeBtn = document.getElementById('customize');
+    if (customizeBtn) {
+        customizeBtn.addEventListener('click', function() {
+            // Open the cookie preference customization panel
+            document.getElementById('cookie-customization-panel').style.display = 'block';
+        });
+    }
+
+    // Handle the "Save Preferences" button from the customization panel
+    const savePreferencesBtn = document.getElementById('save-preferences');
+    if (savePreferencesBtn) {
+        savePreferencesBtn.addEventListener('click', function() {
+            // Get the selected preferences (e.g., from checkboxes or toggles)
+            const necessary = document.getElementById('necessary').checked;
+            const functional = document.getElementById('functional').checked;
+            const analytics = document.getElementById('analytics').checked;
+            const performance = document.getElementById('performance').checked;
+            
+            // Update Google Consent Mode based on preferences
+            gtag('consent', 'update', {
+                'ad_storage': performance ? 'granted' : 'denied',
+                'analytics_storage': analytics ? 'granted' : 'denied',
+                'functionality_storage': functional ? 'granted' : 'denied',
+                'personalization_storage': necessary ? 'granted' : 'denied',
+            });
+
+            // Record the consent action
+            recordConsentAction('customize');
+        });
+    }
+
+    // Optional: You can add a button for "Reject All" functionality in case the user rejects some cookies
+    const rejectSomeBtn = document.getElementById('reject-some');
+    if (rejectSomeBtn) {
+        rejectSomeBtn.addEventListener('click', function() {
+            // If the user rejects some categories, you can deny them specifically
+            gtag('consent', 'update', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'denied',
+                'functionality_storage': 'denied',
+                'personalization_storage': 'denied',
+            });
+
+            // Record the consent action for rejecting some cookies
+            recordConsentAction('reject_some');
+        });
+    }
+
+    // Fetch the consent logs from the backend (e.g., Firebase) and display them in the admin dashboard
+    function loadConsentData() {
+        firebase.database().ref('consent_logs').on('value', function(snapshot) {
+            const consentLogs = snapshot.val();
+            for (const logID in consentLogs) {
+                const log = consentLogs[logID];
+                displayConsentLog(log);
+            }
+        });
+    }
+
+    // Display a consent log in the admin panel (this function can be modified to display the log in your UI)
+    function displayConsentLog(log) {
+        // Example: You can display the log data as a new row in a table
+        const logRow = document.createElement('tr');
+        logRow.innerHTML = `
+            <td>${log.sessionID}</td>
+            <td>${log.action}</td>
+            <td>${log.timestamp}</td>
+        `;
+        document.getElementById('consent-log-table').appendChild(logRow);
+    }
+
+    // Call loadConsentData to display the logs in real-time
+    loadConsentData();
+});
