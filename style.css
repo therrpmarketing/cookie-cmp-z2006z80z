@@ -32,6 +32,7 @@ body {
   font-weight: bold;
 }
 
+/* Sidebar navigation */
 .sidebar-nav ul {
   list-style: none;
   padding: 0;
@@ -43,13 +44,30 @@ body {
   transition: background 0.2s ease-in-out;
 }
 
-.sidebar-nav ul li:hover {
-  background-color: #3d4048; /* Slightly lighter on hover */
+.sidebar-nav ul li a {
+  text-decoration: none;
+  color: #fff; /* Default color for links */
+  display: block;
+  padding: 12px 24px;
 }
 
-.sidebar-nav ul li.active {
-  background-color: #555; /* Highlighted background */
+/* Sidebar link hover effect */
+.sidebar-nav ul li a:hover {
+  background-color: #3d4048; /* Slightly lighter on hover */
+  color: #ffffff;
+}
+
+/* Active link state */
+.sidebar-nav ul li.active a {
+  background-color: #4b4d5c;
   font-weight: bold;
+  color: #ffffff;
+}
+
+/* Sidebar background */
+.sidebar {
+  background-color: #2c2f36; /* Dark grey-blue background */
+  color: #ffffff; /* White text */
 }
 
 /* Main content */
@@ -210,7 +228,7 @@ body {
 }
 
 /* Sidebar logo and nav adjustments */
-.sidebar-nav ul li.active {
+.sidebar-nav ul li.active a {
   background-color: #4b4d5c;
 }
 
