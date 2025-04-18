@@ -1,135 +1,158 @@
-// Ensure that the script is only run after the DOM has loaded
-document.addEventListener("DOMContentLoaded", function() {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Cookie Consent</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script>
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+      authDomain: "cookie-cmp-sys.firebaseapp.com",
+      databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+      projectId: "cookie-cmp-sys",
+      storageBucket: "cookie-cmp-sys.firebasestorage.app",
+      messagingSenderId: "252822009652",
+      appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
+      measurementId: "G-DLGR6XFPP5"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-    // Function to generate a unique session ID (e.g., using a timestamp or a random string)
-    function generateUniqueSessionID() {
+    document.addEventListener("DOMContentLoaded", function() {
+      // Generate a unique session ID if not already set
+      function generateUniqueSessionID() {
         return 'session_' + new Date().getTime() + Math.random().toString(36).substring(2);
-    }
+      }
 
-    // Initialize session ID (store it in localStorage for persistence across pages)
-    if (!localStorage.getItem('sessionID')) {
+      // Initialize session ID and store in localStorage
+      if (!localStorage.getItem('sessionID')) {
         localStorage.setItem('sessionID', generateUniqueSessionID());
-    }
-    const sessionID = localStorage.getItem('sessionID');
+      }
+      const sessionID = localStorage.getItem('sessionID');
 
-    // Function to log consent actions with the session ID
-    function recordConsentAction(action) {
+      // Function to record consent actions
+      function recordConsentAction(action) {
         const consentData = {
-            sessionID: sessionID,
-            action: action,  // 'accept', 'reject', 'customize'
-            timestamp: new Date().toISOString(),
+          sessionID: sessionID,
+          action: action,
+          timestamp: new Date().toISOString(),
         };
+        db.ref('consent_logs').push(consentData);
+      }
 
-        // Log consent data to Firebase or another backend (this example uses Firebase)
-        firebase.database().ref('consent_logs').push(consentData);
-    }
-
-    // Listen for the "Accept All" button click
-    const acceptAllBtn = document.getElementById('accept-all');
-    if (acceptAllBtn) {
+      // Listen for "Accept All" button click
+      const acceptAllBtn = document.getElementById('accept-all');
+      if (acceptAllBtn) {
         acceptAllBtn.addEventListener('click', function() {
-            // Update Google Consent Mode (example)
-            gtag('consent', 'update', {
-                'ad_storage': 'granted',
-                'analytics_storage': 'granted',
-                'functionality_storage': 'granted',
-                'personalization_storage': 'granted',
-            });
-
-            // Record the consent action
-            recordConsentAction('accept');
+          gtag('consent', 'update', {
+            'ad_storage': 'granted',
+            'analytics_storage': 'granted',
+            'functionality_storage': 'granted',
+            'personalization_storage': 'granted',
+          });
+          recordConsentAction('accept');
         });
-    }
+      }
 
-    // Listen for the "Reject All" button click
-    const rejectAllBtn = document.getElementById('reject-all');
-    if (rejectAllBtn) {
+      // Listen for "Reject All" button click
+      const rejectAllBtn = document.getElementById('reject-all');
+      if (rejectAllBtn) {
         rejectAllBtn.addEventListener('click', function() {
-            // Update Google Consent Mode (example)
-            gtag('consent', 'update', {
-                'ad_storage': 'denied',
-                'analytics_storage': 'denied',
-                'functionality_storage': 'denied',
-                'personalization_storage': 'denied',
-            });
-
-            // Record the consent action
-            recordConsentAction('reject');
+          gtag('consent', 'update', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied',
+            'functionality_storage': 'denied',
+            'personalization_storage': 'denied',
+          });
+          recordConsentAction('reject');
         });
-    }
+      }
 
-    // Listen for the "Customize" button click
-    const customizeBtn = document.getElementById('customize');
-    if (customizeBtn) {
+      // Listen for "Customize" button click
+      const customizeBtn = document.getElementById('customize');
+      if (customizeBtn) {
         customizeBtn.addEventListener('click', function() {
-            // Open the cookie preference customization panel
-            document.getElementById('cookie-customization-panel').style.display = 'block';
+          document.getElementById('cookie-customization-panel').style.display = 'block';
         });
-    }
+      }
 
-    // Handle the "Save Preferences" button from the customization panel
-    const savePreferencesBtn = document.getElementById('save-preferences');
-    if (savePreferencesBtn) {
+      // Handle "Save Preferences" button
+      const savePreferencesBtn = document.getElementById('save-preferences');
+      if (savePreferencesBtn) {
         savePreferencesBtn.addEventListener('click', function() {
-            // Get the selected preferences (e.g., from checkboxes or toggles)
-            const necessary = document.getElementById('necessary').checked;
-            const functional = document.getElementById('functional').checked;
-            const analytics = document.getElementById('analytics').checked;
-            const performance = document.getElementById('performance').checked;
-            
-            // Update Google Consent Mode based on preferences
-            gtag('consent', 'update', {
-                'ad_storage': performance ? 'granted' : 'denied',
-                'analytics_storage': analytics ? 'granted' : 'denied',
-                'functionality_storage': functional ? 'granted' : 'denied',
-                'personalization_storage': necessary ? 'granted' : 'denied',
-            });
+          const necessary = document.getElementById('necessary').checked;
+          const functional = document.getElementById('functional').checked;
+          const analytics = document.getElementById('analytics').checked;
+          const performance = document.getElementById('performance').checked;
 
-            // Record the consent action
-            recordConsentAction('customize');
+          gtag('consent', 'update', {
+            'ad_storage': performance ? 'granted' : 'denied',
+            'analytics_storage': analytics ? 'granted' : 'denied',
+            'functionality_storage': functional ? 'granted' : 'denied',
+            'personalization_storage': necessary ? 'granted' : 'denied',
+          });
+          recordConsentAction('customize');
         });
-    }
+      }
 
-    // Optional: You can add a button for "Reject All" functionality in case the user rejects some cookies
-    const rejectSomeBtn = document.getElementById('reject-some');
-    if (rejectSomeBtn) {
-        rejectSomeBtn.addEventListener('click', function() {
-            // If the user rejects some categories, you can deny them specifically
-            gtag('consent', 'update', {
-                'ad_storage': 'denied',
-                'analytics_storage': 'denied',
-                'functionality_storage': 'denied',
-                'personalization_storage': 'denied',
-            });
-
-            // Record the consent action for rejecting some cookies
-            recordConsentAction('reject_some');
+      // Display consent logs in the admin dashboard
+      function loadConsentData() {
+        db.ref('consent_logs').on('value', function(snapshot) {
+          const consentLogs = snapshot.val();
+          for (const logID in consentLogs) {
+            const log = consentLogs[logID];
+            displayConsentLog(log);
+          }
         });
-    }
+      }
 
-    // Fetch the consent logs from the backend (e.g., Firebase) and display them in the admin dashboard
-    function loadConsentData() {
-        firebase.database().ref('consent_logs').on('value', function(snapshot) {
-            const consentLogs = snapshot.val();
-            for (const logID in consentLogs) {
-                const log = consentLogs[logID];
-                displayConsentLog(log);
-            }
-        });
-    }
-
-    // Display a consent log in the admin panel (this function can be modified to display the log in your UI)
-    function displayConsentLog(log) {
-        // Example: You can display the log data as a new row in a table
+      function displayConsentLog(log) {
         const logRow = document.createElement('tr');
         logRow.innerHTML = `
-            <td>${log.sessionID}</td>
-            <td>${log.action}</td>
-            <td>${log.timestamp}</td>
+          <td>${log.sessionID}</td>
+          <td>${log.action}</td>
+          <td>${log.timestamp}</td>
         `;
         document.getElementById('consent-log-table').appendChild(logRow);
-    }
+      }
 
-    // Call loadConsentData to display the logs in real-time
-    loadConsentData();
-});
+      loadConsentData(); // Call to load logs on page load
+    });
+  </script>
+</head>
+<body>
+  <h1>Admin Dashboard</h1>
+  <!-- Cookie Consent Log Table -->
+  <table id="consent-log-table">
+    <thead>
+      <tr>
+        <th>Session ID</th>
+        <th>Action</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- Cookie Consent Banner Example -->
+  <div id="cookie-consent-banner">
+    <button id="accept-all">Accept All</button>
+    <button id="reject-all">Reject All</button>
+    <button id="customize">Customize</button>
+  </div>
+
+  <!-- Cookie Customization Panel -->
+  <div id="cookie-customization-panel" style="display: none;">
+    <label><input type="checkbox" id="necessary" checked /> Necessary</label><br>
+    <label><input type="checkbox" id="functional" checked /> Functional</label><br>
+    <label><input type="checkbox" id="analytics" /> Analytics</label><br>
+    <label><input type="checkbox" id="performance" /> Performance</label><br>
+    <button id="save-preferences">Save Preferences</button>
+  </div>
+</body>
+</html>
