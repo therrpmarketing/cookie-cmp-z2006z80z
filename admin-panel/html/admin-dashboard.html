@@ -109,27 +109,27 @@
   <script>
     // Initialize Firebase (replace with your config)
     const firebaseConfig = {
-  	apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-	authDomain: "cookie-cmp-sys.firebaseapp.com",
-  	databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
-  	projectId: "cookie-cmp-sys",
-	  storageBucket: "cookie-cmp-sys.firebasestorage.app",
-	  messagingSenderId: "252822009652",
-	  appId: "1:252822009652:web:6bfbdf28d98953ccb89761"
+      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+      authDomain: "cookie-cmp-sys.firebaseapp.com",
+      databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+      projectId: "cookie-cmp-sys",
+      storageBucket: "cookie-cmp-sys.firebasestorage.app",
+      messagingSenderId: "252822009652",
+      appId: "1:252822009652:web:6bfbdf28d98953ccb89761"
     };
     firebase.initializeApp(firebaseConfig);
   </script>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // Generate and store session ID
       function generateUniqueSessionID() {
         return 'session_' + new Date().getTime() + Math.random().toString(36).substring(2);
       }
-      if (!localStorage.getItem('sessionID')) {
-        localStorage.setItem('sessionID', generateUniqueSessionID());
+
+      if (!localStorage.getItem('user_session_id')) {
+        localStorage.setItem('user_session_id', generateUniqueSessionID());
       }
-      const sessionID = localStorage.getItem('user_session_id') || localStorage.getItem('sessionID');
+      const sessionID = localStorage.getItem('user_session_id');
 
       function recordConsentAction(action) {
         const data = {
@@ -185,8 +185,8 @@
         for (let key in consents) {
           total++;
           const action = consents[key].action;
-          if (action.includes("accept")) accept++;
-          if (action.includes("reject")) reject++;
+          if (action === "accept_all" || action === "customized_preferences") accept++;
+          if (action === "reject_all") reject++;
         }
         document.getElementById('total-consents').innerText = `Total Consents: ${total}`;
         document.getElementById('accepted-consents').innerText = `Accepted: ${accept}`;
@@ -200,7 +200,7 @@
           table.innerHTML = '';
           if (logs) {
             updateDashboardCounts(logs);
-            for (let id in logs) {
+            Object.keys(logs).reverse().forEach(id => {
               const row = document.createElement('tr');
               row.innerHTML = `
                 <td>${logs[id].sessionID}</td>
@@ -208,7 +208,7 @@
                 <td>${logs[id].timestamp}</td>
               `;
               table.appendChild(row);
-            }
+            });
           }
         });
       }
@@ -217,7 +217,7 @@
     });
   </script>
 
-  <!-- gtag function stub to avoid error if not included -->
+  <!-- gtag function stub -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
