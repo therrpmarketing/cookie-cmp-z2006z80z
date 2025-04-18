@@ -4,216 +4,95 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
 </head>
 <body>
-  <!-- Sidebar Placeholder -->
-  <div id="sidebar-placeholder"></div>
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo-placeholder">
+        <div class="logo-box">Your Logo</div>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="active">Dashboard</li>
+          <li>Cookie Categories</li>
+          <li>Customize Banner</li>
+          <li>Consent Logs</li>
+          <li>Consent Analytics</li>
+          <li>User Preferences</li>
+          <li>Advanced Settings</li>
+        </ul>
+      </nav>
+    </aside>
 
-  <!-- Main Content -->
-  <div class="main-content">
-    <h1>Admin Dashboard</h1>
-    <p>Welcome to the Cookie CMP Admin Dashboard.</p>
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="main-header">
+        <h1>Admin Dashboard</h1>
+      </header>
 
-    <!-- Dashboard Cards Section -->
-    <div class="dashboard-cards">
-      <div class="card"><h3>Total Users</h3><p class="card-value" id="total-users">0</p></div>
-      <div class="card"><h3>Accepted Users</h3><p class="card-value" id="accepted-users">0</p></div>
-      <div class="card"><h3>Rejected Users</h3><p class="card-value" id="rejected-users">0</p></div>
-      <div class="card"><h3>Customized Users</h3><p class="card-value" id="customized-users">0</p></div>
-      <div class="card"><h3>Active Consent</h3><p class="card-value" id="active-consent">0%</p></div>
-      <div class="card"><h3>Pending Actions</h3><p class="card-value" id="pending-actions">0</p></div>
-    </div>
+      <!-- Stat Cards -->
+      <section class="stat-cards">
+        <div class="card" id="accept-count">
+          <h2>✅ Accepted</h2>
+          <p>0</p>
+        </div>
+        <div class="card" id="reject-count">
+          <h2>❌ Rejected</h2>
+          <p>0</p>
+        </div>
+        <div class="card" id="customize-count">
+          <h2>⚙️ Customized</h2>
+          <p>0</p>
+        </div>
+      </section>
 
-    <!-- Recent Activity Section -->
-    <div class="recent-activity">
-      <h3>Recent Activity</h3>
-      <ul id="recent-activity-list"></ul>
-    </div>
-
-    <!-- Consent Preferences Section -->
-    <div class="consent-preferences">
-      <h3>Consent Preferences</h3>
-      <ul>
-        <li>Necessary: ✅ (Always on)</li>
-        <li>Functional: <span id="pref-functional">❌</span></li>
-        <li>Analytics: <span id="pref-analytics">❌</span></li>
-        <li>Performance: <span id="pref-performance">❌</span></li>
-      </ul>
-    </div>
-
-    <!-- Consent Logs Section -->
-    <div class="consent-logs">
-      <h3>Consent Logs</h3>
-      <table id="consent-log-table" border="1">
-        <thead>
-          <tr>
-            <th>Timestamp</th>
-            <th>Action</th>
-            <th>Functional</th>
-            <th>Analytics</th>
-            <th>Performance</th>
-            <th>Advertisement</th>
-            <th>Session ID</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
+      <!-- Optional Graph Area -->
+      <section class="graph-section">
+        <h2>Consent Trends (Coming Soon)</h2>
+        <div class="graph-placeholder">[Graph will appear here]</div>
+      </section>
+    </main>
   </div>
 
-  <!-- Sidebar Load Script -->
   <script>
-    fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-placeholder').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading sidebar:', error));
-  </script>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-  <script>
-    var firebaseConfig = {
-      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-      authDomain: "cookie-cmp-sys.firebaseapp.com",
-      projectId: "cookie-cmp-sys"
+    // Firebase Config (replace with yours if needed)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
     };
-    firebase.initializeApp(firebaseConfig);
-    var db = firebase.firestore();
-  </script>
 
-  <!-- Dashboard Script -->
-  <script>
-    function getOrCreateSessionUser() {
-      let sessionId = sessionStorage.getItem('session-user-id');
-      if (!sessionId) {
-        sessionId = 'user_' + Date.now();
-        sessionStorage.setItem('session-user-id', sessionId);
-      }
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-      let userList = JSON.parse(localStorage.getItem('all-users') || '[]');
-      if (!userList.includes(sessionId)) {
-        userList.push(sessionId);
-        localStorage.setItem('all-users', JSON.stringify(userList));
-      }
-
-      return sessionId;
-    }
-
-    function storeConsentUserStatus() {
-      const sessionId = sessionStorage.getItem('session-user-id');
-      const consent = JSON.parse(localStorage.getItem('cookieConsent') || '{}');
-      const preferences = {
-        functional: !!consent.functional,
-        analytics: !!consent.analytics,
-        performance: !!consent.performance,
-      };
-
-      localStorage.setItem('cookie-preferences', JSON.stringify(preferences));
-
-      const recentLog = JSON.parse(localStorage.getItem('recent-activity') || '[]');
-
-      if (consent.accepted) {
-        let list = JSON.parse(localStorage.getItem('accepted-users') || '[]');
-        if (!list.includes(sessionId)) {
-          list.push(sessionId);
-          localStorage.setItem('accepted-users', JSON.stringify(list));
-          recentLog.push(`User "${sessionId}" accepted cookies.`);
-        }
-      } else if (consent.rejected) {
-        let list = JSON.parse(localStorage.getItem('rejected-users') || '[]');
-        if (!list.includes(sessionId)) {
-          list.push(sessionId);
-          localStorage.setItem('rejected-users', JSON.stringify(list));
-          recentLog.push(`User "${sessionId}" rejected cookies.`);
-        }
-      } else if (consent.customized) {
-        let list = JSON.parse(localStorage.getItem('customized-users') || '[]');
-        if (!list.includes(sessionId)) {
-          list.push(sessionId);
-          localStorage.setItem('customized-users', JSON.stringify(list));
-          recentLog.push(`User "${sessionId}" customized cookie preferences.`);
-        }
-      }
-
-      localStorage.setItem('recent-activity', JSON.stringify(recentLog));
-    }
-
-    function getConsentData() {
-      const allUsers = JSON.parse(localStorage.getItem('all-users') || '[]');
-      const acceptedUsers = JSON.parse(localStorage.getItem('accepted-users') || '[]');
-      const rejectedUsers = JSON.parse(localStorage.getItem('rejected-users') || '[]');
-      const customizedUsers = JSON.parse(localStorage.getItem('customized-users') || '[]');
-      const recentActivity = JSON.parse(localStorage.getItem('recent-activity') || '[]');
-      const prefs = JSON.parse(localStorage.getItem('cookie-preferences') || '{}');
-
-      const totalUsers = allUsers.length;
-      const totalActions = acceptedUsers.length + rejectedUsers.length + customizedUsers.length;
-      const pendingActions = totalUsers - totalActions;
-      const activeConsent = totalUsers > 0 ? ((acceptedUsers.length + customizedUsers.length) / totalUsers) * 100 : 0;
-
-      return {
-        totalUsers,
-        accepted: acceptedUsers.length,
-        rejected: rejectedUsers.length,
-        customized: customizedUsers.length,
-        pendingActions,
-        activeConsent,
-        recentActivity,
-        preferences: prefs
-      };
-    }
-
-    function updateDashboard() {
-      const data = getConsentData();
-
-      document.getElementById('total-users').textContent = data.totalUsers;
-      document.getElementById('accepted-users').textContent = data.accepted;
-      document.getElementById('rejected-users').textContent = data.rejected;
-      document.getElementById('customized-users').textContent = data.customized;
-      document.getElementById('active-consent').textContent = data.activeConsent.toFixed(2) + '%';
-      document.getElementById('pending-actions').textContent = data.pendingActions;
-
-      const recentActivityList = document.getElementById('recent-activity-list');
-      recentActivityList.innerHTML = '';
-      data.recentActivity.forEach(action => {
-        const li = document.createElement('li');
-        li.textContent = action;
-        recentActivityList.appendChild(li);
-      });
-
-      document.getElementById('pref-functional').textContent = data.preferences.functional ? '✅' : '❌';
-      document.getElementById('pref-analytics').textContent = data.preferences.analytics ? '✅' : '❌';
-      document.getElementById('pref-performance').textContent = data.preferences.performance ? '✅' : '❌';
-    }
-
-    window.onload = function() {
-      const sessionId = getOrCreateSessionUser();
-      storeConsentUserStatus();
-      updateDashboard();
-
-      db.collection("consentLogs").orderBy("timestamp", "desc").onSnapshot(snapshot => {
-        const tableBody = document.getElementById('consent-log-table').getElementsByTagName('tbody')[0];
-        tableBody.innerHTML = '';
-
-        snapshot.forEach(doc => {
-          const logData = doc.data();
-          const row = tableBody.insertRow();
-          row.innerHTML = `
-            <td>${new Date(logData.timestamp.seconds * 1000).toLocaleString()}</td>
-            <td>${logData.action}</td>
-            <td>${logData.functional ? '✅' : '❌'}</td>
-            <td>${logData.analytics ? '✅' : '❌'}</td>
-            <td>${logData.performance ? '✅' : '❌'}</td>
-            <td>${logData.advertisement ? '✅' : '❌'}</td>
-            <td>${logData.sessionId}</td>
-          `;
+    function updateCounts() {
+      const ref = db.ref("cookie-consent");
+      ref.once("value", (snapshot) => {
+        let accept = 0, reject = 0, customize = 0;
+        snapshot.forEach((child) => {
+          const val = child.val();
+          if (val.action === "accept") accept++;
+          else if (val.action === "reject") reject++;
+          else if (val.action === "customize") customize++;
         });
+
+        document.getElementById("accept-count").querySelector("p").textContent = accept;
+        document.getElementById("reject-count").querySelector("p").textContent = reject;
+        document.getElementById("customize-count").querySelector("p").textContent = customize;
       });
-    };
+    }
+
+    // Live refresh every 5 seconds
+    setInterval(updateCounts, 5000);
+    updateCounts();
   </script>
 </body>
 </html>
