@@ -5,28 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css" />
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
 </head>
 <body>
   <div class="dashboard-wrapper">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="logo-placeholder">
-        <div class="logo-box">Your Logo</div>
-      </div>
-      <nav class="sidebar-nav">
-        <ul>
-          <li class="active"><a href="#dashboard">Dashboard</a></li>
-          <li><a href="#cookie-categories">Cookie Categories</a></li>
-          <li><a href="#customize-banner">Customize Banner</a></li>
-          <li><a href="#consent-logs">Consent Logs</a></li>
-          <li><a href="#consent-analytics">Consent Analytics</a></li>
-          <li><a href="#user-preferences">User Preferences</a></li>
-          <li><a href="#advanced-settings">Advanced Settings</a></li>
-        </ul>
-      </nav>
-    </aside>
+    <!-- Sidebar will be loaded here dynamically -->
+    <aside class="sidebar" id="sidebar-placeholder"></aside>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -59,6 +42,14 @@
   </div>
 
   <script>
+    // Dynamically load the Sidebar HTML from /shared/sidebar.html
+    fetch('/shared/sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        // Insert the fetched sidebar HTML into the sidebar-placeholder element
+        document.getElementById('sidebar-placeholder').innerHTML = data;
+      });
+
     // Firebase Config (replace with yours)
     const firebaseConfig = {
       apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
