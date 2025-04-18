@@ -193,27 +193,30 @@
         document.getElementById('rejected-consents').innerText = `Rejected: ${reject}`;
       }
 
-      function loadConsentData() {
-        firebase.database().ref('consent_logs').on('value', function (snapshot) {
-          const logs = snapshot.val();
-          const table = document.getElementById('consent-log-table');
-          table.innerHTML = '';
-          if (logs) {
-            updateDashboardCounts(logs);
-            Object.keys(logs).reverse().forEach(id => {
-              const row = document.createElement('tr');
-              row.innerHTML = `
-                <td>${logs[id].sessionID}</td>
-                <td>${logs[id].action}</td>
-                <td>${logs[id].timestamp}</td>
-              `;
-              table.appendChild(row);
-            });
-          }
-        });
-      }
+ function loadConsentData() {
+  firebase.database().ref('consent_logs').on('value', function (snapshot) {
+    const logs = snapshot.val();
+    const table = document.getElementById('consent-log-table');
+    table.innerHTML = '';
 
-      loadConsentData();
+    if (logs) {
+      updateDashboardCounts(logs);
+      Object.keys(logs).reverse().forEach(id => {
+        const log = logs[id]; // safer reference
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${log.session_id || 'N/A'}</td>
+          <td>${log.action || 'N/A'}</td>
+          <td>${log.timestamp || 'N/A'}</td>
+        `;
+        table.appendChild(row);
+      });
+    }
+  });
+}
+
+loadConsentData();
+
     });
   </script>
 
