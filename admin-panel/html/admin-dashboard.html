@@ -210,9 +210,7 @@
         // Extract session data and preferences for display
         const sessionID = log.session_id || 'N/A'; // Default to 'N/A' if not found
         const action = log.action || 'N/A';
-       
-       // Format the timestamp to a more readable format
-        const formattedTimestamp = new Date(log.timestamp).toLocaleString(); // This will format the timestamp
+        const timestamp = log.timestamp || 'N/A';
 
         row.innerHTML = `
           <td>${sessionID}</td>
@@ -226,6 +224,7 @@
 }
 
 loadConsentData();
+
 
     });
   </script>
