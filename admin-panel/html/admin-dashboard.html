@@ -1,158 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Cookie Consent</title>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-  <script>
-    // Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-      authDomain: "cookie-cmp-sys.firebaseapp.com",
-      databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
-      projectId: "cookie-cmp-sys",
-      storageBucket: "cookie-cmp-sys.firebasestorage.app",
-      messagingSenderId: "252822009652",
-      appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
-      measurementId: "G-DLGR6XFPP5"
-    };
-    
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    document.addEventListener("DOMContentLoaded", function() {
-      // Generate a unique session ID if not already set
-      function generateUniqueSessionID() {
-        return 'session_' + new Date().getTime() + Math.random().toString(36).substring(2);
-      }
-
-      // Initialize session ID and store in localStorage
-      if (!localStorage.getItem('sessionID')) {
-        localStorage.setItem('sessionID', generateUniqueSessionID());
-      }
-      const sessionID = localStorage.getItem('sessionID');
-
-      // Function to record consent actions
-      function recordConsentAction(action) {
-        const consentData = {
-          sessionID: sessionID,
-          action: action,
-          timestamp: new Date().toISOString(),
-        };
-        db.ref('consent_logs').push(consentData);
-      }
-
-      // Listen for "Accept All" button click
-      const acceptAllBtn = document.getElementById('accept-all');
-      if (acceptAllBtn) {
-        acceptAllBtn.addEventListener('click', function() {
-          gtag('consent', 'update', {
-            'ad_storage': 'granted',
-            'analytics_storage': 'granted',
-            'functionality_storage': 'granted',
-            'personalization_storage': 'granted',
-          });
-          recordConsentAction('accept');
-        });
-      }
-
-      // Listen for "Reject All" button click
-      const rejectAllBtn = document.getElementById('reject-all');
-      if (rejectAllBtn) {
-        rejectAllBtn.addEventListener('click', function() {
-          gtag('consent', 'update', {
-            'ad_storage': 'denied',
-            'analytics_storage': 'denied',
-            'functionality_storage': 'denied',
-            'personalization_storage': 'denied',
-          });
-          recordConsentAction('reject');
-        });
-      }
-
-      // Listen for "Customize" button click
-      const customizeBtn = document.getElementById('customize');
-      if (customizeBtn) {
-        customizeBtn.addEventListener('click', function() {
-          document.getElementById('cookie-customization-panel').style.display = 'block';
-        });
-      }
-
-      // Handle "Save Preferences" button
-      const savePreferencesBtn = document.getElementById('save-preferences');
-      if (savePreferencesBtn) {
-        savePreferencesBtn.addEventListener('click', function() {
-          const necessary = document.getElementById('necessary').checked;
-          const functional = document.getElementById('functional').checked;
-          const analytics = document.getElementById('analytics').checked;
-          const performance = document.getElementById('performance').checked;
-
-          gtag('consent', 'update', {
-            'ad_storage': performance ? 'granted' : 'denied',
-            'analytics_storage': analytics ? 'granted' : 'denied',
-            'functionality_storage': functional ? 'granted' : 'denied',
-            'personalization_storage': necessary ? 'granted' : 'denied',
-          });
-          recordConsentAction('customize');
-        });
-      }
-
-      // Display consent logs in the admin dashboard
-      function loadConsentData() {
-        db.ref('consent_logs').on('value', function(snapshot) {
-          const consentLogs = snapshot.val();
-          for (const logID in consentLogs) {
-            const log = consentLogs[logID];
-            displayConsentLog(log);
-          }
-        });
-      }
-
-      function displayConsentLog(log) {
-        const logRow = document.createElement('tr');
-        logRow.innerHTML = `
-          <td>${log.sessionID}</td>
-          <td>${log.action}</td>
-          <td>${log.timestamp}</td>
-        `;
-        document.getElementById('consent-log-table').appendChild(logRow);
-      }
-
-      loadConsentData(); // Call to load logs on page load
-    });
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css"> <!-- Ensure style.css is included correctly -->
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
 </head>
 <body>
-  <h1>Admin Dashboard</h1>
-  <!-- Cookie Consent Log Table -->
-  <table id="consent-log-table">
-    <thead>
-      <tr>
-        <th>Session ID</th>
-        <th>Action</th>
-        <th>Timestamp</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+    <!-- The main content with cards should remain intact here -->
+    <div id="card-container">
+        <!-- Example card layout, ensure your content is properly placed here -->
+        <div class="card">
+            <h3>Consent Actions</h3>
+            <div id="consent-log-table">
+                <!-- Table populated dynamically -->
+            </div>
+        </div>
+    </div>
 
-  <!-- Cookie Consent Banner Example -->
-  <div id="cookie-consent-banner">
-    <button id="accept-all">Accept All</button>
-    <button id="reject-all">Reject All</button>
-    <button id="customize">Customize</button>
-  </div>
+    <!-- Cookie Consent Panel -->
+    <div id="cookie-customization-panel" style="display:none;">
+        <label><input type="checkbox" id="necessary" /> Necessary</label><br>
+        <label><input type="checkbox" id="functional" /> Functional</label><br>
+        <label><input type="checkbox" id="analytics" /> Analytics</label><br>
+        <label><input type="checkbox" id="performance" /> Performance</label><br>
+        <button id="save-preferences">Save Preferences</button>
+    </div>
 
-  <!-- Cookie Customization Panel -->
-  <div id="cookie-customization-panel" style="display: none;">
-    <label><input type="checkbox" id="necessary" checked /> Necessary</label><br>
-    <label><input type="checkbox" id="functional" checked /> Functional</label><br>
-    <label><input type="checkbox" id="analytics" /> Analytics</label><br>
-    <label><input type="checkbox" id="performance" /> Performance</label><br>
-    <button id="save-preferences">Save Preferences</button>
-  </div>
+    <!-- Initialize Firebase -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+            authDomain: "cookie-cmp-sys.firebaseapp.com",
+            databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+            projectId: "cookie-cmp-sys",
+            storageBucket: "cookie-cmp-sys.firebasestorage.app",
+            messagingSenderId: "252822009652",
+            appId: "1:252822009652:web:6bfbdf28d98953ccb89761"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database(app);
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Generate session ID
+            function generateUniqueSessionID() {
+                return 'session_' + new Date().getTime() + Math.random().toString(36).substring(2);
+            }
+
+            // Initialize session ID (store it in localStorage for persistence across pages)
+            if (!localStorage.getItem('sessionID')) {
+                localStorage.setItem('sessionID', generateUniqueSessionID());
+            }
+
+            const sessionID = localStorage.getItem('sessionID');
+
+            // Function to log consent actions to Firebase
+            function recordConsentAction(action) {
+                const consentData = {
+                    sessionID: sessionID,
+                    action: action,
+                    timestamp: new Date().toISOString(),
+                };
+                // Log consent data to Firebase
+                database.ref('consent_logs').push(consentData);
+            }
+
+            // Ensure elements exist before attaching events
+            const acceptAllBtn = document.getElementById('accept-all');
+            const rejectAllBtn = document.getElementById('reject-all');
+            const customizeBtn = document.getElementById('customize');
+            const savePreferencesBtn = document.getElementById('save-preferences');
+            const rejectSomeBtn = document.getElementById('reject-some');
+
+            // Add event listeners only if the buttons exist
+            if (acceptAllBtn) {
+                acceptAllBtn.addEventListener('click', function() {
+                    // Update Google Consent Mode
+                    gtag('consent', 'update', {
+                        'ad_storage': 'granted',
+                        'analytics_storage': 'granted',
+                        'functionality_storage': 'granted',
+                        'personalization_storage': 'granted',
+                    });
+                    recordConsentAction('accept');
+                });
+            }
+
+            if (rejectAllBtn) {
+                rejectAllBtn.addEventListener('click', function() {
+                    gtag('consent', 'update', {
+                        'ad_storage': 'denied',
+                        'analytics_storage': 'denied',
+                        'functionality_storage': 'denied',
+                        'personalization_storage': 'denied',
+                    });
+                    recordConsentAction('reject');
+                });
+            }
+
+            if (customizeBtn) {
+                customizeBtn.addEventListener('click', function() {
+                    document.getElementById('cookie-customization-panel').style.display = 'block';
+                });
+            }
+
+            if (savePreferencesBtn) {
+                savePreferencesBtn.addEventListener('click', function() {
+                    const necessary = document.getElementById('necessary').checked;
+                    const functional = document.getElementById('functional').checked;
+                    const analytics = document.getElementById('analytics').checked;
+                    const performance = document.getElementById('performance').checked;
+
+                    gtag('consent', 'update', {
+                        'ad_storage': performance ? 'granted' : 'denied',
+                        'analytics_storage': analytics ? 'granted' : 'denied',
+                        'functionality_storage': functional ? 'granted' : 'denied',
+                        'personalization_storage': necessary ? 'granted' : 'denied',
+                    });
+
+                    recordConsentAction('customize');
+                });
+            }
+
+            if (rejectSomeBtn) {
+                rejectSomeBtn.addEventListener('click', function() {
+                    gtag('consent', 'update', {
+                        'ad_storage': 'denied',
+                        'analytics_storage': 'denied',
+                        'functionality_storage': 'denied',
+                        'personalization_storage': 'denied',
+                    });
+                    recordConsentAction('reject_some');
+                });
+            }
+
+            // Fetch consent logs (from Firebase or another backend)
+            function loadConsentData() {
+                database.ref('consent_logs').on('value', function(snapshot) {
+                    const consentLogs = snapshot.val();
+                    for (const logID in consentLogs) {
+                        const log = consentLogs[logID];
+                        displayConsentLog(log);
+                    }
+                });
+            }
+
+            // Display the consent logs in the admin panel
+            function displayConsentLog(log) {
+                const logRow = document.createElement('tr');
+                logRow.innerHTML = `
+                    <td>${log.sessionID}</td>
+                    <td>${log.action}</td>
+                    <td>${log.timestamp}</td>
+                `;
+                document.getElementById('consent-log-table').appendChild(logRow);
+            }
+
+            // Call loadConsentData to fetch and display logs
+            loadConsentData();
+        });
+    </script>
 </body>
 </html>
