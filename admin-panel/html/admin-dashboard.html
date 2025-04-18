@@ -116,7 +116,6 @@
 
       const recentLog = JSON.parse(localStorage.getItem('recent-activity') || '[]');
 
-      // Track Accept All, Reject All, and Customize actions
       if (consent.accepted) {
         let list = JSON.parse(localStorage.getItem('accepted-users') || '[]');
         if (!list.includes(sessionId)) {
@@ -186,7 +185,6 @@
         recentActivityList.appendChild(li);
       });
 
-      // Display preferences
       document.getElementById('pref-functional').textContent = data.preferences.functional ? '✅' : '❌';
       document.getElementById('pref-analytics').textContent = data.preferences.analytics ? '✅' : '❌';
       document.getElementById('pref-performance').textContent = data.preferences.performance ? '✅' : '❌';
@@ -197,10 +195,9 @@
       storeConsentUserStatus();
       updateDashboard();
 
-      // Consent logs from Firestore
       db.collection("consentLogs").orderBy("timestamp", "desc").onSnapshot(snapshot => {
         const tableBody = document.getElementById('consent-log-table').getElementsByTagName('tbody')[0];
-        tableBody.innerHTML = ''; // Clear existing logs
+        tableBody.innerHTML = '';
 
         snapshot.forEach(doc => {
           const logData = doc.data();
