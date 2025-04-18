@@ -129,7 +129,7 @@
       if (!localStorage.getItem('sessionID')) {
         localStorage.setItem('sessionID', generateUniqueSessionID());
       }
-      const sessionID = localStorage.getItem('sessionID');
+      const sessionID = localStorage.getItem('user_session_id') || localStorage.getItem('sessionID');
 
       function recordConsentAction(action) {
         const data = {
