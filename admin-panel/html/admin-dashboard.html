@@ -220,4 +220,46 @@
           document.getElementById('acceptAll').onclick = function() {
             var prefs = {
               ad_storage: 'granted',
-              analytics_storage
+              analytics_storage: 'granted',
+              functional_storage: 'granted',
+              performance_storage: 'granted'
+            };
+            saveConsentLog('accept', prefs);
+            updateConsentMode(prefs);
+            banner.style.display = 'none';
+          };
+
+          document.getElementById('rejectAll').onclick = function() {
+            var prefs = {
+              ad_storage: 'denied',
+              analytics_storage: 'denied',
+              functional_storage: 'denied',
+              performance_storage: 'denied'
+            };
+            saveConsentLog('reject', prefs);
+            updateConsentMode(prefs);
+            banner.style.display = 'none';
+          };
+
+          document.getElementById('customize').onclick = function() {
+            document.getElementById('customPanel').style.display = 'block';
+          };
+
+          document.getElementById('savePrefs').onclick = function() {
+            var prefs = {
+              ad_storage: document.getElementById('functional').checked ? 'granted' : 'denied',
+              analytics_storage: document.getElementById('analytics').checked ? 'granted' : 'denied',
+              performance_storage: document.getElementById('performance').checked ? 'granted' : 'denied'
+            };
+            saveConsentLog('customize', prefs);
+            updateConsentMode(prefs);
+            banner.style.display = 'none';
+          };
+        };
+        document.body.appendChild(script2);
+      };
+      document.body.appendChild(script1);
+    })();
+  </script>
+</body>
+</html>
