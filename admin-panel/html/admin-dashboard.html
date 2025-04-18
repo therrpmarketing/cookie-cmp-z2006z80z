@@ -194,20 +194,28 @@
       }
 
  function loadConsentData() {
-  firebase.database().ref('consent_logs').on('value', function (snapshot) {
+  firebase.database().ref('consent_logs').on('value', function(snapshot) {
     const logs = snapshot.val();
     const table = document.getElementById('consent-log-table');
-    table.innerHTML = '';
+    table.innerHTML = ''; // Clear the table
 
     if (logs) {
-      updateDashboardCounts(logs);
+      updateDashboardCounts(logs); // Function to update any counts/statistics
+
+      // Loop through the logs and populate the table
       Object.keys(logs).reverse().forEach(id => {
-        const log = logs[id]; // safer reference
+        const log = logs[id]; // Each log entry
         const row = document.createElement('tr');
+
+        // Extract session data and preferences for display
+        const sessionID = log.session_id || 'N/A'; // Default to 'N/A' if not found
+        const action = log.action || 'N/A';
+        const timestamp = log.timestamp || 'N/A';
+
         row.innerHTML = `
-          <td>${log.session_id || 'N/A'}</td>
-          <td>${log.action || 'N/A'}</td>
-          <td>${log.timestamp || 'N/A'}</td>
+          <td>${sessionID}</td>
+          <td>${action}</td>
+          <td>${timestamp}</td>
         `;
         table.appendChild(row);
       });
