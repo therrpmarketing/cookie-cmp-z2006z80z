@@ -210,16 +210,21 @@
         // Extract session data and preferences for display
         const sessionID = log.session_id || 'N/A'; // Default to 'N/A' if not found
         const action = log.action || 'N/A';
-        // Format the timestamp to a more readable format
-        const formattedTimestamp = new Date(log.timestamp).toLocaleString('en-US', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-        });
+       
+       // Check if the timestamp exists and is a valid date
+        let formattedTimestamp = 'Invalid Date';
+        if (log.timestamp && !isNaN(new Date(log.timestamp))) {
+          // Format the timestamp to a more readable format
+          formattedTimestamp = new Date(log.timestamp).toLocaleString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+          });
+        }
 
         row.innerHTML = `
           <td>${sessionID}</td>
