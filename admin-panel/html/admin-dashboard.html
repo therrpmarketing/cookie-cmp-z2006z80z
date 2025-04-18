@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css" />
+  <link rel="stylesheet" href="style.css" />
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
 </head>
@@ -50,16 +50,16 @@
         </div>
       </section>
 
-      <!-- Graph Area -->
+      <!-- Consent Graph -->
       <section class="graph-section">
-        <h2>Consent Trends</h2>
-        <canvas id="consentChart" width="600" height="300" style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 12px;"></canvas>
+        <h2>Consent Trends (Last 7 Days)</h2>
+        <canvas id="consentChart" width="600" height="300"></canvas>
       </section>
     </main>
   </div>
 
   <script>
-    // Firebase Config (replace with yours if needed)
+    // Firebase Config (replace with yours)
     const firebaseConfig = {
       apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
       authDomain: "cookie-cmp-sys.firebaseapp.com",
@@ -73,94 +73,89 @@
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    function updateCountsAndChart() {
+    function updateCounts() {
       const ref = db.ref("cookie-consent");
-      ref.once("value", function(snapshot) {
-        var accept = 0, reject = 0, customize = 0;
-        var timestamps = {};
-
-        snapshot.forEach(function(child) {
-          var val = child.val();
-          var action = val.action;
-          var ts = new Date(val.timestamp || child.key * 1);
-          var label = ts.getFullYear() + "-" + (ts.getMonth()+1) + "-" + ts.getDate();
-
-          if (!timestamps[label]) {
-            timestamps[label] = { accept: 0, reject: 0, customize: 0 };
-          }
-
-          if (action === "accept") {
-            accept++;
-            timestamps[label].accept++;
-          } else if (action === "reject") {
-            reject++;
-            timestamps[label].reject++;
-          } else if (action === "customize") {
-            customize++;
-            timestamps[label].customize++;
-          }
+      ref.once("value", (snapshot) => {
+        let accept = 0, reject = 0, customize = 0;
+        snapshot.forEach((child) => {
+          const val = child.val();
+          if (val.action === "accept") accept++;
+          else if (val.action === "reject") reject++;
+          else if (val.action === "customize") customize++;
         });
 
-        // Update Stat Cards
         document.getElementById("accept-count").querySelector("p").textContent = accept;
         document.getElementById("reject-count").querySelector("p").textContent = reject;
         document.getElementById("customize-count").querySelector("p").textContent = customize;
-
-        // Prepare Chart Data
-        var labels = [];
-        var acceptData = [], rejectData = [], customizeData = [];
-
-        for (var day in timestamps) {
-          labels.push(day);
-          acceptData.push(timestamps[day].accept);
-          rejectData.push(timestamps[day].reject);
-          customizeData.push(timestamps[day].customize);
-        }
-
-        drawChart(labels, acceptData, rejectData, customizeData);
       });
     }
 
-    function drawChart(labels, acceptData, rejectData, customizeData) {
-      var canvas = document.getElementById("consentChart");
-      var ctx = canvas.getContext("2d");
+    // Call once and then repeat
+    updateCounts();
+    setInterval(updateCounts, 5000);
+
+    // Graph Data Function
+    function drawChart(data) {
+      const canvas = document.getElementById("consentChart");
+      const ctx = canvas.getContext("2d");
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      var width = canvas.width;
-      var height = canvas.height;
-      var padding = 40;
-      var barWidth = 20;
-      var max = Math.max.apply(null, acceptData.concat(rejectData, customizeData)) || 1;
-      var gap = 10;
+      const days = data.map(item => item.date);
+      const acceptCounts = data.map(item => item.accept);
+      const rejectCounts = data.map(item => item.reject);
+      const customizeCounts = data.map(item => item.customize);
 
-      for (var i = 0; i < labels.length; i++) {
-        var x = padding + i * (barWidth * 3 + gap);
-        var yAccept = height - padding - (acceptData[i] / max) * (height - 2 * padding);
-        var yReject = height - padding - (rejectData[i] / max) * (height - 2 * padding);
-        var yCustomize = height - padding - (customizeData[i] / max) * (height - 2 * padding);
+      const maxVal = Math.max(...acceptCounts, ...rejectCounts, ...customizeCounts, 10);
+      const barWidth = 40;
+      const spacing = 80;
 
-        // Accept Bar
-        ctx.fillStyle = "#28a745";
-        ctx.fillRect(x, yAccept, barWidth, height - padding - yAccept);
+      days.forEach((day, index) => {
+        const x = index * spacing + 60;
+        const scale = 200 / maxVal;
 
-        // Reject Bar
-        ctx.fillStyle = "#dc3545";
-        ctx.fillRect(x + barWidth, yReject, barWidth, height - padding - yReject);
+        ctx.fillStyle = "#4CAF50";
+        ctx.fillRect(x, 280 - acceptCounts[index] * scale, barWidth, acceptCounts[index] * scale);
 
-        // Customize Bar
-        ctx.fillStyle = "#ffc107";
-        ctx.fillRect(x + barWidth * 2, yCustomize, barWidth, height - padding - yCustomize);
+        ctx.fillStyle = "#F44336";
+        ctx.fillRect(x + barWidth + 5, 280 - rejectCounts[index] * scale, barWidth, rejectCounts[index] * scale);
 
-        // Label
-        ctx.fillStyle = "#333";
-        ctx.font = "10px sans-serif";
-        ctx.fillText(labels[i], x, height - padding + 12);
-      }
+        ctx.fillStyle = "#FF9800";
+        ctx.fillRect(x + 2 * (barWidth + 5), 280 - customizeCounts[index] * scale, barWidth, customizeCounts[index] * scale);
+
+        ctx.fillStyle = "#000";
+        ctx.font = "12px Arial";
+        ctx.fillText(day, x + 15, 295);
+      });
     }
 
-    // Live refresh
-    setInterval(updateCountsAndChart, 5000);
-    updateCountsAndChart();
+    // Fetch and Prepare Chart Data
+    function updateChart() {
+      const ref = db.ref("cookie-consent");
+      ref.once("value", (snapshot) => {
+        const counts = {};
+
+        snapshot.forEach(child => {
+          const val = child.val();
+          const date = new Date(val.timestamp || Date.now());
+          const key = date.toISOString().split('T')[0];
+
+          if (!counts[key]) {
+            counts[key] = { accept: 0, reject: 0, customize: 0, date: key };
+          }
+
+          if (val.action === "accept") counts[key].accept++;
+          else if (val.action === "reject") counts[key].reject++;
+          else if (val.action === "customize") counts[key].customize++;
+        });
+
+        const sorted = Object.values(counts).sort((a, b) => a.date.localeCompare(b.date)).slice(-7);
+        drawChart(sorted);
+      });
+    }
+
+    updateChart();
+    setInterval(updateChart, 10000);
   </script>
 </body>
 </html>
