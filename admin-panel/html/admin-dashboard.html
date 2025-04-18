@@ -43,7 +43,7 @@
 
   <script>
     // Dynamically load the Sidebar HTML from /shared/sidebar.html
-    fetch('/shared/sidebar.html')
+    fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
       .then(response => response.text())
       .then(data => {
         // Insert the fetched sidebar HTML into the sidebar-placeholder element
@@ -148,5 +148,22 @@
     updateChart();
     setInterval(updateChart, 10000);
   </script>
+
+  <script>
+  // Function to load sidebar HTML content dynamically
+  function loadSidebar() {
+    fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')  // Full URL
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar-container').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading sidebar:', error));
+  }
+
+  // Call the loadSidebar function when the page loads
+  window.onload = loadSidebar;
+</script>
+</body>
+
 </body>
 </html>
