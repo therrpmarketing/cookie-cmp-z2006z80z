@@ -149,5 +149,75 @@
     updateChart();
     setInterval(updateChart, 10000);
   </script>
-</body>
-</html>
+
+  <script>
+    // Firebase Config (Do NOT use import/export in GTM)
+    var firebaseConfig = {
+      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+      authDomain: "cookie-cmp-sys.firebaseapp.com",
+      databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+      projectId: "cookie-cmp-sys",
+      storageBucket: "cookie-cmp-sys.appspot.com",
+      messagingSenderId: "252822009652",
+      appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
+      measurementId: "G-DLGR6XFPP5"
+    };
+
+    (function() {
+      var script1 = document.createElement('script');
+      script1.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js';
+      script1.onload = function() {
+        var script2 = document.createElement('script');
+        script2.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js';
+        script2.onload = function() {
+          firebase.initializeApp(firebaseConfig);
+          var db = firebase.database();
+
+          // Utilities
+          function generateSessionId() {
+            return 'sess_' + Math.random().toString(36).substr(2, 9);
+          }
+
+          function saveConsentLog(action, preferences) {
+            var sessionId = localStorage.getItem('user_session_id') || generateSessionId();
+            localStorage.setItem('user_session_id', sessionId);
+            var timestamp = new Date().toISOString();
+            var logData = {
+              session_id: sessionId,
+              action: action,
+              preferences: preferences,
+              timestamp: timestamp
+            };
+            db.ref('consent_logs/' + sessionId).set(logData);
+          }
+
+          function updateConsentMode(preferences) {
+            if (typeof window.gtag === 'function') {
+              window.gtag('consent', 'update', preferences);
+            }
+          }
+
+          // Banner HTML + CSS
+          var banner = document.createElement('div');
+          banner.id = 'cookie-banner';
+          banner.style = 'position: fixed; bottom: 20px; right: 20px; max-width: 360px; background: #fff; border: 1px solid #ccc; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.15); border-radius: 10px; z-index: 99999; font-family: Arial, sans-serif;';
+          banner.innerHTML =
+            '<strong style="font-size: 18px; display:block; margin-bottom: 10px;">We use cookies 🍪</strong>' +
+            '<p style="font-size: 14px; margin-bottom: 10px;">To improve your experience. You can manage your preferences.</p>' +
+            '<button id="acceptAll" style="margin-right: 10px; padding: 8px 12px; background-color: #2E7D32; color: white; border: none; border-radius: 4px;">Accept All</button>' +
+            '<button id="rejectAll" style="margin-right: 10px; padding: 8px 12px; background-color: #C62828; color: white; border: none; border-radius: 4px;">Reject All</button>' +
+            '<button id="customize" style="padding: 8px 12px; background-color: #0277BD; color: white; border: none; border-radius: 4px;">Customize</button>' +
+            '<div id="customPanel" style="display:none; margin-top:15px;">' +
+              '<label><input type="checkbox" id="functional" checked /> Functional</label><br>' +
+              '<label><input type="checkbox" id="analytics" /> Analytics</label><br>' +
+              '<label><input type="checkbox" id="performance" /> Performance</label><br>' +
+              '<br><button id="savePrefs" style="padding: 6px 10px; background:#555; color:#fff; border:none; border-radius:4px;">Save Preferences</button>' +
+            '</div>';
+
+          document.body.appendChild(banner);
+
+          // Button Handlers
+          document.getElementById('acceptAll').onclick = function() {
+            var prefs = {
+              ad_storage: 'granted',
+              analytics_storage
