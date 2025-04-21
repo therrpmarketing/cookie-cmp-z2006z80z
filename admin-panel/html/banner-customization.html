@@ -7,53 +7,50 @@
   <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
 </head>
 <body>
+
   <!-- Sidebar -->
   <div id="sidebar"></div>
 
-  <!-- Main Content -->
+  <!-- Main Content Area -->
   <div class="main-content">
-    <h1>Customize Consent Banner</h1>
-    <p>Configure the appearance and behavior of your cookie consent banner.</p>
+    <h1>Banner Customization</h1>
+    <p>Use the form below to customize the appearance and settings of your cookie banner.</p>
 
     <div class="card">
       <h2>Banner Text</h2>
-      <label for="banner-message">Consent Message:</label>
-      <textarea id="banner-message" class="cmp-input" rows="4" placeholder="Enter your banner message here..."></textarea>
+      <label for="banner-message">Message:</label>
+      <textarea id="banner-message" class="cmp-input" rows="4" placeholder="Enter banner message..."></textarea>
     </div>
 
     <div class="card">
       <h2>Button Labels</h2>
-      <label for="accept-label">Accept Button Text:</label>
-      <input type="text" id="accept-label" class="cmp-input" placeholder="e.g. Accept All" />
+      <label for="accept-label">Accept Button:</label>
+      <input type="text" id="accept-label" class="cmp-input" placeholder="Accept All" />
 
-      <label for="reject-label">Reject Button Text:</label>
-      <input type="text" id="reject-label" class="cmp-input" placeholder="e.g. Reject All" />
+      <label for="reject-label">Reject Button:</label>
+      <input type="text" id="reject-label" class="cmp-input" placeholder="Reject All" />
 
-      <label for="customize-label">Customize Button Text:</label>
-      <input type="text" id="customize-label" class="cmp-input" placeholder="e.g. Customize Preferences" />
+      <label for="customize-label">Customize Button:</label>
+      <input type="text" id="customize-label" class="cmp-input" placeholder="Customize" />
     </div>
 
     <div class="card">
-      <h2>Banner Position</h2>
-      <select class="cmp-select">
-        <option value="bottom">Bottom</option>
-        <option value="top">Top</option>
-        <option value="center">Center (Boxed)</option>
+      <h2>Theme Options</h2>
+      <label for="theme-select">Choose Banner Theme:</label>
+      <select id="theme-select" class="cmp-select">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="transparent">Transparent</option>
       </select>
     </div>
 
     <div class="card">
-      <h2>Theme Color</h2>
-      <label for="theme-color">Primary Color:</label>
-      <input type="color" id="theme-color" class="cmp-input" value="#000000" />
-    </div>
-
-    <div class="card">
-      <button class="cmp-button">Save Customization</button>
+      <h2>Preview & Save</h2>
+      <button class="cmp-button">Preview Banner</button>
+      <button class="cmp-button cmp-button-primary">Save Customization</button>
     </div>
   </div>
 
-  <!-- Load Sidebar -->
   <script>
     fetch('../../shared/sidebar.html')
       .then(response => response.text())
@@ -61,5 +58,6 @@
         document.getElementById('sidebar').innerHTML = data;
       });
   </script>
+
 </body>
 </html>
