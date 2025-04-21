@@ -3,37 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; connect-src 'self'">
     <title>Banner Customization</title>
-    <link rel="stylesheet" href="../cmp-css/cmp-style.css">
+    <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css">
 </head>
 <body>
     <!-- Sidebar -->
     <div id="sidebar"></div>
 
     <div class="main-content">
-        <h1>Banner Customization</h1>
-        <p>Customize your cookie consent banner here.</p>
+        <h1>Customize Banner</h1>
+        <p>Modify the cookie banner settings below.</p>
 
-        <div class="banner-options">
-            <label for="banner-text">Banner Text</label>
-            <input type="text" id="banner-text" placeholder="Enter your banner text">
+        <!-- Preview Button (Styled like in cookie categories page) -->
+        <button class="cookie-categories button">Preview</button>
 
-            <label for="banner-color">Banner Background Color</label>
-            <input type="color" id="banner-color">
-
-            <div class="button-group">
-                <button class="cookie-categories button">Save Settings</button>
-                <button class="cookie-categories button">Cancel</button>
-            </div>
-        </div>
+        <!-- Save Button (Styled like in cookie categories page) -->
+        <button class="cookie-categories button">Save Changes</button>
     </div>
 
     <script>
-        fetch('../shared/sidebar.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('sidebar').innerHTML = data;
-        });
+        // Fetch sidebar content
+        fetch('../../shared/sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar').innerHTML = data;
+            });
     </script>
 </body>
 </html>
