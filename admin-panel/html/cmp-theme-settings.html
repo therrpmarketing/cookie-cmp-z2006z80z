@@ -5,63 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CMP Theme Settings</title>
 
-  <!-- CMP Styles (Namespaced) -->
+  <!-- CMP Namespaced Styles -->
   <link rel="stylesheet" href="../cmp-assets/cmp-css/cmp-style.css" />
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
 </head>
 <body>
-  <!-- Dynamic CMP Sidebar will inject here -->
-  <div id="cmp-sidebar-container"></div>
+  <div class="cmp-layout">
+    <!-- Sidebar Container (Loaded via JS) -->
+    <div id="cmp-sidebar-container" class="cmp-sidebar"></div>
 
-  <!-- Main CMP Content -->
-  <div class="cmp-main-content">
-    <div class="cmp-container">
-      <h1 class="cmp-header">🖌️ Customize CMP Theme</h1>
+    <!-- Main Content -->
+    <div class="cmp-main-content">
+      <div class="cmp-container">
+        <div class="cmp-card">
+          <h1 class="cmp-header">🖌️ Customize CMP Theme</h1>
 
-      <div class="cmp-settings-form">
-        <label for="backgroundColorPicker">
-          Background Color:
-          <input type="color" id="backgroundColorPicker" />
-        </label>
+          <div class="cmp-settings-form">
+            <label for="backgroundColorPicker">
+              Background Color:
+              <input type="color" id="backgroundColorPicker" />
+            </label>
 
-        <label for="textColorPicker">
-          Text Color:
-          <input type="color" id="textColorPicker" />
-        </label>
+            <label for="textColorPicker">
+              Text Color:
+              <input type="color" id="textColorPicker" />
+            </label>
 
-        <label for="buttonColorPicker">
-          Button Color:
-          <input type="color" id="buttonColorPicker" />
-        </label>
+            <label for="buttonColorPicker">
+              Button Color:
+              <input type="color" id="buttonColorPicker" />
+            </label>
 
-        <button id="saveThemeSettings" class="cmp-save-button">💾 Save Settings</button>
+            <button class="cmp-save-button" id="save-theme-btn">💾 Save Theme</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Dynamic CMP Sidebar Script -->
+  <!-- Dynamic Sidebar Loader -->
   <script>
-    const cmpSidebarHTML = `
-      <div class="cmp-sidebar">
-        <div class="cmp-sidebar-logo">🍪 CMP Panel</div>
-        <ul class="cmp-sidebar-nav">
-          <li><a href="../admin-panel/html/dashboard.html">📊 Dashboard</a></li>
-          <li><a href="../admin-panel/html/cmp-theme-settings.html" class="active">🎨 Theme Settings</a></li>
-          <li><a href="../admin-panel/html/consent-analytics.html">📈 Consent Analytics</a></li>
-        </ul>
-      </div>
-    `;
-    document.getElementById('cmp-sidebar-container').innerHTML = cmpSidebarHTML;
+    fetch("../cmp-assets/cmp-components/sidebar.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("cmp-sidebar-container").innerHTML = data;
+      });
   </script>
 
-  <!-- CMP Firebase Theme Logic -->
+  <!-- Firebase Theme Saving -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
     import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
 
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
       authDomain: "cookie-cmp-sys.firebaseapp.com",
@@ -73,30 +72,31 @@
       measurementId: "G-DLGR6XFPP5"
     };
 
+    // Init Firebase
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-    const themeRef = ref(db, "cmpThemeSettings");
 
+    // Inputs
     const bgInput = document.getElementById("backgroundColorPicker");
     const textInput = document.getElementById("textColorPicker");
     const btnInput = document.getElementById("buttonColorPicker");
-    const saveBtn = document.getElementById("saveThemeSettings");
+    const saveBtn = document.getElementById("save-theme-btn");
 
+    const themeRef = ref(db, "cmpThemeSettings");
+
+    // Load current values
     get(themeRef).then((snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
         if (data.backgroundColor) bgInput.value = data.backgroundColor;
         if (data.textColor) textInput.value = data.textColor;
         if (data.buttonColor) btnInput.value = data.buttonColor;
-
-        document.documentElement.style.setProperty('--cmp-background-color', data.backgroundColor);
-        document.documentElement.style.setProperty('--cmp-text-color', data.textColor);
-        document.documentElement.style.setProperty('--cmp-button-color', data.buttonColor);
       }
     }).catch((error) => {
-      console.error("⚠️ Error fetching theme:", error);
+      console.error("Error fetching theme:", error);
     });
 
+    // Save theme
     saveBtn.addEventListener("click", () => {
       const newTheme = {
         backgroundColor: bgInput.value,
@@ -105,15 +105,8 @@
       };
 
       set(themeRef, newTheme)
-        .then(() => {
-          alert("🎉 Theme settings saved!");
-          document.documentElement.style.setProperty('--cmp-background-color', newTheme.backgroundColor);
-          document.documentElement.style.setProperty('--cmp-text-color', newTheme.textColor);
-          document.documentElement.style.setProperty('--cmp-button-color', newTheme.buttonColor);
-        })
-        .catch((error) => {
-          console.error("❌ Error saving theme:", error);
-        });
+        .then(() => alert("🎉 Theme settings saved!"))
+        .catch((error) => console.error("Error saving theme:", error));
     });
   </script>
 </body>
