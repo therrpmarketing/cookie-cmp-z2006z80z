@@ -10,85 +10,55 @@
   <!-- Sidebar -->
   <div id="sidebar"></div>
 
-  <!-- Main Content -->
-  <div class="cmp-main-content">
-    <div class="cmp-page-header">
-      <h1>Customize Cookie Banner</h1>
-      <p>Manage how your cookie consent banner looks and behaves on your website.</p>
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <h1>Customize Cookie Banner</h1>
+    <p>Configure how your cookie consent banner appears and behaves across the site. You can update the banner’s text, button labels, theme, position, and more.</p>
+
+    <div class="card">
+      <h2>Banner Text</h2>
+      <input type="text" placeholder="Enter consent message..." class="cmp-input" />
     </div>
 
-    <div class="cmp-section">
-      <h2>Banner Appearance</h2>
-      <div class="cmp-form-group">
-        <label for="banner-theme">Select Theme</label>
-        <select id="banner-theme">
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-          <option value="custom">Custom</option>
-        </select>
-      </div>
-
-      <div class="cmp-form-group">
-        <label for="banner-position">Banner Position</label>
-        <select id="banner-position">
-          <option value="bottom">Bottom</option>
-          <option value="top">Top</option>
-          <option value="center">Center Modal</option>
-        </select>
-      </div>
+    <div class="card">
+      <h2>Button Labels</h2>
+      <label>Accept All:</label>
+      <input type="text" placeholder="e.g., Accept All" class="cmp-input" />
+      <label>Reject All:</label>
+      <input type="text" placeholder="e.g., Reject All" class="cmp-input" />
+      <label>Customize:</label>
+      <input type="text" placeholder="e.g., Customize Settings" class="cmp-input" />
     </div>
 
-    <div class="cmp-section">
-      <h2>Buttons Visibility</h2>
-      <div class="cmp-form-group">
-        <label><input type="checkbox" checked /> Show “Accept All” Button</label>
-      </div>
-      <div class="cmp-form-group">
-        <label><input type="checkbox" checked /> Show “Reject All” Button</label>
-      </div>
-      <div class="cmp-form-group">
-        <label><input type="checkbox" checked /> Show “Customize” Button</label>
-      </div>
+    <div class="card">
+      <h2>Banner Theme</h2>
+      <select class="cmp-select">
+        <option>Light</option>
+        <option>Dark</option>
+        <option>Minimal</option>
+      </select>
     </div>
 
-    <div class="cmp-section">
-      <h2>Text Labels</h2>
-      <div class="cmp-form-group">
-        <label for="banner-message">Banner Message</label>
-        <textarea id="banner-message" rows="3">We use cookies to enhance your experience. Customize your preferences below.</textarea>
-      </div>
-      <div class="cmp-form-group">
-        <label for="accept-label">Accept Button Label</label>
-        <input type="text" id="accept-label" value="Accept All" />
-      </div>
-      <div class="cmp-form-group">
-        <label for="reject-label">Reject Button Label</label>
-        <input type="text" id="reject-label" value="Reject All" />
-      </div>
-      <div class="cmp-form-group">
-        <label for="customize-label">Customize Button Label</label>
-        <input type="text" id="customize-label" value="Customize" />
-      </div>
+    <div class="card">
+      <h2>Banner Position</h2>
+      <select class="cmp-select">
+        <option>Bottom Center</option>
+        <option>Bottom Left</option>
+        <option>Bottom Right</option>
+        <option>Top Center</option>
+      </select>
     </div>
 
-    <div class="cmp-actions">
-      <button class="cmp-btn-primary">Save Settings</button>
-      <button class="cmp-btn-secondary">Reset to Default</button>
-    </div>
+    <button class="cmp-button">Save Customization</button>
   </div>
 
-  <!-- Load Sidebar -->
+  <!-- Load Shared Sidebar -->
   <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      fetch("../shared/sidebar.html")
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById("sidebar").innerHTML = data;
-        })
-        .catch(err => {
-          console.error("Sidebar load failed:", err);
-        });
-    });
+    fetch('../../shared/sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar').innerHTML = data;
+      });
   </script>
 </body>
 </html>
