@@ -12,68 +12,77 @@
 
   <!-- Main Content -->
   <div class="cmp-main-content">
-    <h1>Customize Cookie Banner</h1>
-    <p class="cmp-subtitle">Configure how your cookie consent banner appears and behaves.</p>
-
-    <div class="cmp-card">
-      <h2 class="cmp-card-title">Banner Texts</h2>
-      <label>Heading: <input type="text" class="cmp-input" placeholder="e.g. We use cookies" /></label>
-      <label>Message: <textarea class="cmp-textarea" placeholder="e.g. This site uses cookies to enhance user experience."></textarea></label>
-      <label>Accept Button Text: <input type="text" class="cmp-input" placeholder="e.g. Accept All" /></label>
-      <label>Reject Button Text: <input type="text" class="cmp-input" placeholder="e.g. Reject All" /></label>
-      <label>Customize Button Text: <input type="text" class="cmp-input" placeholder="e.g. Customize" /></label>
+    <div class="cmp-page-header">
+      <h1>Customize Cookie Banner</h1>
+      <p>Manage how your cookie consent banner looks and behaves on your website.</p>
     </div>
 
-    <div class="cmp-card">
-      <h2 class="cmp-card-title">Layout & Style</h2>
-      <label>Theme:
-        <select class="cmp-input">
-          <option>Light</option>
-          <option>Dark</option>
-          <option>Custom</option>
+    <div class="cmp-section">
+      <h2>Banner Appearance</h2>
+      <div class="cmp-form-group">
+        <label for="banner-theme">Theme</label>
+        <select id="banner-theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="custom">Custom</option>
         </select>
-      </label>
-      <label>Position:
-        <select class="cmp-input">
-          <option>Bottom Bar</option>
-          <option>Center Modal</option>
+      </div>
+
+      <div class="cmp-form-group">
+        <label for="banner-position">Position</label>
+        <select id="banner-position">
+          <option value="bottom">Bottom</option>
+          <option value="top">Top</option>
+          <option value="center">Center Modal</option>
         </select>
-      </label>
-      <label>Box Style:
-        <select class="cmp-input">
-          <option>Rounded</option>
-          <option>Square</option>
-        </select>
-      </label>
-      <label>Font Style:
-        <select class="cmp-input">
-          <option>Default</option>
-          <option>Serif</option>
-          <option>Sans-serif</option>
-        </select>
-      </label>
+      </div>
     </div>
 
-    <div class="cmp-card">
-      <h2 class="cmp-card-title">Visibility Options</h2>
-      <label><input type="checkbox" checked /> Show Customize Button</label>
-      <label><input type="checkbox" checked /> Show Reject Button</label>
+    <div class="cmp-section">
+      <h2>Buttons</h2>
+      <div class="cmp-form-group">
+        <label>
+          <input type="checkbox" checked />
+          Show “Accept All” Button
+        </label>
+      </div>
+      <div class="cmp-form-group">
+        <label>
+          <input type="checkbox" checked />
+          Show “Reject All” Button
+        </label>
+      </div>
+      <div class="cmp-form-group">
+        <label>
+          <input type="checkbox" checked />
+          Show “Customize” Button
+        </label>
+      </div>
     </div>
 
-    <div class="cmp-banner-preview">
-      <h2 class="cmp-card-title">Live Preview</h2>
-      <div class="cmp-banner-mockup">
-        <p>This site uses cookies to enhance the user experience.</p>
-        <div class="cmp-banner-buttons">
-          <button class="cmp-btn cmp-btn-accept">Accept All</button>
-          <button class="cmp-btn cmp-btn-reject">Reject All</button>
-          <button class="cmp-btn cmp-btn-customize">Customize</button>
-        </div>
+    <div class="cmp-section">
+      <h2>Text Customization</h2>
+      <div class="cmp-form-group">
+        <label for="banner-message">Banner Message</label>
+        <textarea id="banner-message" rows="3">We use cookies to enhance your experience. Customize your preferences below.</textarea>
+      </div>
+      <div class="cmp-form-group">
+        <label for="accept-label">Accept Button Label</label>
+        <input type="text" id="accept-label" value="Accept All" />
+      </div>
+      <div class="cmp-form-group">
+        <label for="reject-label">Reject Button Label</label>
+        <input type="text" id="reject-label" value="Reject All" />
+      </div>
+      <div class="cmp-form-group">
+        <label for="customize-label">Customize Button Label</label>
+        <input type="text" id="customize-label" value="Customize" />
       </div>
     </div>
 
     <div class="cmp-actions">
-      <button class="cmp-btn cmp-btn-primary">Save Changes</button>
+      <button class="cmp-btn-primary">Save Settings</button>
+      <button class="cmp-btn-secondary">Reset to Default</button>
     </div>
   </div>
 
