@@ -11,6 +11,7 @@ body {
     background-color: #f4f7fa;
     display: flex;
     min-height: 100vh;
+    color: var(--cmp-text-color);
 }
 
 /* Sidebar Styling */
@@ -154,6 +155,7 @@ header .cmp-description {
     background-color: #ccc;
 }
 
+/* Custom Theme Setting */
 :root {
   --cmp-background-color: #ffffff;
   --cmp-text-color: #000000;
@@ -173,3 +175,56 @@ button {
   border-radius: 6px;
 }
 
+/* Theme Setting Form Styling */
+.cmp-theme-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cmp-theme-form h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.cmp-theme-form label {
+    font-size: 1.2rem;
+    color: #555;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.cmp-theme-form input[type="color"] {
+    height: 40px;
+    width: 80px;
+}
+
+.cmp-theme-form .cmp-save-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.cmp-theme-form .cmp-save-button:hover {
+    background-color: #0056b3;
+}
+
+.cmp-theme-form .cmp-reset-button {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.cmp-theme-form .cmp-reset-button:hover {
+    background-color: #ccc;
+}
