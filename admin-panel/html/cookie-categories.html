@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self'; 
+      style-src 'self' 'unsafe-inline'; 
+      script-src 'self' 'unsafe-inline' https://therrpmarketing.github.io; 
+      img-src 'self' data:; 
+      connect-src 'self';">
     <title>Cookie Categories</title>
-    <link rel="stylesheet" href="../cmp-assets/cmp-css/cmp-style.css"> <!-- Link to common CMP styles -->
+    <link rel="stylesheet" href="../cmp-assets/cmp-css/cmp-style.css">
 </head>
 <body>
     <!-- Sidebar -->
