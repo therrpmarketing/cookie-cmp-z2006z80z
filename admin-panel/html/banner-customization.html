@@ -1,26 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customize Banner</title>
-    <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Banner Customization</title>
+  <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
 </head>
 <body>
-    <!-- Sidebar -->
-    <div id="sidebar"></div>
+  <!-- Sidebar -->
+  <div id="sidebar"></div>
 
-    <div class="main-content">
-        <h1>Customize Cookie Banner</h1>
-        <p>Here you can customize the cookie consent banner appearance and settings.</p>
+  <!-- Main Content -->
+  <div class="cmp-main-content">
+    <h1>Customize Cookie Banner</h1>
+    <p class="cmp-subtitle">Configure how your cookie consent banner appears and behaves.</p>
+
+    <div class="cmp-card">
+      <h2 class="cmp-card-title">Banner Texts</h2>
+      <label>Heading: <input type="text" class="cmp-input" placeholder="e.g. We use cookies" /></label>
+      <label>Message: <textarea class="cmp-textarea" placeholder="e.g. This site uses cookies to enhance user experience."></textarea></label>
+      <label>Accept Button Text: <input type="text" class="cmp-input" placeholder="e.g. Accept All" /></label>
+      <label>Reject Button Text: <input type="text" class="cmp-input" placeholder="e.g. Reject All" /></label>
+      <label>Customize Button Text: <input type="text" class="cmp-input" placeholder="e.g. Customize" /></label>
     </div>
 
-    <script>
-        fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('sidebar').innerHTML = data;
-        });
-    </script>
+    <div class="cmp-card">
+      <h2 class="cmp-card-title">Layout & Style</h2>
+      <label>Theme:
+        <select class="cmp-input">
+          <option>Light</option>
+          <option>Dark</option>
+          <option>Custom</option>
+        </select>
+      </label>
+      <label>Position:
+        <select class="cmp-input">
+          <option>Bottom Bar</option>
+          <option>Center Modal</option>
+        </select>
+      </label>
+      <label>Box Style:
+        <select class="cmp-input">
+          <option>Rounded</option>
+          <option>Square</option>
+        </select>
+      </label>
+      <label>Font Style:
+        <select class="cmp-input">
+          <option>Default</option>
+          <option>Serif</option>
+          <option>Sans-serif</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="cmp-card">
+      <h2 class="cmp-card-title">Visibility Options</h2>
+      <label><input type="checkbox" checked /> Show Customize Button</label>
+      <label><input type="checkbox" checked /> Show Reject Button</label>
+    </div>
+
+    <div class="cmp-banner-preview">
+      <h2 class="cmp-card-title">Live Preview</h2>
+      <div class="cmp-banner-mockup">
+        <p>This site uses cookies to enhance the user experience.</p>
+        <div class="cmp-banner-buttons">
+          <button class="cmp-btn cmp-btn-accept">Accept All</button>
+          <button class="cmp-btn cmp-btn-reject">Reject All</button>
+          <button class="cmp-btn cmp-btn-customize">Customize</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cmp-actions">
+      <button class="cmp-btn cmp-btn-primary">Save Changes</button>
+    </div>
+  </div>
+
+  <!-- Load Sidebar -->
+  <script>
+    fetch('../shared/sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar').innerHTML = data;
+      });
+  </script>
 </body>
 </html>
