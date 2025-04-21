@@ -153,3 +153,23 @@ header .cmp-description {
 .cmp-setting-item .cmp-reset-button:hover {
     background-color: #ccc;
 }
+
+:root {
+  --cmp-background-color: #ffffff;
+  --cmp-text-color: #000000;
+  --cmp-button-color: #ff5733;
+}
+
+body {
+  background-color: var(--cmp-background-color);
+  color: var(--cmp-text-color);
+}
+
+button {
+  background-color: var(--cmp-button-color);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+}
+
