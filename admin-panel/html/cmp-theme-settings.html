@@ -1,1 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CMP Theme Settings</title>
+  <link rel="stylesheet" href="/cmp-assets/css/cmp-style.css" />
+  <link rel="stylesheet" href="/cmp-assets/css/cmp-theme-settings.css" />
+</head>
+<body class="cmp-body">
+
+  <!-- Sidebar Navigation -->
+  <div class="cmp-sidebar">
+    <div class="cmp-logo">⚙️ CMP Admin</div>
+    <ul class="cmp-nav-list">
+      <li><a href="cmp-dashboard.html">Dashboard</a></li>
+      <li><a href="cmp-theme-settings.html" class="cmp-active">Theme Settings</a></li>
+      <li><a href="cmp-categories.html">Cookie Categories</a></li>
+      <li><a href="cmp-consent-logs.html">Consent Logs</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="cmp-main">
+    <div class="cmp-header">
+      <h1 class="cmp-page-title">🎨 Theme Settings</h1>
+      <p class="cmp-subtitle">Customize the look and feel of your CMP admin panel and consent banner.</p>
+    </div>
+
+    <form class="cmp-theme-form">
+      <!-- Fonts -->
+      <section class="cmp-section">
+        <h2 class="cmp-section-title">Fonts</h2>
+        <div class="cmp-row">
+          <label class="cmp-label">Font Family</label>
+          <input type="text" class="cmp-input" placeholder="e.g. Inter, Poppins, Roboto" />
+        </div>
+        <div class="cmp-row">
+          <label class="cmp-label">Base Font Size</label>
+          <input type="number" class="cmp-input" placeholder="16px" />
+        </div>
+      </section>
+
+      <!-- Colors -->
+      <section class="cmp-section">
+        <h2 class="cmp-section-title">Colors</h2>
+        <div class="cmp-grid-2">
+          <div class="cmp-row"><label class="cmp-label">Primary Color</label><input type="color" class="cmp-color" /></div>
+          <div class="cmp-row"><label class="cmp-label">Secondary Color</label><input type="color" class="cmp-color" /></div>
+          <div class="cmp-row"><label class="cmp-label">Background Color</label><input type="color" class="cmp-color" /></div>
+          <div class="cmp-row"><label class="cmp-label">Font Color</label><input type="color" class="cmp-color" /></div>
+        </div>
+      </section>
+
+      <!-- Buttons -->
+      <section class="cmp-section">
+        <h2 class="cmp-section-title">Buttons</h2>
+        <div class="cmp-grid-3">
+          <div class="cmp-row"><label class="cmp-label">Button Color</label><input type="color" class="cmp-color" /></div>
+          <div class="cmp-row"><label class="cmp-label">Hover Color</label><input type="color" class="cmp-color" /></div>
+          <div class="cmp-row"><label class="cmp-label">Border Radius</label><input type="text" class="cmp-input" placeholder="8px" /></div>
+        </div>
+      </section>
+
+      <!-- Cards -->
+      <section class="cmp-section">
+        <h2 class="cmp-section-title">Cards & Panels</h2>
+        <div class="cmp-grid-3">
+          <div class="cmp-row"><label class="cmp-label">Card Background</label><input type="color" class="cmp-color" /></div>
+          <div class="cmp-row"><label class="cmp-label">Card Shadow</label><input type="text" class="cmp-input" placeholder="0 2px 6px rgba(0,0,0,0.1)" /></div>
+          <div class="cmp-row"><label class="cmp-label">Card Border Radius</label><input type="text" class="cmp-input" placeholder="12px" /></div>
+        </div>
+      </section>
+
+      <!-- Sidebar Navigation Theme -->
+      <section class="cmp-section">
+        <h2 class="cmp-section-title">Sidebar Theme</h2>
+        <div class="cmp-grid-3">
+          <div class="cmp-row"><label class="cmp-label">Sidebar Background</label><input type="color" class="cmp-color" /></div>
+          <div class="cmp-row"><label class="cmp-label">Active Item Color</label><input type="color" class="cmp-color" /></div>
+          <div class="cmp-row"><label class="cmp-label">Sidebar Font Color</label><input type="color" class="cmp-color" /></div>
+        </div>
+      </section>
+
+      <!-- Live Preview Placeholder -->
+      <section class="cmp-section">
+        <h2 class="cmp-section-title">Live Preview</h2>
+        <div class="cmp-preview-box">
+          <div class="cmp-preview-card">
+            <h3 class="cmp-preview-title">Preview Title</h3>
+            <p>This is how your CMP will appear with the current settings.</p>
+            <button class="cmp-btn">Example Button</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="cmp-action-row">
+        <button type="submit" class="cmp-btn cmp-primary">Save Theme</button>
+        <button type="reset" class="cmp-btn cmp-secondary">Reset</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="/cmp-assets/js/cmp-theme-settings.js"></script>
+</body>
+</html>
 
