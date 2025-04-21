@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cookie Categories</title>
-    <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css">
+    <link rel="stylesheet" href="../cmp-assets/cmp-css/cmp-style.css"> <!-- Link to common CMP styles -->
 </head>
 <body>
     <!-- Sidebar -->
@@ -13,13 +13,57 @@
     <div class="main-content">
         <h1>Cookie Categories</h1>
         <p>Manage cookie categories here.</p>
+
+        <!-- Cookie Categories Management -->
+        <div class="cookie-categories">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category Name</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="categories-list">
+                    <!-- Dynamically populated list of categories will go here -->
+                </tbody>
+            </table>
+
+            <button class="add-category-btn">Add New Category</button>
+        </div>
     </div>
 
     <script>
-        fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
+        // Load sidebar dynamically
+        fetch('../shared/sidebar.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('sidebar').innerHTML = data;
+        });
+
+        // JavaScript to manage cookie categories (for toggling, adding new categories, etc.)
+        document.querySelector('.add-category-btn').addEventListener('click', function() {
+            alert("Add a new cookie category!");
+            // Add new category logic here
+        });
+
+        // Example category data for demo (this can be replaced with dynamic data)
+        const categories = [
+            { name: "Necessary", description: "Required for basic site functionality." },
+            { name: "Functional", description: "Improves the functionality of the site." },
+            { name: "Analytics", description: "Used for analyzing user behavior." },
+            { name: "Performance", description: "Improves site performance and speed." }
+        ];
+
+        const categoriesList = document.getElementById('categories-list');
+        categories.forEach(category => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${category.name}</td>
+                <td>${category.description}</td>
+                <td><button class="edit-btn">Edit</button> <button class="delete-btn">Delete</button></td>
+            `;
+            categoriesList.appendChild(row);
         });
     </script>
 </body>
