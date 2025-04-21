@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CMP Theme Settings</title>
-  <!-- Relative path to the stylesheet -->
+  <!-- Correct relative path to the stylesheet -->
   <link rel="stylesheet" href="../cmp-assets/cmp-css/cmp-style.css" />
 </head>
 <body>
@@ -22,34 +22,35 @@
   <!-- Main Content Area -->
   <div class="main-content">
     <div class="cmp-container">
-      <h1>🖌️ Customize CMP Theme</h1>
+      <h1 class="header">🖌️ Customize CMP Theme</h1>
 
-      <label>
-        Background Color:
-        <input type="color" id="backgroundColorPicker">
-      </label><br><br>
+      <div class="settings-form">
+        <label for="backgroundColorPicker">
+          Background Color:
+          <input type="color" id="backgroundColorPicker" />
+        </label>
 
-      <label>
-        Text Color:
-        <input type="color" id="textColorPicker">
-      </label><br><br>
+        <label for="textColorPicker">
+          Text Color:
+          <input type="color" id="textColorPicker" />
+        </label>
 
-      <label>
-        Button Color:
-        <input type="color" id="buttonColorPicker">
-      </label><br><br>
+        <label for="buttonColorPicker">
+          Button Color:
+          <input type="color" id="buttonColorPicker" />
+        </label>
 
-      <button id="saveThemeSettings">💾 Save Settings</button>
+        <button id="saveThemeSettings" class="save-button">💾 Save Settings</button>
+      </div>
     </div>
   </div>
 
   <!-- Firebase Script and Theme Saving -->
   <script type="module">
-    // ✅ Firebase imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
     import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
 
-    // ✅ Firebase config
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
       authDomain: "cookie-cmp-sys.firebaseapp.com",
@@ -61,17 +62,17 @@
       measurementId: "G-DLGR6XFPP5"
     };
 
-    // ✅ Initialize Firebase
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // ✅ DOM references
+    // DOM references
     const bgInput = document.getElementById("backgroundColorPicker");
     const textInput = document.getElementById("textColorPicker");
     const btnInput = document.getElementById("buttonColorPicker");
     const saveBtn = document.getElementById("saveThemeSettings");
 
-    // ✅ Load current theme values from Firebase
+    // Load current theme values from Firebase
     const themeRef = ref(db, "cmpThemeSettings");
 
     get(themeRef).then((snapshot) => {
@@ -85,7 +86,7 @@
       console.error("Error fetching theme:", error);
     });
 
-    // ✅ Save theme settings on button click
+    // Save theme settings on button click
     saveBtn.addEventListener("click", () => {
       const newTheme = {
         backgroundColor: bgInput.value,
