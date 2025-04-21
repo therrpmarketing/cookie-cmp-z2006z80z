@@ -1,68 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Banner Customization</title>
-  <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner Customization</title>
+    <link rel="stylesheet" href="path/to/your/css-file.css">
 </head>
 <body>
 
-  <!-- Sidebar -->
-  <div id="sidebar"></div>
-
-  <!-- Main Content Area -->
-  <div class="main-content">
-    <h1 class="page-title">Banner Customization</h1>
-    <p class="page-description">Use the form below to customize the appearance and settings of your cookie banner.</p>
-
-    <!-- Banner Text -->
-    <div class="card">
-      <h2>Banner Text</h2>
-      <label for="banner-message">Message:</label>
-      <textarea id="banner-message" class="cmp-input" rows="4" placeholder="Enter banner message..."></textarea>
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <a href="index.html">Home</a>
+        <a href="cookie-categories.html">Cookie Categories</a>
+        <a href="banner-customization.html">Banner Customization</a>
     </div>
 
-    <!-- Button Labels -->
-    <div class="card">
-      <h2>Button Labels</h2>
-      <label for="accept-label">Accept Button:</label>
-      <input type="text" id="accept-label" class="cmp-input" placeholder="Accept All" />
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Banner Customization</h1>
 
-      <label for="reject-label">Reject Button:</label>
-      <input type="text" id="reject-label" class="cmp-input" placeholder="Reject All" />
+        <div class="cookie-categories">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Banner Setting</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Banner Background Color</td>
+                        <td>Customize the background color of the banner.</td>
+                        <td><button class="cookie-categories">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>Banner Text Color</td>
+                        <td>Customize the text color of the banner.</td>
+                        <td><button class="cookie-categories">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>Banner Button Style</td>
+                        <td>Customize the button style and colors.</td>
+                        <td><button class="cookie-categories">Edit</button></td>
+                    </tr>
+                </tbody>
+            </table>
 
-      <label for="customize-label">Customize Button:</label>
-      <input type="text" id="customize-label" class="cmp-input" placeholder="Customize" />
+            <button class="add-category-btn">Save Changes</button>
+        </div>
     </div>
-
-    <!-- Theme Options -->
-    <div class="card">
-      <h2>Theme Options</h2>
-      <label for="theme-select">Choose Banner Theme:</label>
-      <select id="theme-select" class="cmp-select">
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-        <option value="transparent">Transparent</option>
-      </select>
-    </div>
-
-    <!-- Preview and Save Buttons -->
-    <div class="card">
-      <h2>Preview & Save</h2>
-      <!-- Use the correct button class as in the cookie categories page -->
-      <button class="cmp-button cmp-button-preview">Preview Banner</button>
-      <button class="cmp-button cmp-button-save">Save Customization</button>
-    </div>
-  </div>
-
-  <script>
-    fetch('../../shared/sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar').innerHTML = data;
-      });
-  </script>
 
 </body>
 </html>
