@@ -9,16 +9,7 @@
 </head>
 <body class="cmp-body">
 
-  <!-- Sidebar Navigation -->
-  <div class="cmp-sidebar">
-    <div class="cmp-logo">⚙️ CMP Admin</div>
-    <ul class="cmp-nav-list">
-      <li><a href="cmp-dashboard.html">Dashboard</a></li>
-      <li><a href="cmp-theme-settings.html" class="cmp-active">Theme Settings</a></li>
-      <li><a href="cmp-categories.html">Cookie Categories</a></li>
-      <li><a href="cmp-consent-logs.html">Consent Logs</a></li>
-    </ul>
-  </div>
+<div class="cmp-sidebar" id="cmp-sidebar"></div>
 
   <!-- Main Content -->
   <div class="cmp-main">
@@ -102,6 +93,23 @@
   </div>
 
 <script src="/cmp-assets/cmp-js/cmp-theme-settings.js"></script>
+
+  <script>
+  fetch('/cmp-assets/cmp-components/sidebar.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('cmp-sidebar').innerHTML = html;
+
+      // Highlight the active link
+      const currentPage = location.pathname.split("/").pop();
+      document.querySelectorAll('.cmp-nav-list a').forEach(link => {
+        if (link.getAttribute('data-page') === currentPage) {
+          link.classList.add('cmp-active');
+        }
+      });
+    });
+</script>
+
 </body>
 </html>
 
