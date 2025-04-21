@@ -59,3 +59,40 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 });
+
+
+
+// Assuming these are your input fields for color choices
+const bgInput = document.querySelector('#bgColor');
+const textInput = document.querySelector('#textColor');
+const btnInput = document.querySelector('#btnColor');
+
+// Assuming you have a save button to apply changes
+const saveBtn = document.querySelector('.cmp-save-button');
+
+// Firebase reference (adjust this based on your setup)
+const themeRef = firebase.database().ref('theme');
+
+// Listen for save button click
+saveBtn.addEventListener("click", () => {
+    const newTheme = {
+        backgroundColor: bgInput.value,
+        textColor: textInput.value,
+        buttonColor: btnInput.value
+    };
+
+    // Save theme to Firebase
+    themeRef.set(newTheme)
+        .then(() => {
+            alert("🎉 Theme settings saved!");
+
+            // Dynamically update CSS variables
+            document.documentElement.style.setProperty('--cmp-background-color', newTheme.backgroundColor);
+            document.documentElement.style.setProperty('--cmp-text-color', newTheme.textColor);
+            document.documentElement.style.setProperty('--cmp-button-color', newTheme.buttonColor);
+        })
+        .catch((error) => {
+            console.error("Error saving theme:", error);
+        });
+});
+
