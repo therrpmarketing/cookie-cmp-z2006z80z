@@ -1,302 +1,110 @@
-/* Define default theme variables */
-:root {
-    --cmp-background-color: #ffffff;
-    --cmp-text-color: #000000;
-    --cmp-button-color: #ff5733;
-}
-
-/* Reset default styles */
-* {
+/* Global Styles for CMP */
+body, html {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-/* Set up the layout */
-body {
     font-family: Arial, sans-serif;
-    background-color: #f4f7fa;
-    display: flex;
-    min-height: 100vh;
-    color: var(--cmp-text-color);
+    background-color: #f4f4f4;
 }
 
-/* Sidebar Styling */
-.cmp-sidebar {
+/* Sidebar Styles */
+#sidebar {
     width: 250px;
-    background-color: #2d3a47;
-    color: #fff;
     height: 100vh;
-    padding: 30px 20px;
-    display: flex;
-    flex-direction: column;
-    position: fixed; /* Make sidebar fixed */
+    background-color: #333;
+    position: fixed;
     top: 0;
     left: 0;
-    transition: all 0.3s ease-in-out;
-}
-
-.cmp-sidebar-header {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
-}
-
-.cmp-sidebar-header .cmp-logo {
-    width: 180px;
-    height: auto;
-}
-
-.cmp-sidebar-nav ul {
-    list-style: none;
-    padding-left: 0;
-}
-
-.cmp-sidebar-nav ul li {
-    margin-bottom: 20px;
-}
-
-.cmp-nav-link {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
-    display: block;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, padding-left 0.3s ease;
-}
-
-.cmp-nav-link.cmp-active {
-    font-weight: bold;
-    background-color: #007bff;
-    padding-left: 15px;
-}
-
-.cmp-nav-link:hover {
-    background-color: #0056b3;
-    padding-left: 15px;
-}
-
-/* Hover Effect for Sidebar Links */
-.cmp-nav-link:hover {
-    background-color: #0056b3;
-    cursor: pointer;
-}
-
-/* Main Content */
-.cmp-main-content {
-    margin-left: 250px; /* Account for sidebar width */
-    padding: 40px;
-    width: 100%;
-    transition: margin-left 0.3s ease;
-}
-
-/* Toggle Sidebar (Optional) */
-.cmp-sidebar.collapsed {
-    width: 80px;
-}
-
-.cmp-sidebar.collapsed .cmp-nav-link {
-    font-size: 14px;
-    padding-left: 10px;
-}
-
-.cmp-sidebar.collapsed .cmp-sidebar-header .cmp-logo {
-    width: 60px;
-}
-
-/* Settings Section */
-.cmp-settings-section {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.cmp-form-header h2 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.cmp-form-header p {
-    font-size: 1rem;
-    color: #777;
-    margin-bottom: 30px;
-}
-
-/* Setting Items */
-.cmp-setting-item {
-    margin-bottom: 20px;
-}
-
-.cmp-setting-item label {
-    display: block;
-    font-size: 1rem;
-    margin-bottom: 10px;
-    color: #555;
-}
-
-.cmp-setting-item input, .cmp-setting-item select {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-}
-
-.cmp-setting-item input[type="color"],
-.cmp-theme-form input[type="color"] {
-    width: 80px;
-    height: 40px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #fff;
-    cursor: pointer;
-    padding: 0;
-    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
-}
-
-.cmp-setting-item input[type="color"]:focus,
-.cmp-theme-form input[type="color"]:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-}
-
-.cmp-setting-item .cmp-save-button, .cmp-setting-item .cmp-reset-button {
-    padding: 12px 30px;
-    font-size: 1.1rem;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    width: 48%;
-    margin-right: 4%;
-}
-
-.cmp-setting-item .cmp-save-button {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.cmp-setting-item .cmp-reset-button {
-    background-color: #e0e0e0;
-    color: #333;
-}
-
-.cmp-setting-item .cmp-save-button:hover {
-    background-color: #0056b3;
-}
-
-.cmp-setting-item .cmp-reset-button:hover {
-    background-color: #ccc;
-}
-
-/* Custom Theme Setting */
-:root {
-    --cmp-background-color: #ffffff;
-    --cmp-text-color: #000000;
-    --cmp-button-color: #ff5733;
-}
-
-body {
-    background-color: var(--cmp-background-color);
-    color: var(--cmp-text-color);
-}
-
-button {
-    background-color: var(--cmp-button-color);
-    color: #fff;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 6px;
-}
-
-/* Theme Setting Form Styling */
-.cmp-theme-form {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.cmp-theme-form h3 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.cmp-theme-form label {
-    font-size: 1.2rem;
-    color: #555;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.cmp-theme-form input[type="color"] {
-    height: 40px;
-    width: 80px;
-}
-
-.cmp-theme-form .cmp-save-button {
-    background-color: #007bff;
+    padding-top: 20px;
     color: white;
-    padding: 12px 30px;
-    font-size: 1.1rem;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
 }
 
-.cmp-theme-form .cmp-save-button:hover {
+#sidebar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    font-size: 16px;
+}
+
+#sidebar a:hover {
+    background-color: #575757;
+}
+
+/* Main Content Area */
+.main-content {
+    margin-left: 250px; /* To accommodate sidebar */
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    font-size: 24px;
+}
+
+/* Cookie Categories Section */
+.cookie-categories {
+    margin-top: 30px;
+}
+
+.cookie-categories table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cookie-categories th, .cookie-categories td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.cookie-categories th {
+    background-color: #333;
+    color: white;
+}
+
+.cookie-categories td {
+    background-color: #fff;
+}
+
+.cookie-categories button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 5px;
+}
+
+.cookie-categories button:hover {
+    background-color: #45a049;
+}
+
+/* Button Styles */
+.add-category-btn {
+    background-color: #007bff;
+}
+
+.add-category-btn:hover {
     background-color: #0056b3;
 }
 
-.cmp-theme-form .cmp-reset-button {
-    background-color: #e0e0e0;
-    color: #333;
-    padding: 12px 30px;
-    font-size: 1.1rem;
-    border-radius: 5px;
-    border: none;
+/* Edit and Delete Buttons */
+.edit-btn, .delete-btn {
+    background-color: #ff9900;
+    color: white;
+    padding: 5px 10px;
     cursor: pointer;
 }
 
-.cmp-theme-form .cmp-reset-button:hover {
-    background-color: #ccc;
+.edit-btn:hover {
+    background-color: #e68a00;
 }
 
-/* CMP Button Styles */
-.cmp-save-button,
-.cmp-reset-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    margin-right: 10px;
+.delete-btn {
+    background-color: #ff4d4d;
 }
 
-/* Save button styled with theme color */
-.cmp-save-button {
-    background-color: var(--cmp-button-color, #ff5733);
-    color: var(--cmp-button-text-color, #ffffff);
-}
-
-/* Reset button - neutral gray */
-.cmp-reset-button {
-    background-color: #eeeeee;
-    color: #333333;
-}
-
-/* Hover effects */
-.cmp-save-button:hover {
-    background-color: #e24e2c;
-}
-
-.cmp-reset-button:hover {
-    background-color: #dddddd;
+.delete-btn:hover {
+    background-color: #e60000;
 }
