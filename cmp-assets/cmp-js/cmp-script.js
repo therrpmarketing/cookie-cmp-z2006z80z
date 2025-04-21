@@ -1,4 +1,3 @@
-
 // Firebase Configuration - replace with your actual Firebase credentials
 const firebaseConfig = {
     apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
@@ -13,67 +12,40 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.database();  // We're using Firebase Realtime Database
+const db = firebase.database();
 
-// Function to fetch theme settings from Firebase and populate the form fields
-function getThemeSettings() {
-    db.ref("themeSettings/current").once('value').then((snapshot) => {
-        const data = snapshot.val();
-        // Check if data exists
-        if (data) {
-            // Set the color input values based on Firebase data
-            document.getElementById("background-color").value = data.backgroundColor || '#ffffff';
-            document.getElementById("text-color").value = data.textColor || '#000000';
-            document.getElementById("button-color").value = data.buttonColor || '#ff5733';
-        }
-    });
-}
-
-// Call the function when the page loads
-window.onload = function() {
-    getThemeSettings();
-};
-
-
-
-// CMP Sidebar Loader (Modular)
-document.addEventListener("DOMContentLoaded", function () {
-  const sidebarContainer = document.getElementById("cmp-sidebar");
-  if (sidebarContainer) {
-    fetch("../cmp-assets/cmp-components/sidebar.html")
-      .then((res) => res.text())
-      .then((html) => {
-        sidebarContainer.innerHTML = html;
-
-        // Set active state
-        const current = window.location.pathname.split("/").pop();
-        const links = sidebarContainer.querySelectorAll("a[data-page]");
-        links.forEach((link) => {
-          if (link.getAttribute("data-page") === current) {
-            link.classList.add("cmp-active");
-          }
-        });
-      })
-      .catch((err) => {
-        console.error("Sidebar load failed:", err);
-      });
-  }
-});
-
-
-
-// Assuming these are your input fields for color choices
+// Input elements (make sure your HTML uses these IDs!)
 const bgInput = document.querySelector('#bgColor');
 const textInput = document.querySelector('#textColor');
 const btnInput = document.querySelector('#btnColor');
 
-// Assuming you have a save button to apply changes
+// Save button (ensure your button uses this class)
 const saveBtn = document.querySelector('.cmp-save-button');
 
-// Firebase reference (adjust this based on your setup)
-const themeRef = firebase.database().ref('theme');
+// Firebase reference path (adjust this if needed)
+const themeRef = db.ref('themeSettings/current');
 
-// Listen for save button click
+// Function to load theme settings from Firebase
+function getThemeSettings() {
+    themeRef.once('value').then((snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+            // Set input fields
+            bgInput.value = data.backgroundColor || '#ffffff';
+            textInput.value = data.textColor || '#000000';
+            btnInput.value = data.buttonColor || '#ff5733';
+
+            // Apply to CSS variables
+            document.documentElement.style.setProperty('--cmp-background-color', data.backgroundColor);
+            document.documentElement.style.setProperty('--cmp-text-color', data.textColor);
+            document.documentElement.style.setProperty('--cmp-button-color', data.buttonColor);
+        }
+    }).catch((error) => {
+        console.error("Error loading theme settings:", error);
+    });
+}
+
+// Save button click handler
 saveBtn.addEventListener("click", () => {
     const newTheme = {
         backgroundColor: bgInput.value,
@@ -81,18 +53,46 @@ saveBtn.addEventListener("click", () => {
         buttonColor: btnInput.value
     };
 
-    // Save theme to Firebase
+    // Save to Firebase
     themeRef.set(newTheme)
         .then(() => {
             alert("🎉 Theme settings saved!");
 
-            // Dynamically update CSS variables
+            // Apply new theme immediately
             document.documentElement.style.setProperty('--cmp-background-color', newTheme.backgroundColor);
             document.documentElement.style.setProperty('--cmp-text-color', newTheme.textColor);
             document.documentElement.style.setProperty('--cmp-button-color', newTheme.buttonColor);
         })
         .catch((error) => {
-            console.error("Error saving theme:", error);
+            console.error("Error saving theme settings:", error);
         });
 });
 
+// Load theme settings on page load
+window.addEventListener("load", () => {
+    getThemeSettings();
+});
+
+// CMP Sidebar Loader (modular, namespaced)
+document.addEventListener("DOMContentLoaded", function () {
+    const sidebarContainer = document.getElementById("cmp-sidebar");
+    if (sidebarContainer) {
+        fetch("../cmp-assets/cmp-components/sidebar.html")
+            .then((res) => res.text())
+            .then((html) => {
+                sidebarContainer.innerHTML = html;
+
+                // Set active state based on current page
+                const current = window.location.pathname.split("/").pop();
+                const links = sidebarContainer.querySelectorAll("a[data-page]");
+                links.forEach((link) => {
+                    if (link.getAttribute("data-page") === current) {
+                        link.classList.add("cmp-active");
+                    }
+                });
+            })
+            .catch((err) => {
+                console.error("Sidebar load failed:", err);
+            });
+    }
+});
