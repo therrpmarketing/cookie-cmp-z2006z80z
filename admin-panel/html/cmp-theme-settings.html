@@ -4,29 +4,44 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CMP Theme Settings</title>
-  <link rel="stylesheet" href="/cookie-cmp-z2006z80z/cmp-assets/cmp-css/cmp-style.css" />
+  <!-- Relative path to the stylesheet -->
+  <link rel="stylesheet" href="../cmp-assets/cmp-css/cmp-style.css" />
 </head>
 <body>
 
-  <div class="cmp-container">
-    <h1>🖌️ Customize CMP Theme</h1>
+  <!-- Left Sidebar Navigation -->
+  <div class="left-nav">
+    <nav>
+      <ul>
+        <li><a href="../admin-panel/html/dashboard.html">Dashboard</a></li>
+        <li><a href="../admin-panel/html/cmp-theme-settings.html">Theme Settings</a></li>
+        <li><a href="../admin-panel/html/consent-analytics.html">Consent Analytics</a></li>
+      </ul>
+    </nav>
+  </div>
 
-    <label>
-      Background Color:
-      <input type="color" id="backgroundColorPicker">
-    </label><br><br>
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <div class="cmp-container">
+      <h1>🖌️ Customize CMP Theme</h1>
 
-    <label>
-      Text Color:
-      <input type="color" id="textColorPicker">
-    </label><br><br>
+      <label>
+        Background Color:
+        <input type="color" id="backgroundColorPicker">
+      </label><br><br>
 
-    <label>
-      Button Color:
-      <input type="color" id="buttonColorPicker">
-    </label><br><br>
+      <label>
+        Text Color:
+        <input type="color" id="textColorPicker">
+      </label><br><br>
 
-    <button id="saveThemeSettings">💾 Save Settings</button>
+      <label>
+        Button Color:
+        <input type="color" id="buttonColorPicker">
+      </label><br><br>
+
+      <button id="saveThemeSettings">💾 Save Settings</button>
+    </div>
   </div>
 
   <script type="module">
