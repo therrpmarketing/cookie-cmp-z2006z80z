@@ -113,21 +113,22 @@ h1 {
 
 /* CMP Input Fields - Professional Look */
 .cmp-input {
-    width: 100%; /* Ensure it takes full width of container */
-    padding: 10px 15px; /* Comfortable padding */
-    font-size: 14px; /* Slightly larger font for readability */
-    color: #333; /* Dark text color */
-    background-color: #fff; /* White background for input fields */
-    border: 1px solid #ddd; /* Light grey border */
-    border-radius: 5px; /* Rounded corners for a smoother look */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effects */
+    width: 100%; /* Make it full-width */
+    max-width: 400px; /* Limit the width so it doesn't stretch too much */
+    padding: 12px 20px; /* Increased padding for a more spacious feel */
+    margin: 10px 0; /* Space around input fields */
+    border: 1px solid #ddd; /* Soft border */
+    border-radius: 8px; /* Slightly rounded corners for a modern look */
+    font-size: 14px; /* Consistent font size */
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    background-color: #fff; /* White background for clarity */
 }
 
 /* Focused state for input fields */
 .cmp-input:focus {
-    outline: none; /* Remove default browser outline */
+    outline: none;
     border-color: #4CAF50; /* Green border on focus */
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.2); /* Subtle shadow for better focus effect */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Light green shadow on focus */
 }
 
 /* Placeholder text styling */
