@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="../cmp-assets/cmp-css/cmp-style.css" />
 </head>
 <body>
-
   <!-- Left Sidebar Navigation -->
   <div class="left-nav">
     <nav>
@@ -44,12 +43,13 @@
     </div>
   </div>
 
+  <!-- Firebase Script and Theme Saving -->
   <script type="module">
     // ✅ Firebase imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+    import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
 
-    // ✅ Your Firebase config
+    // ✅ Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
       authDomain: "cookie-cmp-sys.firebaseapp.com",
@@ -71,7 +71,7 @@
     const btnInput = document.getElementById("buttonColorPicker");
     const saveBtn = document.getElementById("saveThemeSettings");
 
-    // ✅ Load current theme values
+    // ✅ Load current theme values from Firebase
     const themeRef = ref(db, "cmpThemeSettings");
 
     get(themeRef).then((snapshot) => {
@@ -85,7 +85,7 @@
       console.error("Error fetching theme:", error);
     });
 
-    // ✅ Save on button click
+    // ✅ Save theme settings on button click
     saveBtn.addEventListener("click", () => {
       const newTheme = {
         backgroundColor: bgInput.value,
