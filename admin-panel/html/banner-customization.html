@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Banner Customization</title>
   <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
 </head>
@@ -20,7 +20,7 @@
     <div class="cmp-section">
       <h2>Banner Appearance</h2>
       <div class="cmp-form-group">
-        <label for="banner-theme">Theme</label>
+        <label for="banner-theme">Select Theme</label>
         <select id="banner-theme">
           <option value="light">Light</option>
           <option value="dark">Dark</option>
@@ -29,7 +29,7 @@
       </div>
 
       <div class="cmp-form-group">
-        <label for="banner-position">Position</label>
+        <label for="banner-position">Banner Position</label>
         <select id="banner-position">
           <option value="bottom">Bottom</option>
           <option value="top">Top</option>
@@ -39,29 +39,20 @@
     </div>
 
     <div class="cmp-section">
-      <h2>Buttons</h2>
+      <h2>Buttons Visibility</h2>
       <div class="cmp-form-group">
-        <label>
-          <input type="checkbox" checked />
-          Show “Accept All” Button
-        </label>
+        <label><input type="checkbox" checked /> Show “Accept All” Button</label>
       </div>
       <div class="cmp-form-group">
-        <label>
-          <input type="checkbox" checked />
-          Show “Reject All” Button
-        </label>
+        <label><input type="checkbox" checked /> Show “Reject All” Button</label>
       </div>
       <div class="cmp-form-group">
-        <label>
-          <input type="checkbox" checked />
-          Show “Customize” Button
-        </label>
+        <label><input type="checkbox" checked /> Show “Customize” Button</label>
       </div>
     </div>
 
     <div class="cmp-section">
-      <h2>Text Customization</h2>
+      <h2>Text Labels</h2>
       <div class="cmp-form-group">
         <label for="banner-message">Banner Message</label>
         <textarea id="banner-message" rows="3">We use cookies to enhance your experience. Customize your preferences below.</textarea>
@@ -88,11 +79,16 @@
 
   <!-- Load Sidebar -->
   <script>
-    fetch('../shared/sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar').innerHTML = data;
-      });
+    window.addEventListener("DOMContentLoaded", () => {
+      fetch("../shared/sidebar.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("sidebar").innerHTML = data;
+        })
+        .catch(err => {
+          console.error("Sidebar load failed:", err);
+        });
+    });
   </script>
 </body>
 </html>
