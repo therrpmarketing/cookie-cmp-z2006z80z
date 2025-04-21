@@ -4,17 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consent Logs</title>
-    <link rel="stylesheet" href="../../cmp-assets/cmp-css/style.css">
+    <!-- Correct path to CSS file -->
+    <link rel="stylesheet" href="../cmp-assets/cmp-css/cmp-style.css">
 </head>
 <body>
-    <!-- Sidebar (included from components) -->
-    <div class="sidebar">
-        <!-- Sidebar content -->
-        <a href="../index.html">Dashboard</a>
-        <a href="consent-logs.html" class="active">Consent Logs</a>
-        <a href="cookie-categories.html">Cookie Categories</a>
-        <a href="banner-customization.html">Banner Customization</a>
-    </div>
+    <!-- Dynamically Inject Sidebar -->
+    <div id="sidebar-container"></div>
 
     <!-- Main Content -->
     <div class="main-content">
@@ -56,5 +51,17 @@
 
     <!-- JavaScript for Consent Logs -->
     <script src="../cmp-assets/cmp-js/consent-logs.js"></script>
+
+    <!-- Sidebar Injection Script -->
+    <script>
+        fetch('../cmp-assets/cmp-components/sidebar.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('sidebar-container').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading sidebar:', error);
+            });
+    </script>
 </body>
 </html>
