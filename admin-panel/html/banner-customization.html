@@ -10,49 +10,50 @@
   <!-- Sidebar -->
   <div id="sidebar"></div>
 
-  <!-- Main Content Area -->
+  <!-- Main Content -->
   <div class="main-content">
-    <h1>Customize Cookie Banner</h1>
-    <p>Configure how your cookie consent banner appears and behaves across the site. You can update the banner’s text, button labels, theme, position, and more.</p>
+    <h1>Customize Consent Banner</h1>
+    <p>Configure the appearance and behavior of your cookie consent banner.</p>
 
     <div class="card">
       <h2>Banner Text</h2>
-      <input type="text" placeholder="Enter consent message..." class="cmp-input" />
+      <label for="banner-message">Consent Message:</label>
+      <textarea id="banner-message" class="cmp-input" rows="4" placeholder="Enter your banner message here..."></textarea>
     </div>
 
     <div class="card">
       <h2>Button Labels</h2>
-      <label>Accept All:</label>
-      <input type="text" placeholder="e.g., Accept All" class="cmp-input" />
-      <label>Reject All:</label>
-      <input type="text" placeholder="e.g., Reject All" class="cmp-input" />
-      <label>Customize:</label>
-      <input type="text" placeholder="e.g., Customize Settings" class="cmp-input" />
-    </div>
+      <label for="accept-label">Accept Button Text:</label>
+      <input type="text" id="accept-label" class="cmp-input" placeholder="e.g. Accept All" />
 
-    <div class="card">
-      <h2>Banner Theme</h2>
-      <select class="cmp-select">
-        <option>Light</option>
-        <option>Dark</option>
-        <option>Minimal</option>
-      </select>
+      <label for="reject-label">Reject Button Text:</label>
+      <input type="text" id="reject-label" class="cmp-input" placeholder="e.g. Reject All" />
+
+      <label for="customize-label">Customize Button Text:</label>
+      <input type="text" id="customize-label" class="cmp-input" placeholder="e.g. Customize Preferences" />
     </div>
 
     <div class="card">
       <h2>Banner Position</h2>
       <select class="cmp-select">
-        <option>Bottom Center</option>
-        <option>Bottom Left</option>
-        <option>Bottom Right</option>
-        <option>Top Center</option>
+        <option value="bottom">Bottom</option>
+        <option value="top">Top</option>
+        <option value="center">Center (Boxed)</option>
       </select>
     </div>
 
-    <button class="cmp-button">Save Customization</button>
+    <div class="card">
+      <h2>Theme Color</h2>
+      <label for="theme-color">Primary Color:</label>
+      <input type="color" id="theme-color" class="cmp-input" value="#000000" />
+    </div>
+
+    <div class="card">
+      <button class="cmp-button">Save Customization</button>
+    </div>
   </div>
 
-  <!-- Load Shared Sidebar -->
+  <!-- Load Sidebar -->
   <script>
     fetch('../../shared/sidebar.html')
       .then(response => response.text())
