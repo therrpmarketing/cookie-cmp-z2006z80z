@@ -3,30 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Correctly Placed CSP Meta -->
+  
+  <!-- CSP Meta Tag -->
   <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    style-src 'self' 'unsafe-inline';
-    script-src 'self' 'unsafe-inline' https://therrpmarketing.github.io;
-    img-src 'self' data:;
-    connect-src 'self';
-  ">
+    default-src 'self'; 
+    style-src 'self' 'unsafe-inline'; 
+    script-src 'self' 'unsafe-inline' https://therrpmarketing.github.io; 
+    img-src 'self' data:; 
+    connect-src 'self';">
 
   <title>Consent Logs</title>
+
+  <!-- CMP Stylesheet -->
   <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
 </head>
 <body>
-
   <!-- Sidebar -->
   <div id="sidebar"></div>
 
-  <!-- Main Content Area -->
+  <!-- Main Content -->
   <div class="main-content">
     <h1>Consent Logs</h1>
-    <p>View all user consent actions with timestamps.</p>
+    <p>Track and view user consent actions.</p>
 
-    <!-- Consent Logs Table (Styled Like Cookie Categories) -->
+    <!-- Filters and Actions -->
+    <div class="filters-actions" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+      <div>
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date" name="start-date" />
+      </div>
+      <div>
+        <label for="end-date">End Date:</label>
+        <input type="date" id="end-date" name="end-date" />
+        <button class="filter-btn">Filter</button>
+      </div>
+      <div style="margin-left: auto;">
+        <button class="export-btn">Export Logs</button>
+        <button class="clear-btn">Clear Logs</button>
+      </div>
+    </div>
+
+    <!-- Table Section -->
     <div class="cookie-categories">
       <table>
         <thead>
@@ -36,47 +53,56 @@
             <th>Timestamp</th>
           </tr>
         </thead>
-        <tbody id="consent-logs-body">
-          <!-- Dynamically populated via JS -->
+        <tbody id="consent-log-list">
+          <!-- Example rows (replace with dynamic content later) -->
+          <tr>
+            <td>ABC123456789</td>
+            <td>Accepted All</td>
+            <td>2025-04-21 14:35</td>
+          </tr>
+          <tr>
+            <td>XYZ987654321</td>
+            <td>Rejected All</td>
+            <td>2025-04-20 11:22</td>
+          </tr>
         </tbody>
       </table>
     </div>
+
+    <!-- Table Controls -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+      <div>
+        <label for="rows-per-page">Rows per page:</label>
+        <select id="rows-per-page">
+          <option value="20" selected>20</option>
+          <option value="40">40</option>
+          <option value="60">60</option>
+          <option value="80">80</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+      <div class="pagination-controls">
+        <button class="page-btn">Previous</button>
+        <span>Page 1 of 5</span>
+        <button class="page-btn">Next</button>
+      </div>
+    </div>
   </div>
 
+  <!-- Sidebar Script -->
   <script>
-    // Load sidebar
     fetch('../../shared/sidebar.html')
       .then(response => {
-        if (!response.ok) throw new Error('Sidebar not found');
+        if (!response.ok) throw new Error('Sidebar file not found.');
         return response.text();
       })
-      .then(html => {
-        document.getElementById('sidebar').innerHTML = html;
+      .then(data => {
+        document.getElementById('sidebar').innerHTML = data;
       })
-      .catch(error => {
-        console.error('Sidebar error:', error);
-        alert("Sidebar failed to load.");
+      .catch(err => {
+        console.error('Error loading sidebar:', err);
+        alert('Error loading sidebar. Please check the file path or server configuration.');
       });
-
-    // Example Consent Log Data
-    const consentLogs = [
-      { sessionId: "abc123", action: "Accepted All", timestamp: "2025-04-21 09:15:42" },
-      { sessionId: "def456", action: "Rejected All", timestamp: "2025-04-21 10:07:18" },
-      { sessionId: "ghi789", action: "Customized Preferences", timestamp: "2025-04-21 11:02:34" },
-      { sessionId: "jkl012", action: "Accepted Functional Only", timestamp: "2025-04-21 12:45:10" }
-    ];
-
-    const logsBody = document.getElementById("consent-logs-body");
-    consentLogs.forEach(log => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${log.sessionId}</td>
-        <td>${log.action}</td>
-        <td>${log.timestamp}</td>
-      `;
-      logsBody.appendChild(row);
-    });
   </script>
-
 </body>
 </html>
