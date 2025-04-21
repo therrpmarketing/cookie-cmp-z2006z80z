@@ -1,125 +1,29 @@
-/* cmp-style.css - Add or enhance with below styles */
-
-body.cmp-body {
+/* --- CMP Layout Structure --- */
+.cmp-body {
   margin: 0;
+  padding: 0;
   font-family: 'Inter', sans-serif;
   display: flex;
-  background: #f5f7fa;
   min-height: 100vh;
+  background-color: #f7f8fa;
 }
 
+/* --- Sidebar --- */
 .cmp-sidebar {
   width: 240px;
-  background-color: #1e1e2d;
-  color: #fff;
-  padding-top: 2rem;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  overflow-y: auto;
-}
-
-.cmp-main {
-  margin-left: 240px;
-  padding: 2rem;
-  flex: 1;
-}
-
-.cmp-header {
-  margin-bottom: 2rem;
-}
-
-.cmp-page-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-}
-
-.cmp-subtitle {
-  font-size: 16px;
-  color: #666;
-}
-
-.cmp-theme-form {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.cmp-section {
-  margin-bottom: 2rem;
-}
-
-.cmp-section-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #1e1e2d;
-}
-
-.cmp-row {
-  margin-bottom: 1rem;
-}
-
-.cmp-input,
-.cmp-color {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-.cmp-btn {
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.cmp-primary {
-  background: #3f51b5;
-  color: white;
-}
-
-.cmp-secondary {
-  background: #e0e0e0;
-  color: #333;
-}
-
-.cmp-preview-box {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 1.5rem;
-  background: #fafafa;
-}
-
-.cmp-preview-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.cmp-grid-2, .cmp-grid-3 {
-  display: grid;
-  gap: 1rem;
-}
-.cmp-grid-2 {
-  grid-template-columns: repeat(2, 1fr);
-}
-.cmp-grid-3 {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.cmp-action-row {
+  background-color: #1f2937;
+  color: #ffffff;
+  padding: 20px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
   display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 2rem;
+  flex-direction: column;
 }
 
+.cmp-logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
 
 .cmp-nav-list {
   list-style: none;
@@ -127,20 +31,129 @@ body.cmp-body {
   margin: 0;
 }
 
-.cmp-nav-list li a {
-  display: block;
-  padding: 1rem 1.5rem;
-  color: #fff;
+.cmp-nav-list li {
+  margin-bottom: 10px;
+}
+
+.cmp-nav-list a {
+  color: #d1d5db;
   text-decoration: none;
+  display: block;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.cmp-nav-list a:hover,
+.cmp-nav-list a.cmp-active {
+  background-color: #374151;
+  color: #ffffff;
+}
+
+/* --- Main Content Area --- */
+.cmp-main {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+.cmp-header {
+  margin-bottom: 25px;
+}
+
+.cmp-page-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.cmp-subtitle {
+  color: #6b7280;
+  font-size: 15px;
+}
+
+/* --- Form Elements --- */
+.cmp-theme-form .cmp-section {
+  margin-bottom: 40px;
+}
+
+.cmp-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.cmp-row {
+  margin-bottom: 15px;
+}
+
+.cmp-label {
+  display: block;
   font-weight: 500;
-  border-left: 4px solid transparent;
-  transition: background 0.3s, border-color 0.3s;
+  margin-bottom: 6px;
 }
 
-.cmp-nav-list li a:hover,
-.cmp-nav-list li a.cmp-active {
-  background-color: #2a2a3d;
-  border-color: #3f51b5;
+.cmp-input,
+.cmp-color {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
 }
 
+.cmp-color {
+  height: 42px;
+}
 
+.cmp-grid-2,
+.cmp-grid-3 {
+  display: grid;
+  gap: 20px;
+}
+
+.cmp-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cmp-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.cmp-action-row {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* --- Buttons --- */
+.cmp-btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.cmp-btn.cmp-primary {
+  background-color: #1d4ed8;
+  color: white;
+}
+
+.cmp-btn.cmp-secondary {
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+.cmp-preview-box {
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.cmp-preview-title {
+  margin-top: 0;
+}
