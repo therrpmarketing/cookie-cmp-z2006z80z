@@ -250,3 +250,40 @@ button {
 .cmp-theme-form .cmp-reset-button:hover {
     background-color: #ccc;
 }
+
+
+/* CMP Button Styles */
+.cmp-save-button,
+.cmp-reset-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-right: 10px;
+}
+
+/* Save button styled with theme color */
+.cmp-save-button {
+  background-color: var(--cmp-button-color, #ff5733);
+  color: var(--cmp-button-text-color, #ffffff);
+}
+
+/* Reset button - neutral gray */
+.cmp-reset-button {
+  background-color: #eeeeee;
+  color: #333333;
+}
+
+/* Hover effects */
+.cmp-save-button:hover {
+  background-color: #e24e2c;
+}
+
+.cmp-reset-button:hover {
+  background-color: #dddddd;
+}
+
