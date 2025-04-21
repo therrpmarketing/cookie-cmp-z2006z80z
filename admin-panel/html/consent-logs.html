@@ -4,23 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consent Logs</title>
-    <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css">
+    <link rel="stylesheet" href="../cmp-assets/cmp-css/style.css">
 </head>
 <body>
-    <!-- Sidebar -->
-    <div id="sidebar"></div>
-
-    <div class="main-content">
-        <h1>Consent Logs</h1>
-        <p>View and manage user consent logs here.</p>
+    <!-- Sidebar (included from components) -->
+    <div class="sidebar">
+        <!-- Sidebar content (dynamically included) -->
+        <a href="../index.html">Dashboard</a>
+        <a href="consent-logs.html">Consent Logs</a>
+        <a href="cookie-categories.html">Cookie Categories</a>
+        <a href="banner-customization.html">Banner Customization</a>
     </div>
 
-    <script>
-        fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('sidebar').innerHTML = data;
-        });
-    </script>
+    <div class="container">
+        <h1 class="page-title">Consent Logs</h1>
+
+        <!-- Filter and Clear Buttons -->
+        <div class="input-group">
+            <input type="date" id="start-date" placeholder="Start Date">
+            <input type="date" id="end-date" placeholder="End Date">
+            <select id="rows-per-page">
+                <option value="20">20 Rows</option>
+                <option value="50">50 Rows</option>
+                <option value="100">100 Rows</option>
+            </select>
+            <button class="button" id="filter-logs">Filter</button>
+            <button class="button clear-logs-btn" id="clear-logs">Clear Logs</button>
+        </div>
+
+        <!-- Logs Table -->
+        <table class="table" id="logs-table">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Consent Type</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Logs will be injected here by JavaScript -->
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+            <!-- Pagination buttons will be generated dynamically -->
+        </div>
+    </div>
+
+    <!-- JavaScript for Consent Logs -->
+    <script src="../cmp-assets/cmp-js/consent-logs.js"></script>
 </body>
 </html>
