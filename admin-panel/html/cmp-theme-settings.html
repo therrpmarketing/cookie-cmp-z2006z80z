@@ -1,50 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CMP Theme Settings</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CMP Theme Settings</title>
+    
+    <!-- Link to CMP-specific stylesheet (avoiding conflicts with other site styles) -->
+    <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css">
 
-  <!-- ✅ CMP Modular CSS (Relative Path) -->
-  <link rel="stylesheet" href="../cmp-assets/cmp-css/cmp-style.css" />
+    <!-- Link to CMP-specific JS (keeping scripts separate for modularity) -->
+    <script src="../../cmp-assets/cmp-js/cmp-script.js" defer></script>
 </head>
-<body class="cmp-body">
-  <!-- ✅ Sidebar will be injected here -->
-  <div id="cmp-sidebar" class="cmp-sidebar"></div>
-
-  <!-- ✅ Main Content Area -->
-  <main class="cmp-main">
-    <header class="cmp-header">
-      <h1 class="cmp-page-title">🎨 Theme Settings</h1>
-      <p class="cmp-subtitle">Customize colors, fonts, layout & live preview</p>
-    </header>
-
-    <!-- Sample Settings Section -->
-    <form class="cmp-theme-form">
-      <div class="cmp-section">
-        <h2 class="cmp-section-title">Fonts & Colors</h2>
-
-        <div class="cmp-grid-2">
-          <div class="cmp-row">
-            <label class="cmp-label">Primary Color</label>
-            <input type="color" class="cmp-color" />
-          </div>
-
-          <div class="cmp-row">
-            <label class="cmp-label">Font Family</label>
-            <input type="text" class="cmp-input" placeholder="e.g., Inter, Roboto" />
-          </div>
+<body>
+    <!-- Left Sidebar Navigation Panel -->
+    <div class="cmp-sidebar">
+        <div class="cmp-sidebar-header">
+            <img src="../../cmp-assets/cmp-images/logo.png" alt="Logo" class="cmp-logo">
         </div>
-      </div>
+        <nav class="cmp-sidebar-nav">
+            <ul>
+                <li><a href="../dashboard.html" class="cmp-nav-link">Dashboard</a></li>
+                <li><a href="cmp-theme-settings.html" class="cmp-nav-link cmp-active">Theme Settings</a></li>
+                <li><a href="../cookie-categories.html" class="cmp-nav-link">Cookie Categories</a></li>
+                <li><a href="../consent-logs.html" class="cmp-nav-link">Consent Logs</a></li>
+                <li><a href="../consent-analytics.html" class="cmp-nav-link">Consent Analytics</a></li>
+                <li><a href="../user-preferences.html" class="cmp-nav-link">User Preferences</a></li>
+                <li><a href="../advanced-settings.html" class="cmp-nav-link">Advanced Settings</a></li>
+            </ul>
+        </nav>
+    </div>
 
-      <div class="cmp-action-row">
-        <button class="cmp-btn cmp-primary" type="submit">Save Settings</button>
-        <button class="cmp-btn cmp-secondary" type="reset">Reset</button>
-      </div>
-    </form>
-  </main>
+    <!-- Main Content Area -->
+    <div class="cmp-main-content">
+        <header>
+            <h1>CMP Theme Settings</h1>
+            <p class="cmp-description">Customize the look and feel of your CMP. Adjust colors, fonts, and other visual elements.</p>
+        </header>
 
-  <!-- ✅ CMP Script to Load Sidebar & Logic -->
-  <script src="../cmp-assets/cmp-js/cmp-script.js"></script>
+        <!-- Theme Settings Form -->
+        <section class="cmp-settings-section">
+            <div class="cmp-setting-item">
+                <label for="theme-color">Primary Theme Color</label>
+                <input type="color" id="theme-color" name="theme-color" value="#007bff">
+            </div>
+            <div class="cmp-setting-item">
+                <label for="button-color">Button Color</label>
+                <input type="color" id="button-color" name="button-color" value="#28a745">
+            </div>
+            <div class="cmp-setting-item">
+                <label for="banner-background">Banner Background Image</label>
+                <input type="file" id="banner-background" name="banner-background">
+            </div>
+            <div class="cmp-setting-item">
+                <label for="font-family">Font Family</label>
+                <select id="font-family" name="font-family">
+                    <option value="Arial" selected>Arial</option>
+                    <option value="Helvetica">Helvetica</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Verdana">Verdana</option>
+                </select>
+            </div>
+            <div class="cmp-setting-item">
+                <label for="button-radius">Button Border Radius</label>
+                <input type="range" id="button-radius" name="button-radius" min="0" max="50" value="5">
+            </div>
+            <div class="cmp-setting-item">
+                <button class="cmp-save-button">Save Changes</button>
+            </div>
+        </section>
+    </div>
 </body>
 </html>
