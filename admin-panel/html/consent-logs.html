@@ -1,77 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- ✅ CSP Meta MUST be inside <head> -->
-    <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self';
-        style-src 'self' 'unsafe-inline';
-        script-src 'self' 'unsafe-inline' https://therrpmarketing.github.io;
-        img-src 'self' data:;
-        connect-src 'self';
-    ">
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    style-src 'self' 'unsafe-inline';
+    script-src 'self' 'unsafe-inline' https://therrpmarketing.github.io;
+    img-src 'self' data:;
+    connect-src 'self';
+  ">
 
-    <title>Consent Logs</title>
-
-    <!-- ✅ CMP Stylesheet -->
-    <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
+  <title>Consent Logs</title>
+  <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
 </head>
 <body>
-    <!-- ✅ Sidebar will be injected here -->
-    <div id="sidebar"></div>
+  <div id="sidebar"></div>
 
-    <div class="main-content">
-        <h1>Consent Logs</h1>
-        <p>View and manage user consent history below.</p>
-
-        <div class="log-controls">
-            <input type="date" id="start-date">
-            <input type="date" id="end-date">
-            <select id="rows-per-page">
-                <option value="20">20 Rows</option>
-                <option value="50">50 Rows</option>
-                <option value="100">100 Rows</option>
-            </select>
-            <button class="button" id="filter-logs">Filter</button>
-            <button class="button clear-logs-btn" id="clear-logs">Clear Logs</button>
-        </div>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>User ID</th>
-                    <th>Consent Type</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody id="logs-table-body">
-                <!-- JS will populate -->
-            </tbody>
-        </table>
-
-        <div class="pagination" id="pagination-controls">
-            <!-- JS pagination -->
-        </div>
+  <div class="main-content">
+    <div class="page-header">
+      <h1>Consent Logs</h1>
+      <p>View and manage user consent history.</p>
     </div>
 
-    <script>
-        // ✅ Load Sidebar
-        fetch('../../shared/sidebar.html')
-            .then(res => {
-                if (!res.ok) throw new Error('Sidebar file not found.');
-                return res.text();
-            })
-            .then(html => {
-                document.getElementById('sidebar').innerHTML = html;
-            })
-            .catch(err => {
-                console.error('Sidebar load failed:', err);
-                alert('Failed to load sidebar. Check your file structure.');
-            });
+    <!-- 🔹 Filter Controls -->
+    <div class="filter-controls">
+      <label>
+        Start Date:
+        <input type="date" id="start-date" class="filter-input">
+      </label>
+      <label>
+        End Date:
+        <input type="date" id="end-date" class="filter-input">
+      </label>
+      <label>
+        Rows:
+        <select id="rows-per-page" class="filter-input">
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </label>
+      <button class="button primary" id="filter-logs">Filter</button>
+      <button class="button danger" id="clear-logs">Clear Logs</button>
+    </div>
 
-        // ✅ Demo Log Data
-        const sampleLogs = [
-            { userId: "user001", consentType: "Marketing", status: "Accepted", date: "2025-04-01"
+    <!-- 🔹 Consent Logs Table -->
+    <div class="table-wrapper">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Consent Type</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="logs-table-body">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 🔹 Pagination Controls -->
+    <div class="pagination" id="pagination-controls">
+      <!-- JS will insert pagination -->
+    </div>
+  </div>
+
+  <script>
+    // Sidebar injection
+    fetch('../../shared/sidebar.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('sidebar').innerHTML = html;
+      });
+
+    const sampleLogs = [
+      { userId: "user001", consentType: "Marketing", status: "Accepted", date: "2025-04-01" },
+      { userId: "user002", consentType: "Analytics", status: "Rejected", date: "2025-04-02" },
+      { userId: "user003", consentType: "Functional", status: "Accepted", date: "2025-04-05" },
+      { userId: "user004", consentType: "Performance", status: "Pending", date: "2025-04-06" }
+    ];
+
+    let currentPage = 1;
+    let rowsPerPage = 20;
+
+    document.getElementById("filter-logs").addEventListener("click", () => {
+      const startDate = document.getElementById("start-date").value;
+      const endDate = document.getElementById("end-date").value;
+      rowsPerPage = parseInt(document.getElementById("rows-per-page").value, 10);
+      const filtered = filterLogs(startDate, endDate);
+      renderLogs(filtered);
+    });
+
+    document.getElementById("clear-logs").addEventListener("click", () => {
+      if (confirm("Are you sure you want to clear all logs?")) {
+        sampleLogs.length = 0;
+        renderLogs([]);
+      }
+    });
+
+    function filterLogs(startDate, endDate) {
+      return sampleLogs.filter(log => {
+        const logDate = new Date(log.date);
+        return (!startDate || new Date(startDate) <= logDate) &&
+               (!endDate || new Date(endDate) >= logDate);
+      });
+    }
+
+    function renderLogs(logs) {
+      const tableBody = document.getElementById("logs-table-body");
+      tableBody.innerHTML = "";
+
+      const start = (currentPage - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      const pageLogs = logs.slice(start, end);
+
+      pageLogs.forEach(log => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${log.userId}</td>
+          <td>${log.consentType}</td>
+          <td>${log.status}</td>
+          <td>${log.date}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+
+      renderPagination(logs.length);
+    }
+
+    function renderPagination(totalRows) {
+      const container = document.getElementById("pagination-controls");
+      container.innerHTML = "";
+      const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        btn.className = (i === currentPage) ? "active-page" : "";
+        btn.addEventListener("click", () => {
+          currentPage = i;
+          renderLogs(filterLogs(
+            document.getElementById("start-date").value,
+            document.getElementById("end-date").value
+          ));
+        });
+        container.appendChild(btn);
+      }
+    }
+
+    // Initial render
+    renderLogs(sampleLogs);
+  </script>
+</body>
+</html>
