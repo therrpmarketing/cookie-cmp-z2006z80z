@@ -108,3 +108,55 @@ h1 {
 .delete-btn:hover {
     background-color: #e60000;
 }
+
+/* Below is the input field CSS START*/
+
+/* CMP Input Fields - Professional Look */
+.cmp-input {
+    width: 100%; /* Ensure it takes full width of container */
+    padding: 10px 15px; /* Comfortable padding */
+    font-size: 14px; /* Slightly larger font for readability */
+    color: #333; /* Dark text color */
+    background-color: #fff; /* White background for input fields */
+    border: 1px solid #ddd; /* Light grey border */
+    border-radius: 5px; /* Rounded corners for a smoother look */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effects */
+}
+
+/* Focused state for input fields */
+.cmp-input:focus {
+    outline: none; /* Remove default browser outline */
+    border-color: #4CAF50; /* Green border on focus */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.2); /* Subtle shadow for better focus effect */
+}
+
+/* Placeholder text styling */
+.cmp-input::placeholder {
+    color: #888; /* Light grey placeholder text */
+    font-style: italic; /* Slightly italicized for better visual appeal */
+}
+
+/* Disabled Input Fields */
+.cmp-input:disabled {
+    background-color: #f4f4f4; /* Lighter background for disabled state */
+    border-color: #ddd; /* Lighter border */
+    color: #ccc; /* Lighter text color */
+}
+
+/* Input field error state */
+.cmp-input.error {
+    border-color: #f44336; /* Red border to indicate error */
+    box-shadow: 0 0 5px rgba(244, 67, 54, 0.2); /* Subtle shadow with red */
+}
+
+/* For input field with success (e.g., after validation) */
+.cmp-input.success {
+    border-color: #4CAF50; /* Green border for success */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.2); /* Subtle green shadow */
+}
+/* Here  input field CSS END */
+
+
+
+
+
