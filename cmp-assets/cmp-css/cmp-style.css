@@ -1,3 +1,10 @@
+/* Define default theme variables */
+:root {
+    --cmp-background-color: #ffffff;
+    --cmp-text-color: #000000;
+    --cmp-button-color: #ff5733;
+}
+
 /* Reset default styles */
 * {
     margin: 0;
