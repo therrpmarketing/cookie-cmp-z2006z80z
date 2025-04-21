@@ -3,22 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Ensure CSP Meta Tag is Inside <head> -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self'; 
+      style-src 'self' 'unsafe-inline'; 
+      script-src 'self' 'unsafe-inline' https://therrpmarketing.github.io; 
+      img-src 'self' data:; 
+      connect-src 'self';">
+
     <title>Consent Logs</title>
-    <!-- Correct path to CSS file -->
-    <link rel="stylesheet" href="../cmp-assets/cmp-css/cmp-style.css">
+
+    <!-- Link to CMP Stylesheet -->
+    <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css">
 </head>
 <body>
-    <!-- Dynamically Inject Sidebar -->
-    <div id="sidebar-container"></div>
+    <!-- Sidebar -->
+    <div id="sidebar"></div>
 
-    <!-- Main Content -->
     <div class="main-content">
-        <h1 class="page-title">Consent Logs</h1>
+        <h1>Consent Logs</h1>
+        <p>View and manage user consent history below.</p>
 
-        <!-- Filter and Clear Buttons -->
-        <div class="input-group">
-            <input type="date" id="start-date" placeholder="Start Date">
-            <input type="date" id="end-date" placeholder="End Date">
+        <!-- Logs Filter Controls -->
+        <div class="log-controls">
+            <input type="date" id="start-date">
+            <input type="date" id="end-date">
             <select id="rows-per-page">
                 <option value="20">20 Rows</option>
                 <option value="50">50 Rows</option>
@@ -29,7 +39,7 @@
         </div>
 
         <!-- Logs Table -->
-        <table class="table" id="logs-table">
+        <table>
             <thead>
                 <tr>
                     <th>User ID</th>
@@ -38,30 +48,112 @@
                     <th>Date</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Logs will be injected here by JavaScript -->
+            <tbody id="logs-table-body">
+                <!-- Logs will be injected here dynamically -->
             </tbody>
         </table>
 
         <!-- Pagination -->
-        <div class="pagination" id="pagination">
-            <!-- Pagination buttons will be generated dynamically -->
+        <div class="pagination" id="pagination-controls">
+            <!-- Pagination buttons go here -->
         </div>
     </div>
 
-    <!-- JavaScript for Consent Logs -->
-    <script src="../cmp-assets/cmp-js/consent-logs.js"></script>
-
-    <!-- Sidebar Injection Script -->
     <script>
-        fetch('../cmp-assets/cmp-components/sidebar.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('sidebar-container').innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Error loading sidebar:', error);
+        // Load sidebar dynamically
+        fetch('../../shared/sidebar.html')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Sidebar file not found.');
+            }
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById('sidebar').innerHTML = data;
+        })
+        .catch(err => {
+            console.error('Error loading sidebar:', err);
+            alert('Error loading sidebar. Please check the file path or server configuration.');
+        });
+
+        // Sample log data for demo purposes
+        const sampleLogs = [
+            { userId: "user001", consentType: "Marketing", status: "Accepted", date: "2025-04-01" },
+            { userId: "user002", consentType: "Analytics", status: "Rejected", date: "2025-04-02" },
+            { userId: "user003", consentType: "Functional", status: "Accepted", date: "2025-04-05" },
+            { userId: "user004", consentType: "Performance", status: "Pending", date: "2025-04-06" }
+        ];
+
+        let currentPage = 1;
+        let rowsPerPage = 20;
+
+        document.getElementById("filter-logs").addEventListener("click", () => {
+            const startDate = document.getElementById("start-date").value;
+            const endDate = document.getElementById("end-date").value;
+            rowsPerPage = parseInt(document.getElementById("rows-per-page").value, 10);
+            const filtered = filterLogs(startDate, endDate);
+            renderLogs(filtered);
+        });
+
+        document.getElementById("clear-logs").addEventListener("click", () => {
+            if (confirm("Are you sure you want to clear all logs?")) {
+                sampleLogs.length = 0;
+                renderLogs([]);
+            }
+        });
+
+        function filterLogs(startDate, endDate) {
+            return sampleLogs.filter(log => {
+                const logDate = new Date(log.date);
+                return (!startDate || new Date(startDate) <= logDate) &&
+                       (!endDate || new Date(endDate) >= logDate);
             });
+        }
+
+        function renderLogs(logs) {
+            const tableBody = document.getElementById("logs-table-body");
+            tableBody.innerHTML = "";
+
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const pageLogs = logs.slice(start, end);
+
+            pageLogs.forEach(log => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${log.userId}</td>
+                    <td>${log.consentType}</td>
+                    <td>${log.status}</td>
+                    <td>${log.date}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            renderPagination(logs.length);
+        }
+
+        function renderPagination(totalRows) {
+            const container = document.getElementById("pagination-controls");
+            container.innerHTML = "";
+            const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement("button");
+                btn.textContent = i;
+                btn.className = (i === currentPage) ? "active-page" : "";
+                btn.addEventListener("click", () => {
+                    currentPage = i;
+                    renderLogs(filterLogs(
+                        document.getElementById("start-date").value,
+                        document.getElementById("end-date").value
+                    ));
+                });
+                container.appendChild(btn);
+            }
+        }
+
+        // Initial render
+        renderLogs(sampleLogs);
     </script>
 </body>
 </html>
