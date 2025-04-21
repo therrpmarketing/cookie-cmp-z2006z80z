@@ -1,117 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CMP Theme Settings</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CMP Theme Settings</title>
+    
+    <!-- Link to CMP-specific stylesheet (avoiding conflicts with other site styles) -->
+    <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css">
 
-  <!-- Add the Content Security Policy to allow Firebase -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://www.gstatic.com;">
-
-  <!-- CMP Namespaced Styles -->
-  <link rel="stylesheet" href="../cmp-assets/cmp-css/cmp-style.css" />
-
-  <!-- Firebase SDK as Module -->
-  <script type="module" src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-  <script type="module" src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+    <!-- Link to CMP-specific JS (keeping scripts separate for modularity) -->
+    <script src="../../cmp-assets/cmp-js/cmp-script.js" defer></script>
 </head>
 <body>
-  <div class="cmp-layout">
-    <!-- Sidebar Container (Loaded via JS) -->
-    <div id="cmp-sidebar-container" class="cmp-sidebar"></div>
-
-    <!-- Main Content -->
-    <div class="cmp-main-content">
-      <div class="cmp-container">
-        <div class="cmp-card">
-          <h1 class="cmp-header">🖌️ Customize CMP Theme</h1>
-
-          <div class="cmp-settings-form">
-            <label for="backgroundColorPicker">
-              Background Color:
-              <input type="color" id="backgroundColorPicker" />
-            </label>
-
-            <label for="textColorPicker">
-              Text Color:
-              <input type="color" id="textColorPicker" />
-            </label>
-
-            <label for="buttonColorPicker">
-              Button Color:
-              <input type="color" id="buttonColorPicker" />
-            </label>
-
-            <button class="cmp-save-button" id="save-theme-btn">💾 Save Theme</button>
-          </div>
+    <!-- Left Sidebar Navigation Panel -->
+    <div class="cmp-sidebar">
+        <div class="cmp-sidebar-header">
+            <img src="../../cmp-assets/cmp-images/logo.png" alt="Logo" class="cmp-logo">
         </div>
-      </div>
+        <nav class="cmp-sidebar-nav">
+            <ul>
+                <li><a href="../dashboard.html" class="cmp-nav-link">Dashboard</a></li>
+                <li><a href="cmp-theme-settings.html" class="cmp-nav-link cmp-active">Theme Settings</a></li>
+                <li><a href="../cookie-categories.html" class="cmp-nav-link">Cookie Categories</a></li>
+                <li><a href="../consent-logs.html" class="cmp-nav-link">Consent Logs</a></li>
+                <li><a href="../consent-analytics.html" class="cmp-nav-link">Consent Analytics</a></li>
+                <li><a href="../user-preferences.html" class="cmp-nav-link">User Preferences</a></li>
+                <li><a href="../advanced-settings.html" class="cmp-nav-link">Advanced Settings</a></li>
+            </ul>
+        </nav>
     </div>
-  </div>
 
-  <!-- Dynamic Sidebar Loader -->
-  <script>
-    // Correct the path to load the sidebar.html globally
-    fetch("../../cmp-assets/cmp-components/sidebar.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("cmp-sidebar-container").innerHTML = data;
-      });
-  </script>
+    <!-- Main Content Area -->
+    <div class="cmp-main-content">
+        <header>
+            <h1>CMP Theme Settings</h1>
+            <p class="cmp-description">Customize the look and feel of your CMP. Adjust colors, fonts, and other visual elements.</p>
+        </header>
 
-  <!-- Firebase Theme Saving -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
-
-    // Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-      authDomain: "cookie-cmp-sys.firebaseapp.com",
-      databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
-      projectId: "cookie-cmp-sys",
-      storageBucket: "cookie-cmp-sys.appspot.com",
-      messagingSenderId: "252822009652",
-      appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
-      measurementId: "G-DLGR6XFPP5"
-    };
-
-    // Init Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    // Inputs
-    const bgInput = document.getElementById("backgroundColorPicker");
-    const textInput = document.getElementById("textColorPicker");
-    const btnInput = document.getElementById("buttonColorPicker");
-    const saveBtn = document.getElementById("save-theme-btn");
-
-    const themeRef = ref(db, "cmpThemeSettings");
-
-    // Load current values
-    get(themeRef).then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        if (data.backgroundColor) bgInput.value = data.backgroundColor;
-        if (data.textColor) textInput.value = data.textColor;
-        if (data.buttonColor) btnInput.value = data.buttonColor;
-      }
-    }).catch((error) => {
-      console.error("Error fetching theme:", error);
-    });
-
-    // Save theme
-    saveBtn.addEventListener("click", () => {
-      const newTheme = {
-        backgroundColor: bgInput.value,
-        textColor: textInput.value,
-        buttonColor: btnInput.value
-      };
-
-      set(themeRef, newTheme)
-        .then(() => alert("🎉 Theme settings saved!"))
-        .catch((error) => console.error("Error saving theme:", error));
-    });
-  </script>
+        <!-- Theme Settings Form -->
+        <section class="cmp-settings-section">
+            <div class="cmp-setting-item">
+                <label for="theme-color">Primary Theme Color</label>
+                <input type="color" id="theme-color" name="theme-color" value="#007bff">
+            </div>
+            <div class="cmp-setting-item">
+                <label for="button-color">Button Color</label>
+                <input type="color" id="button-color" name="button-color" value="#28a745">
+            </div>
+            <div class="cmp-setting-item">
+                <label for="banner-background">Banner Background Image</label>
+                <input type="file" id="banner-background" name="banner-background">
+            </div>
+            <div class="cmp-setting-item">
+                <label for="font-family">Font Family</label>
+                <select id="font-family" name="font-family">
+                    <option value="Arial" selected>Arial</option>
+                    <option value="Helvetica">Helvetica</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Verdana">Verdana</option>
+                </select>
+            </div>
+            <div class="cmp-setting-item">
+                <label for="button-radius">Button Border Radius</label>
+                <input type="range" id="button-radius" name="button-radius" min="0" max="50" value="5">
+            </div>
+            <div class="cmp-setting-item">
+                <button class="cmp-save-button">Save Changes</button>
+            </div>
+        </section>
+    </div>
 </body>
 </html>
