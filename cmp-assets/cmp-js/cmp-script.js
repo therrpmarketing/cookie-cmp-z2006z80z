@@ -15,6 +15,26 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.database();  // We're using Firebase Realtime Database
 
+// Function to fetch theme settings from Firebase and populate the form fields
+function getThemeSettings() {
+    db.ref("themeSettings/current").once('value').then((snapshot) => {
+        const data = snapshot.val();
+        // Check if data exists
+        if (data) {
+            // Set the color input values based on Firebase data
+            document.getElementById("background-color").value = data.backgroundColor || '#ffffff';
+            document.getElementById("text-color").value = data.textColor || '#000000';
+            document.getElementById("button-color").value = data.buttonColor || '#ff5733';
+        }
+    });
+}
+
+// Call the function when the page loads
+window.onload = function() {
+    getThemeSettings();
+};
+
+
 
 // CMP Sidebar Loader (Modular)
 document.addEventListener("DOMContentLoaded", function () {
