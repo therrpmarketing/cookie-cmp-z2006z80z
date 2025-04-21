@@ -120,3 +120,27 @@ body.cmp-body {
   margin-top: 2rem;
 }
 
+
+.cmp-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cmp-nav-list li a {
+  display: block;
+  padding: 1rem 1.5rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  border-left: 4px solid transparent;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.cmp-nav-list li a:hover,
+.cmp-nav-list li a.cmp-active {
+  background-color: #2a2a3d;
+  border-color: #3f51b5;
+}
+
+
