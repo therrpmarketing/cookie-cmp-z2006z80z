@@ -30,6 +30,10 @@ body {
     padding: 30px 20px;
     display: flex;
     flex-direction: column;
+    position: fixed; /* Make sidebar fixed */
+    top: 0;
+    left: 0;
+    transition: all 0.3s ease-in-out;
 }
 
 .cmp-sidebar-header {
@@ -40,6 +44,7 @@ body {
 
 .cmp-sidebar-header .cmp-logo {
     width: 180px;
+    height: auto;
 }
 
 .cmp-sidebar-nav ul {
@@ -58,34 +63,46 @@ body {
     display: block;
     padding: 10px;
     border-radius: 5px;
+    transition: background-color 0.3s ease, padding-left 0.3s ease;
 }
 
 .cmp-nav-link.cmp-active {
     font-weight: bold;
     background-color: #007bff;
+    padding-left: 15px;
 }
 
 .cmp-nav-link:hover {
     background-color: #0056b3;
+    padding-left: 15px;
+}
+
+/* Hover Effect for Sidebar Links */
+.cmp-nav-link:hover {
+    background-color: #0056b3;
+    cursor: pointer;
 }
 
 /* Main Content */
 .cmp-main-content {
-    flex-grow: 1;
+    margin-left: 250px; /* Account for sidebar width */
     padding: 40px;
     width: 100%;
+    transition: margin-left 0.3s ease;
 }
 
-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    color: #333;
+/* Toggle Sidebar (Optional) */
+.cmp-sidebar.collapsed {
+    width: 80px;
 }
 
-header .cmp-description {
-    font-size: 1.2rem;
-    color: #777;
-    margin-bottom: 30px;
+.cmp-sidebar.collapsed .cmp-nav-link {
+    font-size: 14px;
+    padding-left: 10px;
+}
+
+.cmp-sidebar.collapsed .cmp-sidebar-header .cmp-logo {
+    width: 60px;
 }
 
 /* Settings Section */
@@ -148,7 +165,6 @@ header .cmp-description {
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
-
 .cmp-setting-item .cmp-save-button, .cmp-setting-item .cmp-reset-button {
     padding: 12px 30px;
     font-size: 1.1rem;
@@ -179,22 +195,22 @@ header .cmp-description {
 
 /* Custom Theme Setting */
 :root {
-  --cmp-background-color: #ffffff;
-  --cmp-text-color: #000000;
-  --cmp-button-color: #ff5733;
+    --cmp-background-color: #ffffff;
+    --cmp-text-color: #000000;
+    --cmp-button-color: #ff5733;
 }
 
 body {
-  background-color: var(--cmp-background-color);
-  color: var(--cmp-text-color);
+    background-color: var(--cmp-background-color);
+    color: var(--cmp-text-color);
 }
 
 button {
-  background-color: var(--cmp-button-color);
-  color: #fff;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
+    background-color: var(--cmp-button-color);
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
 }
 
 /* Theme Setting Form Styling */
@@ -251,39 +267,36 @@ button {
     background-color: #ccc;
 }
 
-
 /* CMP Button Styles */
 .cmp-save-button,
 .cmp-reset-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  margin-right: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-right: 10px;
 }
 
 /* Save button styled with theme color */
 .cmp-save-button {
-  background-color: var(--cmp-button-color, #ff5733);
-  color: var(--cmp-button-text-color, #ffffff);
+    background-color: var(--cmp-button-color, #ff5733);
+    color: var(--cmp-button-text-color, #ffffff);
 }
 
 /* Reset button - neutral gray */
 .cmp-reset-button {
-  background-color: #eeeeee;
-  color: #333333;
+    background-color: #eeeeee;
+    color: #333333;
 }
 
 /* Hover effects */
 .cmp-save-button:hover {
-  background-color: #e24e2c;
+    background-color: #e24e2c;
 }
 
 .cmp-reset-button:hover {
-  background-color: #dddddd;
+    background-color: #dddddd;
 }
-
