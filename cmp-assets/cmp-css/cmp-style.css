@@ -197,7 +197,8 @@ h1 {
 /* Stat Cards - ENDS */
 
 
-/*  Setting For consistency Start */
+/*  Adv. Setting For consistency Start */
+
 .settings-section {
     margin-bottom: 30px;
 }
@@ -240,4 +241,41 @@ h1 {
 }
 /*  Adv. Setting Section For consistency END */
 
+
+/*  Adv. Setting Section Cookie Expiry Settings START */
+
+/* Cookie Expiry Settings */
+.section h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.section .form-group {
+  margin-bottom: 20px;
+}
+
+.section .form-group label {
+  font-size: 1em;
+  margin-bottom: 5px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#custom-expiry {
+  display: none;
+}
+
+#custom-expiry.hidden {
+  display: none;
+}
+
+/*  Adv. Setting Section Cookie Expiry Settings END */
 
