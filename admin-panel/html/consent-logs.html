@@ -39,32 +39,36 @@
 
     function fetchConsentLogs() {
       const tableBody = document.getElementById("consent-log-list");
+      if (!tableBody) {
+        console.error("Consent log table body not found.");
+        return;
+      }
       tableBody.innerHTML = '';
-
+    
       database.ref('consentLogs').orderByChild('timestamp').on('value', (snapshot) => {
         const logs = snapshot.val();
         tableBody.innerHTML = ''; // Clear on update
-
+    
         if (logs) {
           Object.keys(logs).reverse().forEach(key => {
             const log = logs[key];
             const row = document.createElement('tr');
-
+    
             const sessionCell = document.createElement('td');
             sessionCell.textContent = log.session_id || '-';
-
+    
             const actionCell = document.createElement('td');
             actionCell.textContent = log.action || '-';
-
+    
             const timestampCell = document.createElement('td');
             timestampCell.textContent = log.timestamp
               ? new Date(log.timestamp).toLocaleString()
               : '-';
-
+    
             row.appendChild(sessionCell);
             row.appendChild(actionCell);
             row.appendChild(timestampCell);
-
+    
             tableBody.appendChild(row);
           });
         } else {
@@ -79,6 +83,7 @@
         console.error("Error fetching data:", error);
       });
     }
+
 
     document.addEventListener("DOMContentLoaded", () => {
       fetchConsentLogs();
