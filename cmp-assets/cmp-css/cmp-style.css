@@ -394,6 +394,13 @@ select, input[type="date"] {
   font-weight: bold;
 }
 
+/* Add this to cmp-style.css */
+.empty-row {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  padding: 20px;
+}
 
 
 /*  Adv. Setting Section Consent log Settings END */
