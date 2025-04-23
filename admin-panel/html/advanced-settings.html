@@ -177,86 +177,119 @@
 
 <!-- Firebase Setup for General Cookie Setting START -->
 
-<script type="module">
-  // Firebase SDK imports
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
-
-  // Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-    authDomain: "cookie-cmp-sys.firebaseapp.com",
-    databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
-    projectId: "cookie-cmp-sys",
-    storageBucket: "cookie-cmp-sys.appspot.com",
-    messagingSenderId: "252822009652",
-    appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
-    measurementId: "G-DLGR6XFPP5"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-
-  // Function to save general cookie settings
-  function saveGeneralCookieSettings() {
-    const cookieDomain = document.getElementById("cookie-domain").value;
-    const sameSitePolicy = document.getElementById("same-site-policy").value;
-    const secureCookie = document.getElementById("secure-cookie-toggle").checked;
-    const httpOnlyCookie = document.getElementById("http-only-toggle").checked;
-
-    const settingsData = {
-      cookieDomain,
-      sameSitePolicy,
-      secureCookie,
-      httpOnlyCookie
-    };
-
-    set(ref(db, "cookieSettings/general"), settingsData)
-      .then(() => {
-        alert("✅ Cookie settings saved successfully.");
-      })
-      .catch((error) => {
-        console.error("❌ Error saving cookie settings:", error);
-        alert("Failed to save settings.");
-      });
-  }
-
-  // Attach event listener after DOM is loaded
-  document.getElementById("save-cookie-settings").addEventListener("click", saveGeneralCookieSettings);
-</script>
+        <script type="module">
+          // Firebase SDK imports
+          import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+          import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+        
+          // Firebase config
+          const firebaseConfig = {
+            apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+            authDomain: "cookie-cmp-sys.firebaseapp.com",
+            databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+            projectId: "cookie-cmp-sys",
+            storageBucket: "cookie-cmp-sys.appspot.com",
+            messagingSenderId: "252822009652",
+            appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
+            measurementId: "G-DLGR6XFPP5"
+          };
+        
+          // Initialize Firebase
+          const app = initializeApp(firebaseConfig);
+          const db = getDatabase(app);
+        
+          // Function to save general cookie settings
+          function saveGeneralCookieSettings() {
+            const cookieDomain = document.getElementById("cookie-domain").value;
+            const sameSitePolicy = document.getElementById("same-site-policy").value;
+            const secureCookie = document.getElementById("secure-cookie-toggle").checked;
+            const httpOnlyCookie = document.getElementById("http-only-toggle").checked;
+        
+            const settingsData = {
+              cookieDomain,
+              sameSitePolicy,
+              secureCookie,
+              httpOnlyCookie
+            };
+        
+            set(ref(db, "cookieSettings/general"), settingsData)
+              .then(() => {
+                alert("✅ Cookie settings saved successfully.");
+              })
+              .catch((error) => {
+                console.error("❌ Error saving cookie settings:", error);
+                alert("Failed to save settings.");
+              });
+          }
+        
+          // Attach event listener after DOM is loaded
+          document.getElementById("save-cookie-settings").addEventListener("click", saveGeneralCookieSettings);
+        </script>
 
 <!-- Firebase Setup for General Cookie Setting END -->
 
 
   <!-- Firebase Setup for Cookie Expiry with Categories Setting START -->
-      <script type="module">
-        import { getDatabase, ref, set } from "firebase/database";
-      
-        // Function to save cookie expiry settings for each category
-        function saveCookieExpirySettings() {
-          const expiryData = {
-            necessary: parseInt(document.getElementById("expiry-necessary").value, 10),
-            functional: parseInt(document.getElementById("expiry-functional").value, 10),
-            analytics: parseInt(document.getElementById("expiry-analytics").value, 10),
-            performance: parseInt(document.getElementById("expiry-performance").value, 10),
-            advertisement: parseInt(document.getElementById("expiry-advertisement").value, 10)
+        <script type="module">
+          import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+          import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+          import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
+        
+          const firebaseConfig = {
+            apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+            authDomain: "cookie-cmp-sys.firebaseapp.com",
+            databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+            projectId: "cookie-cmp-sys",
+            storageBucket: "cookie-cmp-sys.firebasestorage.app",
+            messagingSenderId: "252822009652",
+            appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
+            measurementId: "G-DLGR6XFPP5"
           };
-      
-          const db = getDatabase();
-          set(ref(db, "cookieSettings/expiry"), expiryData)
-            .then(() => {
-              alert("Cookie expiry settings saved successfully.");
-            })
-            .catch((error) => {
-              console.error("Error saving cookie expiry settings:", error);
-              alert("Failed to save settings.");
-            });
-        }
-      
-        // Attach event listener to save button
-        document.getElementById("save-expiry-settings").addEventListener("click", saveCookieExpirySettings);
-      </script>
+        
+          const app = initializeApp(firebaseConfig);
+          const analytics = getAnalytics(app);
+          const db = getDatabase(app);
+        
+          // Save cookie settings
+          document.getElementById("save-cookie-settings").addEventListener("click", () => {
+            const cookieDomain = document.getElementById("cookie-domain").value;
+            const sameSitePolicy = document.getElementById("same-site-policy").value;
+            const secureCookie = document.getElementById("secure-cookie-toggle").checked;
+            const httpOnlyCookie = document.getElementById("http-only-toggle").checked;
+        
+            const settingsData = {
+              cookieDomain,
+              sameSitePolicy,
+              secureCookie,
+              httpOnlyCookie
+            };
+        
+            set(ref(db, "cookieSettings/general"), settingsData)
+              .then(() => alert("Cookie settings saved successfully."))
+              .catch((error) => {
+                console.error("Error saving cookie settings:", error);
+                alert("Failed to save settings.");
+              });
+          });
+        
+          // Save cookie expiry settings
+          document.getElementById("save-expiry-settings").addEventListener("click", () => {
+            const expirySettings = {
+              necessary: parseInt(document.getElementById("expiry-necessary").value),
+              functional: parseInt(document.getElementById("expiry-functional").value),
+              analytics: parseInt(document.getElementById("expiry-analytics").value),
+              performance: parseInt(document.getElementById("expiry-performance").value),
+              advertisement: parseInt(document.getElementById("expiry-advertisement").value)
+            };
+        
+            set(ref(db, "cookieSettings/expiry"), expirySettings)
+              .then(() => alert("Cookie expiry settings saved successfully."))
+              .catch((error) => {
+                console.error("Error saving expiry settings:", error);
+                alert("Failed to save expiry settings.");
+              });
+          });
+        </script>
 <!-- Firebase Setup for Cookie Expiry with Categories Setting END -->
 
 
