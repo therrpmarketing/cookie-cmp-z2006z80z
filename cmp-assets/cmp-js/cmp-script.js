@@ -181,5 +181,29 @@ window.addEventListener("load", () => {
         }
 
 
+// Function to fetch consent logs REAL-TIME from Firebase
+function fetchConsentLogs() {
+  const logRef = database.ref('consentLogs');
+  logRef.orderByChild('timestamp').on('value', (snapshot) => {
+    const logs = snapshot.val();
+    const logList = document.getElementById('consent-log-list');
+    logList.innerHTML = ''; // Clear current logs
+    if (logs) {
+      Object.keys(logs).forEach(key => {
+        const log = logs[key];
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${log.sessionId}</td>
+          <td>${log.action}</td>
+          <td>${new Date(log.timestamp).toLocaleString()}</td>
+        `;
+        logList.appendChild(row);
+      });
+    }
+  });
+}
+
+// Call the function to fetch and display logs when the page is loaded
+document.addEventListener('DOMContentLoaded', fetchConsentLogs);
 
 
