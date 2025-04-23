@@ -277,5 +277,37 @@ h1 {
   display: none;
 }
 
+/* Style the select dropdown */
+#expiry-time {
+  width: 100%; /* Make the dropdown take the full width of the parent container */
+  max-width: 250px; /* Limit max width to prevent it from becoming too wide */
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd; /* Border to match the input fields */
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+/* Optional: Style for input date (for custom date selection) */
+#expiry-date {
+  width: 100%;
+  max-width: 250px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+/* Hide custom expiry date input by default */
+.hidden {
+  display: none;
+}
+
 /*  Adv. Setting Section Cookie Expiry Settings END */
+
+
+
+
+
 
