@@ -96,3 +96,20 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const saveBtn = document.getElementById('save-cookie-settings');
+    
+    // Load existing settings (if any) from Firebase
+    function loadSettings() {
+        firebase.database().ref('cookieSettings').once('value', function(snapshot) {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById('cookie-domain').value = data.cookieDomain || '';
+                document.getElementById('same-site-policy').value = data.sameSitePolicy || 'Lax';
+                document.getElementById('secure-cookie-toggle').checked = data.secureCookie || false;
+                document.getElementById('http-only-toggle').checked = data.httpOnly || false;
+            }
+        });
+    }
+  
