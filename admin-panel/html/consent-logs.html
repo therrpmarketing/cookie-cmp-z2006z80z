@@ -38,7 +38,7 @@
     const database = firebase.database();
 
     function fetchConsentLogs() {
-      const tableBody = document.getElementById("consent-log-list").getElementsByTagName('tbody')[0];
+      const tableBody = document.getElementById("consent-log-list");
       tableBody.innerHTML = '';
 
       database.ref('consentLogs').orderByChild('timestamp').on('value', (snapshot) => {
