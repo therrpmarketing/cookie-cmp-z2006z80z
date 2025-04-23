@@ -227,6 +227,40 @@
 </script>
 
 <!-- Firebase Setup for General Cookie Setting END -->
+
+
+  <!-- Firebase Setup for Cookie Expiry with Categories Setting START -->
+      <script type="module">
+        import { getDatabase, ref, set } from "firebase/database";
+      
+        // Function to save cookie expiry settings for each category
+        function saveCookieExpirySettings() {
+          const expiryData = {
+            necessary: parseInt(document.getElementById("expiry-necessary").value, 10),
+            functional: parseInt(document.getElementById("expiry-functional").value, 10),
+            analytics: parseInt(document.getElementById("expiry-analytics").value, 10),
+            performance: parseInt(document.getElementById("expiry-performance").value, 10),
+            advertisement: parseInt(document.getElementById("expiry-advertisement").value, 10)
+          };
+      
+          const db = getDatabase();
+          set(ref(db, "cookieSettings/expiry"), expiryData)
+            .then(() => {
+              alert("Cookie expiry settings saved successfully.");
+            })
+            .catch((error) => {
+              console.error("Error saving cookie expiry settings:", error);
+              alert("Failed to save settings.");
+            });
+        }
+      
+        // Attach event listener to save button
+        document.getElementById("save-expiry-settings").addEventListener("click", saveCookieExpirySettings);
+      </script>
+<!-- Firebase Setup for Cookie Expiry with Categories Setting END -->
+
+
+  
   
 </body>
 </html>
