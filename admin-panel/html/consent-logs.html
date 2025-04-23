@@ -1,64 +1,168 @@
-<script>
-  // Firebase setup
-  const firebaseConfig = {
-    apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-    authDomain: "cookie-cmp-sys.firebaseapp.com",
-    databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
-    projectId: "cookie-cmp-sys",
-    storageBucket: "cookie-cmp-sys.firebasestorage.app",
-    messagingSenderId: "252822009652",
-    appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
-    measurementId: "G-DLGR6XFPP5"
-  };
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  // Initialize Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const database = firebase.database(app);
+  <!-- CSP Meta Tag -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self'; 
+    style-src 'self' 'unsafe-inline'; 
+    script-src 'self' 'unsafe-inline' https://therrpmarketing.github.io https://www.gstatic.com https://www.googleapis.com https://*.firebaseio.com; 
+    connect-src 'self' https://*.firebaseio.com https://*.googleapis.com wss://*.firebaseio.com;
+    img-src 'self' data:;">
 
-  // Function to listen and display consent logs in real-time
-  function fetchConsentLogs() {
-    const consentLogList = document.getElementById("consent-log-list").getElementsByTagName('tbody')[0];
+  <title>Consent Logs</title>
 
-    // Listen for value changes on the consentLogs node
-    database.ref('consentLogs').orderByChild('timestamp').on('value', (snapshot) => {
-      const logs = snapshot.val();
-      consentLogList.innerHTML = ''; // Clear table
+  <!-- CMP Stylesheet -->
+  <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
 
-      if (logs) {
-        Object.keys(logs).forEach(key => {
-          const log = logs[key];
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-          const logRow = document.createElement('tr');
+  <script>
+    // Firebase setup
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+      authDomain: "cookie-cmp-sys.firebaseapp.com",
+      databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+      projectId: "cookie-cmp-sys",
+      storageBucket: "cookie-cmp-sys.appspot.com",
+      messagingSenderId: "252822009652",
+      appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
+      measurementId: "G-DLGR6XFPP5"
+    };
 
-          const sessionIdCell = document.createElement('td');
-          sessionIdCell.textContent = log.session_id;
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
 
-          const actionCell = document.createElement('td');
-          actionCell.textContent = log.action;
+    function fetchConsentLogs() {
+      const tableBody = document.getElementById("consent-log-list").getElementsByTagName('tbody')[0];
+      tableBody.innerHTML = '';
 
-          const timestampCell = document.createElement('td');
-          const formattedTimestamp = new Date(log.timestamp).toLocaleString();
-          timestampCell.textContent = formattedTimestamp;
+      database.ref('consentLogs').orderByChild('timestamp').on('value', (snapshot) => {
+        const logs = snapshot.val();
+        tableBody.innerHTML = ''; // Clear on update
 
-          logRow.appendChild(sessionIdCell);
-          logRow.appendChild(actionCell);
-          logRow.appendChild(timestampCell);
+        if (logs) {
+          Object.keys(logs).reverse().forEach(key => {
+            const log = logs[key];
+            const row = document.createElement('tr');
 
-          consentLogList.appendChild(logRow);
-        });
-      } else {
-        // No logs found
-        const emptyRow = document.createElement('tr');
-        const emptyCell = document.createElement('td');
-        emptyCell.colSpan = 3;
-        emptyCell.textContent = 'No consent logs found.';
-        emptyCell.classList.add('empty-row');
-        emptyRow.appendChild(emptyCell);
-        consentLogList.appendChild(emptyRow);
-      }
+            const sessionCell = document.createElement('td');
+            sessionCell.textContent = log.session_id || '-';
+
+            const actionCell = document.createElement('td');
+            actionCell.textContent = log.action || '-';
+
+            const timestampCell = document.createElement('td');
+            timestampCell.textContent = log.timestamp
+              ? new Date(log.timestamp).toLocaleString()
+              : '-';
+
+            row.appendChild(sessionCell);
+            row.appendChild(actionCell);
+            row.appendChild(timestampCell);
+
+            tableBody.appendChild(row);
+          });
+        } else {
+          const row = document.createElement('tr');
+          const cell = document.createElement('td');
+          cell.setAttribute('colspan', '3');
+          cell.textContent = 'No logs found.';
+          row.appendChild(cell);
+          tableBody.appendChild(row);
+        }
+      }, error => {
+        console.error("Error fetching data:", error);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchConsentLogs();
     });
-  }
+  </script>
 
-  // Call real-time fetch on DOMContentLoaded
-  document.addEventListener("DOMContentLoaded", fetchConsentLogs);
-</script>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div id="sidebar"></div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1>Consent Logs</h1>
+    <p>Track and view user consent actions.</p>
+
+    <!-- Filters and Actions -->
+    <div class="cookie-categories filters-actions">
+      <div>
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date" name="start-date" />
+      </div>
+      <div>
+        <label for="end-date">End Date:</label>
+        <input type="date" id="end-date" name="end-date" />
+        <button class="add-category-btn">Filter</button>
+      </div>
+      <div style="margin-left: auto;">
+        <button class="export-btn">Export Logs</button>
+        <button class="clear-btn">Clear Logs</button>
+      </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="cookie-categories">
+      <table>
+        <thead>
+          <tr>
+            <th>Session ID</th>
+            <th>Action</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody id="consent-log-list">
+          <!-- Logs will be populated here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Table Controls -->
+    <div class="table-controls">
+      <div>
+        <label for="rows-per-page">Rows per page:</label>
+        <select id="rows-per-page">
+          <option value="20" selected>20</option>
+          <option value="40">40</option>
+          <option value="60">60</option>
+          <option value="80">80</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+      <div class="cookie-categories pagination-controls">
+        <button class="add-category-btn">Previous</button>
+        <span>Page 1 of 5</span>
+        <button class="add-category-btn">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar Loader -->
+  <script>
+    fetch('../../shared/sidebar.html')
+      .then(res => {
+        if (!res.ok) throw new Error('Sidebar file not found.');
+        return res.text();
+      })
+      .then(html => {
+        document.getElementById('sidebar').innerHTML = html;
+      })
+      .catch(err => {
+        console.error('Sidebar error:', err);
+        alert('Error loading sidebar. Check console.');
+      });
+  </script>
+
+</body>
+</html>
