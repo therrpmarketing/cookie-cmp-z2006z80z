@@ -18,12 +18,18 @@ const db = firebase.database();
 const bgInput = document.querySelector('#bgColor');
 const textInput = document.querySelector('#textColor');
 const btnInput = document.querySelector('#btnColor');
+const cookieDomainInput = document.querySelector('#cookie-domain');
+const sameSitePolicyInput = document.querySelector('#same-site-policy');
+const secureCookieToggle = document.querySelector('#secure-cookie-toggle');
+const httpOnlyToggle = document.querySelector('#http-only-toggle');
 
 // Save button (ensure your button uses this class)
 const saveBtn = document.querySelector('.cmp-save-button');
+const saveCookieSettingsBtn = document.getElementById('save-cookie-settings');
 
 // Firebase reference path (adjust this if needed)
 const themeRef = db.ref('themeSettings/current');
+const cookieSettingsRef = db.ref('cookieSettings');
 
 // Function to load theme settings from Firebase
 function getThemeSettings() {
@@ -45,7 +51,7 @@ function getThemeSettings() {
     });
 }
 
-// Save button click handler
+// Save button click handler for theme settings
 saveBtn.addEventListener("click", () => {
     const newTheme = {
         backgroundColor: bgInput.value,
@@ -97,19 +103,42 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    const saveBtn = document.getElementById('save-cookie-settings');
-    
-    // Load existing settings (if any) from Firebase
-    function loadSettings() {
-        firebase.database().ref('cookieSettings').once('value', function(snapshot) {
-            const data = snapshot.val();
-            if (data) {
-                document.getElementById('cookie-domain').value = data.cookieDomain || '';
-                document.getElementById('same-site-policy').value = data.sameSitePolicy || 'Lax';
-                document.getElementById('secure-cookie-toggle').checked = data.secureCookie || false;
-                document.getElementById('http-only-toggle').checked = data.httpOnly || false;
-            }
+// Function to load cookie settings from Firebase
+function loadCookieSettings() {
+    cookieSettingsRef.once('value', function(snapshot) {
+        const data = snapshot.val();
+        if (data) {
+            // Set input fields
+            cookieDomainInput.value = data.cookieDomain || '';
+            sameSitePolicyInput.value = data.sameSitePolicy || 'Lax';
+            secureCookieToggle.checked = data.secureCookie || false;
+            httpOnlyToggle.checked = data.httpOnly || false;
+        }
+    }).catch((error) => {
+        console.error("Error loading cookie settings:", error);
+    });
+}
+
+// Save button click handler for cookie settings
+saveCookieSettingsBtn.addEventListener("click", () => {
+    const newCookieSettings = {
+        cookieDomain: cookieDomainInput.value,
+        sameSitePolicy: sameSitePolicyInput.value,
+        secureCookie: secureCookieToggle.checked,
+        httpOnly: httpOnlyToggle.checked
+    };
+
+    // Save to Firebase
+    cookieSettingsRef.set(newCookieSettings)
+        .then(() => {
+            alert("🎉 Cookie settings saved!");
+        })
+        .catch((error) => {
+            console.error("Error saving cookie settings:", error);
         });
-    }
-  
+});
+
+// Load cookie settings on page load
+window.addEventListener("load", () => {
+    loadCookieSettings();
+});
