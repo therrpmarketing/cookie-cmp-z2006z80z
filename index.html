@@ -84,6 +84,49 @@ firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 </script>
 <!-- This is new step for Firebase (Second one) END -->
+
+
+    
+<!-- Other HTML content -->
+
+<!-- Firebase and consent logging logic -->
+<script>
+  // logConsentAction function
+  function logConsentAction(sessionId, action, preferences) {
+    const consentLogRef = database.ref('consentLogs/' + sessionId);
+    consentLogRef.set({
+      action: action,
+      preferences: preferences,
+      timestamp: new Date().toISOString()
+    }, (error) => {
+      if (error) {
+        console.error("Error writing consent log:", error);
+      } else {
+        console.log("Consent log successfully written.");
+      }
+    });
+  }
+
+  // Later in the same script block (or another)
+  document.getElementById("acceptAllBtn").addEventListener("click", function () {
+    const sessionId = "session_" + Date.now() + Math.random().toString(36).substring(2);
+    const preferences = {
+      functional: true,
+      analytics: true,
+      performance: true,
+      advertisement: true
+    };
+    logConsentAction(sessionId, "accept_all", preferences);
+  });
+
+  // Repeat similar logic for other buttons (reject, customize, etc.)
+</script>
+
+</body>
+
+
+
+    
     
 </body>
 </html>
