@@ -132,5 +132,54 @@
         alert('Error loading sidebar. Please check the file path or server configuration.');
       });
   </script>
+
+<!-- Firebase Setup for General Cookie Setting START -->
+<script type="module">
+  // ✅ Firebase Setup (Paste your existing Firebase config here)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+    authDomain: "cookie-cmp-sys.firebaseapp.com",
+    databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+    projectId: "cookie-cmp-sys",
+    storageBucket: "cookie-cmp-sys.firebasestorage.app",
+    messagingSenderId: "252822009652",
+    appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
+    measurementId: "G-DLGR6XFPP5"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // ✅ Save Button Click Handler
+  document.getElementById("save-cookie-settings").addEventListener("click", () => {
+    const cookieDomain = document.getElementById("cookie-domain").value;
+    const sameSitePolicy = document.getElementById("same-site-policy").value;
+    const secureCookie = document.getElementById("secure-cookie-toggle").checked;
+    const httpOnlyCookie = document.getElementById("http-only-toggle").checked;
+
+    const settingsData = {
+      "cookie-domain": cookieDomain,
+      "same-site-policy": sameSitePolicy,
+      "secure-cookie": secureCookie,
+      "http-only-cookie": httpOnlyCookie
+    };
+
+    // ✅ Write to Firebase under /cookie-settings/general/
+    set(ref(db, "cookie-settings/general"), settingsData)
+      .then(() => {
+        alert("✅ Settings saved successfully!");
+      })
+      .catch((error) => {
+        console.error("Error saving settings:", error);
+        alert("❌ Failed to save settings. Please try again.");
+      });
+  });
+</script>
+<!-- Firebase Setup for General Cookie Setting END -->
+
+  
 </body>
 </html>
