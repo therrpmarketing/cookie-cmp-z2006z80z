@@ -143,5 +143,43 @@ window.addEventListener("load", () => {
     loadCookieSettings();
 });
 
+// Function to Fetch Data from Firebase
+
+        // 1. Firebase Initialization (already done)
+        firebase.initializeApp(firebaseConfig); // Make sure your Firebase config is correct
+        
+        // 2. Fetch Function to get user consent data
+        function fetchConsentData(userId) {
+            const consentRef = firebase.firestore().collection('user_consents').doc(userId);
+        
+            consentRef.get().then(doc => {
+                if (doc.exists) {
+                    const consentData = doc.data();
+                    console.log("User Consent Data: ", consentData);
+                    updateConsentUI(consentData); // Call to update the UI with fetched data
+                } else {
+                    console.log("No consent data found for user");
+                }
+            }).catch(error => {
+                console.error("Error fetching consent data: ", error);
+            });
+        }
+        
+        // 3. Fetch Data on Page Load
+        document.addEventListener('DOMContentLoaded', function () {
+            const userId = getUserId(); // Replace with logic to get the current user ID
+            fetchConsentData(userId);  // Call the fetch function with the user ID
+        });
+        
+        // 4. Function to Update UI with Fetched Data (example)
+        function updateConsentUI(consentData) {
+            // Example update logic for the HTML elements:
+            document.getElementById('analytics-consent').textContent = consentData.analytics ? "Allowed" : "Not Allowed";
+            document.getElementById('ad-consent').textContent = consentData.advertising ? "Allowed" : "Not Allowed";
+            document.getElementById('functional-consent').textContent = consentData.functional ? "Allowed" : "Not Allowed";
+            document.getElementById('personalization-consent').textContent = consentData.personalization ? "Allowed" : "Not Allowed";
+        }
+
+
 
 
