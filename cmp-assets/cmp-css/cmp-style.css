@@ -305,17 +305,19 @@ h1 {
 }
 
 .cookie-expiry-group {
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .cookie-expiry-group label {
   display: block;
   margin-bottom: 6px;
   font-weight: 500;
+  color: #333;
 }
 
 .cookie-expiry-group input {
   width: 100%;
+  max-width: 300px;
   padding: 8px;
   border-radius: 6px;
   border: 1px solid #ccc;
