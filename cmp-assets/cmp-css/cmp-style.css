@@ -304,6 +304,24 @@ h1 {
   display: none;
 }
 
+.cookie-expiry-group {
+  margin-bottom: 16px;
+}
+
+.cookie-expiry-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.cookie-expiry-group input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
 /*  Adv. Setting Section Cookie Expiry Settings END */
 
 
