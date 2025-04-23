@@ -1,26 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Preferences</title>
-    <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- CSP Meta Tag -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self'; 
+    style-src 'self' 'unsafe-inline'; 
+    script-src 'self' 'unsafe-inline' https://therrpmarketing.github.io; 
+    img-src 'self' data:; 
+    connect-src 'self';">
+
+  <title>User Preferences</title>
+
+  <!-- CMP Stylesheet -->
+  <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
 </head>
 <body>
-    <!-- Sidebar -->
-    <div id="sidebar"></div>
+  <!-- Sidebar -->
+  <div id="sidebar"></div>
 
-    <div class="main-content">
-        <h1>User Preferences</h1>
-        <p>Manage user cookie preferences here.</p>
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1>User Preferences</h1>
+    <p>View and manage individual user preferences for cookies.</p>
+
+    <!-- Filters and Actions -->
+    <div class="cookie-categories filters-actions" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+      <div>
+        <label for="session-id">Session ID:</label>
+        <input type="text" id="session-id" name="session-id" placeholder="Enter Session ID" />
+      </div>
+      <div>
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date" name="start-date" />
+      </div>
+      <div>
+        <label for="end-date">End Date:</label>
+        <input type="date" id="end-date" name="end-date" />
+        <button class="add-category-btn">Filter</button>
+      </div>
+      <div style="margin-left: auto;">
+        <button class="export-btn">Export Preferences</button>
+        <button class="clear-btn">Clear Preferences</button>
+      </div>
     </div>
 
-    <script>
-        fetch('https://therrpmarketing.github.io/cookie-cmp-z2006z80z/shared/sidebar.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('sidebar').innerHTML = data;
-        });
-    </script>
+    <!-- Table Section -->
+    <div class="cookie-categories">
+      <table>
+        <thead>
+          <tr>
+            <th>Session ID</th>
+            <th>Necessary</th>
+            <th>Functional</th>
+            <th>Analytics</th>
+            <th>Performance</th>
+            <th>Advertisement</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody id="user-preference-list">
+          <!-- Example rows (replace with dynamic content later) -->
+          <tr>
+            <td>ABC123456789</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>2025-04-21 14:35</td>
+          </tr>
+          <tr>
+            <td>XYZ987654321</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>2025-04-20 11:22</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Table Controls -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+      <div>
+        <label for="rows-per-page">Rows per page:</label>
+        <select id="rows-per-page">
+          <option value="20" selected>20</option>
+          <option value="40">40</option>
+          <option value="60">60</option>
+          <option value="80">80</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+      <div class="cookie-categories pagination-controls">
+        <button class="add-category-btn">Previous</button>
+        <span>Page 1 of 5</span>
+        <button class="add-category-btn">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar Script -->
+  <script>
+    fetch('../../shared/sidebar.html')
+      .then(response => {
+        if (!response.ok) throw new Error('Sidebar file not found.');
+        return response.text();
+      })
+      .then(data => {
+        document.getElementById('sidebar').innerHTML = data;
+      })
+      .catch(err => {
+        console.error('Error loading sidebar:', err);
+        alert('Error loading sidebar. Please check the file path or server configuration.');
+      });
+  </script>
 </body>
 </html>
