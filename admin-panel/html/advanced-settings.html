@@ -230,10 +230,9 @@
 
 
   <!-- Firebase Setup for Cookie Expiry with Categories Setting START -->
-        <script type="module">
+         <script type="module">
         import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
       
         const firebaseConfig = {
           apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
@@ -242,15 +241,13 @@
           projectId: "cookie-cmp-sys",
           storageBucket: "cookie-cmp-sys.firebasestorage.app",
           messagingSenderId: "252822009652",
-          appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
-          measurementId: "G-DLGR6XFPP5"
+          appId: "1:252822009652:web:6bfbdf28d98953ccb89761"
         };
       
         const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
         const db = getDatabase(app);
       
-        // Save general cookie settings
+        // Save general settings
         document.getElementById("save-cookie-settings").addEventListener("click", () => {
           const cookieDomain = document.getElementById("cookie-domain").value;
           const sameSitePolicy = document.getElementById("same-site-policy").value;
@@ -272,7 +269,7 @@
             });
         });
       
-        // Save cookie expiry settings
+        // Save expiry settings
         document.getElementById("save-expiry-settings").addEventListener("click", () => {
           const expirySettings = {
             necessary: parseInt(document.getElementById("expiry-necessary").value),
@@ -290,6 +287,7 @@
             });
         });
       </script>
+
 
 <!-- Firebase Setup for Cookie Expiry with Categories Setting END -->
 
