@@ -64,63 +64,6 @@
     </script>
 <!-- This is new step for Firebase (FIRST WORKING one) ENDS -->
 
-<!-- This is new step for Firebase (Second one) START -->
-<script>
-// Firebase configuration (you will need to replace these values with your own Firebase credentials)
-const firebaseConfig = {
-            apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-            authDomain: "cookie-cmp-sys.firebaseapp.com",
-            databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
-            projectId: "cookie-cmp-sys",
-            storageBucket: "cookie-cmp-sys.firebasestorage.app",
-            messagingSenderId: "252822009652",
-            appId: "1:252822009652:web:6bfbdf28d98953ccb89761"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-// Get a reference to the Firebase Realtime Database
-const database = firebase.database();
-</script>
-<!-- This is new step for Firebase (Second one) END -->
-
-
-    
-<!-- Other HTML content -->
-
-<!-- Firebase and consent logging logic -->
-<script>
-  // logConsentAction function
-  function logConsentAction(sessionId, action, preferences) {
-    const consentLogRef = database.ref('consentLogs/' + sessionId);
-    consentLogRef.set({
-      action: action,
-      preferences: preferences,
-      timestamp: new Date().toISOString()
-    }, (error) => {
-      if (error) {
-        console.error("Error writing consent log:", error);
-      } else {
-        console.log("Consent log successfully written.");
-      }
-    });
-  }
-
-  // Later in the same script block (or another)
-  document.getElementById("acceptAllBtn").addEventListener("click", function () {
-    const sessionId = "session_" + Date.now() + Math.random().toString(36).substring(2);
-    const preferences = {
-      functional: true,
-      analytics: true,
-      performance: true,
-      advertisement: true
-    };
-    logConsentAction(sessionId, "accept_all", preferences);
-  });
-
-  // Repeat similar logic for other buttons (reject, customize, etc.)
-</script>
 
 </body>
 
