@@ -77,40 +77,42 @@
   <!-- General Cookie Settings Section END -->
       
 
-  <!-- Cookie Expiry Settings Section inside .cookie-categories cmp-card START-->
+  <!-- Cookie Expiry Settings Section inside START-->
       <div class="cookie-categories cmp-card">
-        <h2>Cookie Expiry Settings</h2>
-        <p>Manage cookie expiration durations per category.</p>
-        
-         <div class="cookie-expiry-group">
-        <label for="expiry-necessary">Necessary Cookie Expiry (days):</label>
-        <input type="number" id="expiry-necessary" min="1" max="395" value="365">
+      <h2>Cookie Expiry Settings</h2>
+      <p>Manage cookie expiration durations per category.</p>
+    
+      <div class="cookie-expiry-wrapper">
+        <div class="cookie-expiry-group">
+          <label for="expiry-necessary">Necessary Cookie Expiry (days):</label>
+          <input type="number" id="expiry-necessary" min="1" max="395" value="365">
         </div>
-      
+    
         <div class="cookie-expiry-group">
           <label for="expiry-functional">Functional Cookie Expiry (days):</label>
           <input type="number" id="expiry-functional" min="1" max="395" value="180">
         </div>
-      
+    
         <div class="cookie-expiry-group">
           <label for="expiry-analytics">Analytics Cookie Expiry (days):</label>
           <input type="number" id="expiry-analytics" min="1" max="395" value="180">
         </div>
-      
+    
         <div class="cookie-expiry-group">
           <label for="expiry-performance">Performance Cookie Expiry (days):</label>
           <input type="number" id="expiry-performance" min="1" max="395" value="365">
         </div>
-        
+    
         <div class="cookie-expiry-group">
           <label for="expiry-advertisement">Advertisement Cookie Expiry (days):</label>
           <input type="number" id="expiry-advertisement" min="1" max="395" value="365">
         </div>
-        
-        <!-- Edit Expiry Button -->
-              <button class="add-category-btn">Edit Expiry</button>
+    
+        <button class="save-btn" id="save-expiry-settings">Save Expiry Settings</button>
       </div>
-<!-- Cookie Expiry Settings Section inside .cookie-categories cmp-card START-->
+    </div>
+
+<!-- Cookie Expiry Settings Section inside END-->
 
       
       <div class="cookie-categories cmp-card">
