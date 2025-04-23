@@ -109,7 +109,7 @@ h1 {
     background-color: #e60000;
 }
 
-/* Below is the input field CSS START*/
+/* Below is the input field CSS START */
 
 /* CMP Input Fields - Professional Look */
 .cmp-input {
@@ -155,8 +155,6 @@ h1 {
     border-color: #4CAF50; /* Green border for success */
     box-shadow: 0 0 5px rgba(76, 175, 80, 0.2); /* Subtle green shadow */
 }
-/* Here  input field CSS END */
-
 
 /* Stat Cards - START */
 .stat-card-container {
@@ -193,12 +191,9 @@ h1 {
   color: #111;
   margin: 0;
 }
-
 /* Stat Cards - ENDS */
 
-
 /*  Adv. Setting For consistency Start */
-
 .settings-section {
     margin-bottom: 30px;
 }
@@ -241,10 +236,7 @@ h1 {
 }
 /*  Adv. Setting Section For consistency END */
 
-
 /*  Adv. Setting Section Cookie Expiry Settings START */
-
-/* Cookie Expiry Settings */
 .section h2 {
   font-size: 1.5em;
   font-weight: bold;
@@ -323,11 +315,4 @@ h1 {
   border: 1px solid #ccc;
   font-size: 14px;
 }
-
 /*  Adv. Setting Section Cookie Expiry Settings END */
-
-
-
-
-
-
