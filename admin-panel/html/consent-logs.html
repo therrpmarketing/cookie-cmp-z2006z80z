@@ -23,8 +23,7 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
-  <script>
+<script>
     // Firebase setup
     const firebaseConfig = {
       apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
@@ -43,29 +42,52 @@
 
     // Function to fetch consent logs from Firebase
     function fetchConsentLogs() {
-      const logRef = database.ref('consentLogs');
-      logRef.orderByChild('timestamp').once('value', (snapshot) => {
+      const consentLogList = document.getElementById("consent-log-list").getElementsByTagName('tbody')[0];
+
+      // Clear the list before populating it with new logs
+      consentLogList.innerHTML = '';
+
+      // Fetch logs from Firebase
+      database.ref('consentLogs').orderByChild('timestamp').once('value', (snapshot) => {
         const logs = snapshot.val();
-        const logList = document.getElementById('consent-log-list');
-        logList.innerHTML = ''; // Clear current logs
+
         if (logs) {
           Object.keys(logs).forEach(key => {
             const log = logs[key];
-            const row = document.createElement('tr');
-            row.innerHTML = `
-              <td>${log.sessionId}</td>
-              <td>${log.action}</td>
-              <td>${new Date(log.timestamp).toLocaleString()}</td>
-            `;
-            logList.appendChild(row);
+
+            // Create a new table row
+            const logRow = document.createElement('tr');
+
+            // Create table cells for the log data
+            const sessionIdCell = document.createElement('td');
+            sessionIdCell.textContent = log.session_id;
+
+            const actionCell = document.createElement('td');
+            actionCell.textContent = log.action;
+
+            const timestampCell = document.createElement('td');
+            const formattedTimestamp = new Date(log.timestamp).toLocaleString();  // Format timestamp
+            timestampCell.textContent = formattedTimestamp;
+
+            // Append each cell to the row
+            logRow.appendChild(sessionIdCell);
+            logRow.appendChild(actionCell);
+            logRow.appendChild(timestampCell);
+
+            // Append the row to the log table
+            consentLogList.appendChild(logRow);
           });
+        } else {
+          console.log("No consent logs found.");
         }
       });
     }
 
-    // Initialize the page
+    // Initialize the page and fetch logs when content is loaded
     document.addEventListener("DOMContentLoaded", fetchConsentLogs);
-  </script>
+</script>
+
+ 
 </head>
 <body>
   <!-- Sidebar -->
