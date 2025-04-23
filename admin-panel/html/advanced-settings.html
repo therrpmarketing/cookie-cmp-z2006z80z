@@ -21,39 +21,40 @@
     <h1>Advanced Settings</h1>
     <p>Configure advanced consent management settings for full customization and control.</p>
 
-    <!-- Settings Cards Section -->
     <div class="card-grid">
+      
+      <!-- General Cookie Settings Section -->
       <div class="cookie-categories cmp-card">
-        <h2>General Cookie Settings</h2>
+        <h2 class="cmp-section-header">General Cookie Settings</h2>
         <p>Define cookie attributes like domain, SameSite policy, and security flags.</p>
         <div class="cookie-category-container">
 
           <div class="cookie-setting-item">
             <label class="cookie-label" for="cookie-domain">Cookie Domain</label>
-            <input class="cookie-input" type="text" id="cookie-domain" name="cookie-domain" placeholder="Enter cookie domain" />
-            <p class="cookie-description">Specify the domain where cookies should be set (e.g., .yourdomain.com).</p>
+            <input class="cookie-input" type="text" id="cookie-domain" placeholder="e.g., .yourdomain.com" />
+            <p class="cookie-description">Specify the domain where cookies will be set.</p>
           </div>
 
           <div class="cookie-setting-item">
             <label class="cookie-label" for="same-site-policy">SameSite Policy</label>
-            <select class="cookie-input" id="same-site-policy" name="same-site-policy">
+            <select class="cookie-input" id="same-site-policy">
               <option value="Strict">Strict</option>
               <option value="Lax">Lax</option>
               <option value="None">None</option>
             </select>
-            <p class="cookie-description">Choose the SameSite policy for cross-origin cookie behavior.</p>
+            <p class="cookie-description">Control cross-origin behavior for cookies.</p>
           </div>
 
           <div class="cookie-setting-item toggle-group">
             <label class="cookie-label" for="secure-cookie-toggle">Secure Cookie</label>
             <input type="checkbox" id="secure-cookie-toggle" class="cookie-toggle" />
-            <p class="cookie-description">Enable the Secure flag to restrict cookies to HTTPS only.</p>
+            <p class="cookie-description">Restricts cookie transmission to HTTPS connections only.</p>
           </div>
 
           <div class="cookie-setting-item toggle-group">
             <label class="cookie-label" for="http-only-toggle">HttpOnly Cookie</label>
             <input type="checkbox" id="http-only-toggle" class="cookie-toggle" />
-            <p class="cookie-description">Enable HttpOnly to prevent JavaScript access to cookies.</p>
+            <p class="cookie-description">Prevents access to the cookie via JavaScript for added security.</p>
           </div>
 
           <div class="cookie-setting-item">
@@ -62,53 +63,55 @@
         </div>
       </div>
 
+      <!-- Other Cards Below -->
       <div class="cookie-categories cmp-card">
-        <h2>Cookie Expiry Settings</h2>
+        <h2 class="cmp-section-header">Cookie Expiry Settings</h2>
         <p>Manage cookie expiration durations per category.</p>
         <button class="add-category-btn">Edit Expiry</button>
       </div>
 
       <div class="cookie-categories cmp-card">
-        <h2>Consent Logging Settings</h2>
+        <h2 class="cmp-section-header">Consent Logging Settings</h2>
         <p>Enable or disable consent logs and define retention policy.</p>
         <button class="add-category-btn">Manage Logs</button>
       </div>
 
       <div class="cookie-categories cmp-card">
-        <h2>Consent Mode & Preferences</h2>
+        <h2 class="cmp-section-header">Consent Mode & Preferences</h2>
         <p>Control integration with Google Consent Mode v2 and user preference mapping.</p>
         <button class="add-category-btn">Setup Consent Mode</button>
       </div>
 
       <div class="cookie-categories cmp-card">
-        <h2>Notification Settings</h2>
+        <h2 class="cmp-section-header">Notification Settings</h2>
         <p>Enable admin alerts for user actions, errors, or major events.</p>
         <button class="add-category-btn">Configure Alerts</button>
       </div>
 
       <div class="cookie-categories cmp-card">
-        <h2>Custom Styling & Branding</h2>
+        <h2 class="cmp-section-header">Custom Styling & Branding</h2>
         <p>Apply your brand theme: logo, colors, button styles.</p>
         <button class="add-category-btn">Customize Branding</button>
       </div>
 
       <div class="cookie-categories cmp-card">
-        <h2>User Preference Handling</h2>
+        <h2 class="cmp-section-header">User Preference Handling</h2>
         <p>Control how user preferences are stored and retrieved across sessions/devices.</p>
         <button class="add-category-btn">Edit Handling</button>
       </div>
 
       <div class="cookie-categories cmp-card">
-        <h2>Advanced Security Settings</h2>
+        <h2 class="cmp-section-header">Advanced Security Settings</h2>
         <p>Restrict access, enable IP filtering, and encryption settings.</p>
         <button class="add-category-btn">Security Options</button>
       </div>
 
       <div class="cookie-categories cmp-card">
-        <h2>Debugging & Developer Tools</h2>
+        <h2 class="cmp-section-header">Debugging & Developer Tools</h2>
         <p>Enable logging, testing tools, and dev mode toggles.</p>
         <button class="add-category-btn">Enable Tools</button>
       </div>
+
     </div>
   </div>
 
