@@ -24,71 +24,72 @@
   <!-- Main Content -->
   <div class="main-content">
     <h1>Consent Analytics</h1>
-    <p>Visual overview and statistics of user consent activity.</p>
+    <p>Visual overview of user consent trends.</p>
 
-    <!-- Stat Cards Section -->
-    <div class="cookie-categories" style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+    <!-- Stat Cards -->
+    <div class="stat-card-container">
       <div class="stat-card">
         <h3>Total Consents</h3>
-        <p>4,350</p>
+        <p>2,456</p>
       </div>
       <div class="stat-card">
-        <h3>Accepted All</h3>
-        <p>2,890</p>
+        <h3>Accepted</h3>
+        <p>1,740</p>
       </div>
       <div class="stat-card">
-        <h3>Rejected All</h3>
-        <p>830</p>
+        <h3>Rejected</h3>
+        <p>450</p>
       </div>
       <div class="stat-card">
-        <h3>Custom Preferences</h3>
-        <p>630</p>
+        <h3>Custom Preference</h3>
+        <p>266</p>
       </div>
     </div>
 
-    <!-- Filters -->
+    <!-- Filter Bar -->
     <div class="cookie-categories filters-actions" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 1rem;">
       <div>
-        <label for="analytics-start-date">Start Date:</label>
-        <input type="date" id="analytics-start-date" />
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date" name="start-date" />
       </div>
       <div>
-        <label for="analytics-end-date">End Date:</label>
-        <input type="date" id="analytics-end-date" />
-        <button class="add-category-btn">Apply Filter</button>
+        <label for="end-date">End Date:</label>
+        <input type="date" id="end-date" name="end-date" />
+        <button class="add-category-btn">Filter</button>
+      </div>
+      <div style="margin-left: auto;">
+        <button class="export-btn">Export Logs</button>
+        <button class="clear-btn">Clear Logs</button>
       </div>
     </div>
 
-    <!-- Placeholder Chart Section -->
-    <div class="cookie-categories" style="min-height: 300px; display: flex; justify-content: center; align-items: center; border: 1px dashed #ccc; margin-bottom: 2rem;">
-      <p style="color: #888;">[ Chart area placeholder — to be replaced with real-time graph/chart ]</p>
-    </div>
-
-    <!-- Table View -->
+    <!-- Table Section -->
     <div class="cookie-categories">
       <table>
         <thead>
           <tr>
             <th>Date</th>
-            <th>Session ID</th>
-            <th>Consent Type</th>
+            <th>Accepted</th>
+            <th>Rejected</th>
+            <th>Custom</th>
+            <th>Total</th>
           </tr>
         </thead>
-        <tbody id="analytics-log-list">
+        <tbody id="consent-analytics-table">
+          <!-- Example static data -->
           <tr>
             <td>2025-04-21</td>
-            <td>ABC123456</td>
-            <td>Accepted All</td>
+            <td>120</td>
+            <td>30</td>
+            <td>20</td>
+            <td>170</td>
           </tr>
           <tr>
             <td>2025-04-20</td>
-            <td>XYZ987654</td>
-            <td>Rejected All</td>
-          </tr>
-          <tr>
-            <td>2025-04-20</td>
-            <td>LMN456789</td>
-            <td>Custom Preferences</td>
+            <td>98</td>
+            <td>22</td>
+            <td>10</td>
+            <td>130</td>
           </tr>
         </tbody>
       </table>
@@ -97,8 +98,8 @@
     <!-- Table Controls -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
       <div>
-        <label for="analytics-rows-per-page">Rows per page:</label>
-        <select id="analytics-rows-per-page">
+        <label for="rows-per-page">Rows per page:</label>
+        <select id="rows-per-page">
           <option value="20" selected>20</option>
           <option value="40">40</option>
           <option value="60">60</option>
