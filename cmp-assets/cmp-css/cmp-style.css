@@ -197,5 +197,37 @@ h1 {
 /* Stat Cards - ENDS */
 
 
+/*  Setting For consistency Start */
+.settings-section {
+    margin-bottom: 30px;
+}
 
+.setting-group {
+    margin-bottom: 15px;
+}
+
+.setting-group label {
+    font-weight: bold;
+}
+
+.setting-group input, 
+.setting-group select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+.save-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.save-btn:hover {
+    background-color: #45a049;
+}
+
+/*  Setting For consistency END */
 
