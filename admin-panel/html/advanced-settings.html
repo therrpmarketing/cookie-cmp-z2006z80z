@@ -21,14 +21,46 @@
     <h1>Advanced Settings</h1>
     <p>Configure advanced consent management settings for full customization and control.</p>
 
-    <!-- Settings Cards Section -->
-    <div class="card-grid">
-      <div class="cookie-categories cmp-card">
-        <h2>General Cookie Settings</h2>
-        <p>Define cookie names, categories, and storage rules.</p>
-        <button class="add-category-btn">Configure</button>
+    <!-- General Cookie Settings Section -->
+    <div class="settings-section">
+      <h2 class="section-title">General Cookie Settings</h2>
+
+      <!-- Cookie Domain -->
+      <div class="setting-group">
+        <label for="cookie-domain">Cookie Domain:</label>
+        <input type="text" id="cookie-domain" name="cookie-domain" placeholder="Enter Cookie Domain" />
+        <p class="description">Specify the domain where cookies will be set.</p>
       </div>
 
+      <!-- SameSite Policy -->
+      <div class="setting-group">
+        <label for="same-site-policy">SameSite Policy:</label>
+        <select id="same-site-policy" name="same-site-policy">
+          <option value="Strict">Strict</option>
+          <option value="Lax">Lax</option>
+          <option value="None">None</option>
+        </select>
+        <p class="description">Choose the SameSite policy for cookies.</p>
+      </div>
+
+      <!-- Secure/HttpOnly Toggles -->
+      <div class="setting-group">
+        <label for="secure-cookie-toggle">Secure Cookie:</label>
+        <input type="checkbox" id="secure-cookie-toggle" name="secure-cookie-toggle" />
+        <p class="description">Enable Secure flag for cookies.</p>
+      </div>
+      <div class="setting-group">
+        <label for="http-only-toggle">HttpOnly Cookie:</label>
+        <input type="checkbox" id="http-only-toggle" name="http-only-toggle" />
+        <p class="description">Enable HttpOnly flag for cookies.</p>
+      </div>
+
+      <!-- Save Button -->
+      <button class="save-btn" id="save-cookie-settings">Save Settings</button>
+    </div>
+
+    <!-- Settings Cards Section -->
+    <div class="card-grid">
       <div class="cookie-categories cmp-card">
         <h2>Cookie Expiry Settings</h2>
         <p>Manage cookie expiration durations per category.</p>
