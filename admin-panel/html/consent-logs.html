@@ -18,15 +18,14 @@
   <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
 
   <!-- Firebase SDK -->
-  <script src=https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js></script>
-  <script src=https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <script>
-    // Firebase setup
     const firebaseConfig = {
       apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
       authDomain: "cookie-cmp-sys.firebaseapp.com",
-      databaseURL: https://cookie-cmp-sys-default-rtdb.firebaseio.com,
+      databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
       projectId: "cookie-cmp-sys",
       storageBucket: "cookie-cmp-sys.appspot.com",
       messagingSenderId: "252822009652",
@@ -36,60 +35,9 @@
 
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
-
-    function fetchConsentLogs() {
-      const tableBody = document.getElementById("consent-log-list");
-      if (!tableBody) {
-        console.error("Consent log table body not found.");
-        return;
-      }
-      tableBody.innerHTML = '';
-    
-      database.ref('consentLogs').orderByChild('timestamp').on('value', (snapshot) => {
-        const logs = snapshot.val();
-        tableBody.innerHTML = ''; // Clear on update
-    
-        if (logs) {
-          Object.keys(logs).reverse().forEach(key => {
-            const log = logs[key];
-            const row = document.createElement('tr');
-    
-            const sessionCell = document.createElement('td');
-            sessionCell.textContent = log.session_id || '-';
-    
-            const actionCell = document.createElement('td');
-            actionCell.textContent = log.action || '-';
-    
-            const timestampCell = document.createElement('td');
-            timestampCell.textContent = log.timestamp
-              ? new Date(log.timestamp).toLocaleString()
-              : '-';
-    
-            row.appendChild(sessionCell);
-            row.appendChild(actionCell);
-            row.appendChild(timestampCell);
-    
-            tableBody.appendChild(row);
-          });
-        } else {
-          const row = document.createElement('tr');
-          const cell = document.createElement('td');
-          cell.setAttribute('colspan', '3');
-          cell.textContent = 'No logs found.';
-          row.appendChild(cell);
-          tableBody.appendChild(row);
-        }
-      }, error => {
-        console.error("Error fetching data:", error);
-      });
-    }
-
-
-    document.addEventListener("DOMContentLoaded", () => {
-      fetchConsentLogs();
-    });
   </script>
 
+  <script src="../../cmp-assets/cmp-js/consent-logs.js" defer></script>
 </head>
 <body>
   <!-- Sidebar -->
@@ -109,26 +57,27 @@
       <div>
         <label for="end-date">End Date:</label>
         <input type="date" id="end-date" name="end-date" />
-        <button class="add-category-btn">Filter</button>
+        <button id="filter-logs" class="add-category-btn">Filter</button>
       </div>
       <div style="margin-left: auto;">
         <button class="export-btn">Export Logs</button>
-        <button class="clear-btn">Clear Logs</button>
+        <button id="clear-logs" class="clear-btn">Clear Logs</button>
       </div>
     </div>
 
     <!-- Table Section -->
     <div class="cookie-categories">
-      <table>
+      <table id="logs-table">
         <thead>
           <tr>
             <th>Session ID</th>
-            <th>Action</th>
-            <th>Timestamp</th>
+            <th>Consent Type</th>
+            <th>Status</th>
+            <th>Date</th>
           </tr>
         </thead>
-        <tbody id="consent-log-list">
-          <!-- Logs will be populated here -->
+        <tbody>
+          <!-- Populated by JS -->
         </tbody>
       </table>
     </div>
@@ -145,10 +94,8 @@
           <option value="100">100</option>
         </select>
       </div>
-      <div class="cookie-categories pagination-controls">
-        <button class="add-category-btn">Previous</button>
-        <span>Page 1 of 5</span>
-        <button class="add-category-btn">Next</button>
+      <div class="cookie-categories pagination-controls" id="pagination">
+        <!-- Populated by JS -->
       </div>
     </div>
   </div>
@@ -168,6 +115,5 @@
         alert('Error loading sidebar. Check console.');
       });
   </script>
-
 </body>
 </html>
