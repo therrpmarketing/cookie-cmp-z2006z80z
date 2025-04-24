@@ -523,3 +523,35 @@ select, input[type="date"] {
     background-color: #0056b3;
 }
 
+
+
+
+
+.cmp-consent-log-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+.cmp-consent-log-table th,
+.cmp-consent-log-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.cmp-consent-log-table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.cmp-consent-log-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+
+
+
