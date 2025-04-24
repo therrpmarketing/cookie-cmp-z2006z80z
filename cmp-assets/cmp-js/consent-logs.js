@@ -31,15 +31,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// Filter event listener
 document.getElementById('filter-logs').addEventListener('click', function () {
     const startDate = document.getElementById('start-date').value;
     const endDate = document.getElementById('end-date').value;
     const selectedRows = document.getElementById('rows-per-page').value;
     rowsPerPage = parseInt(selectedRows);
 
+    currentPage = 1;  // Reset page number to 1 when applying a new filter
+
     filterLogs(startDate, endDate);
 });
 
+// Clear logs event listener
 document.getElementById('clear-logs').addEventListener('click', function () {
     if (confirm('Are you sure you want to clear all logs?')) {
         localStorage.clear(); // still clears mock if stored locally
@@ -47,19 +51,23 @@ document.getElementById('clear-logs').addEventListener('click', function () {
     }
 });
 
+// Filter logs based on date
 function filterLogs(startDate, endDate) {
     const filteredLogs = logsData.filter(log => {
         const logDate = new Date(log.date);
         return (!startDate || logDate >= new Date(startDate)) &&
                (!endDate || logDate <= new Date(endDate));
     });
+
     renderLogs(filteredLogs);
 }
 
+// Render logs on the table
 function renderLogs(logs) {
     const tableBody = document.querySelector('#logs-table tbody');
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = ''; // Clear previous rows
 
+    // Slice logs based on current page and rows per page
     logs.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage).forEach(log => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -74,11 +82,17 @@ function renderLogs(logs) {
     generatePagination(logs.length);
 }
 
+// Generate pagination controls dynamically
 function generatePagination(totalLogs) {
     const paginationContainer = document.getElementById('pagination');
-    paginationContainer.innerHTML = '';
+    paginationContainer.innerHTML = ''; // Clear previous pagination buttons
 
     const totalPages = Math.ceil(totalLogs / rowsPerPage);
+    if (currentPage > totalPages) {
+        currentPage = totalPages; // Ensure the current page doesn't exceed total pages after filtering
+    }
+
+    // Create pagination buttons
     for (let i = 1; i <= totalPages; i++) {
         const button = document.createElement('button');
         button.textContent = i;
