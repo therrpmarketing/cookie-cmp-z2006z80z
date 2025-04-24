@@ -2,118 +2,241 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - Cookie CMP</title>
+  <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css" />
+  <style>
+    .dashboard-card {
+      background: #fff;
+      padding: 20px;
+      margin: 10px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      flex: 1;
+    }
+    .dashboard-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .button-group button {
+      margin: 5px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .button-group {
+      margin-bottom: 20px;
+    }
+    .consent-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .consent-table th, .consent-table td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    .consent-table th {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
 
-  <!-- CSP Meta Tag -->
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self'; 
-    style-src 'self' 'unsafe-inline'; 
-    script-src 'self' 'unsafe-inline' https://therrpmarketing.github.io https://www.gstatic.com https://www.googleapis.com https://*.firebaseio.com; 
-    connect-src 'self' https://*.firebaseio.com https://*.googleapis.com wss://*.firebaseio.com;
-    img-src 'self' data:;">
+  <div class="admin-container">
+    <aside class="sidebar">
+      <h2>Cookie CMP</h2>
+      <nav>
+        <ul>
+          <li class="active"><a href="admin-dashboard.html">Dashboard</a></li>
+          <li><a href="cookie-categories.html">Cookie Categories</a></li>
+          <li><a href="customize-banner.html">Customize Banner</a></li>
+          <li><a href="consent-logs.html">Consent Logs</a></li>
+          <li><a href="consent-analytics.html">Consent Analytics</a></li>
+          <li><a href="user-preferences.html">User Preferences</a></li>
+          <li><a href="advanced-settings.html">Advanced Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
 
-  <title>Consent Logs</title>
+    <main class="main-content">
+      <h1>Admin Dashboard</h1>
 
-  <!-- CMP Stylesheet -->
-  <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
+      <div class="dashboard-cards">
+        <div class="dashboard-card" id="total-consents">Total Consents: 0</div>
+        <div class="dashboard-card" id="accepted-consents">Accepted: 0</div>
+        <div class="dashboard-card" id="rejected-consents">Rejected: 0</div>
+      </div>
+
+      <div class="button-group">
+        <button id="accept-all">Accept All</button>
+        <button id="reject-all">Reject All</button>
+        <button id="customize">Customize</button>
+      </div>
+
+      <div id="cookie-customization-panel" style="display: none; border: 1px solid #ccc; padding: 20px; border-radius: 12px;">
+        <h3>Cookie Preferences</h3>
+        <label><input type="checkbox" id="necessary" checked disabled /> Necessary</label><br>
+        <label><input type="checkbox" id="functional" /> Functional</label><br>
+        <label><input type="checkbox" id="analytics" /> Analytics</label><br>
+        <label><input type="checkbox" id="performance" /> Performance</label><br><br>
+        <button id="save-preferences">Save Preferences</button>
+      </div>
+
+      <h2>Consent Actions</h2>
+      <table class="consent-table">
+        <thead>
+          <tr>
+            <th>Session ID</th>
+            <th>Action</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody id="consent-log-table">
+          <!-- Logs will appear here -->
+        </tbody>
+      </table>
+    </main>
+  </div>
 
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <script>
+    // Initialize Firebase (replace with your config)
     const firebaseConfig = {
       apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
       authDomain: "cookie-cmp-sys.firebaseapp.com",
       databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
       projectId: "cookie-cmp-sys",
-      storageBucket: "cookie-cmp-sys.appspot.com",
+      storageBucket: "cookie-cmp-sys.firebasestorage.app",
       messagingSenderId: "252822009652",
-      appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
-      measurementId: "G-DLGR6XFPP5"
+      appId: "1:252822009652:web:6bfbdf28d98953ccb89761"
     };
-
     firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
   </script>
 
-  <script src="../../cmp-assets/cmp-js/consent-logs.js" defer></script>
-</head>
-<body>
-  <!-- Sidebar -->
-  <div id="sidebar"></div>
-
-  <!-- Main Content -->
-  <div class="main-content">
-    <h1>Consent Logs</h1>
-    <p>Track and view user consent actions.</p>
-
-    <!-- Filters and Actions -->
-    <div class="cookie-categories filters-actions">
-      <div>
-        <label for="start-date">Start Date:</label>
-        <input type="date" id="start-date" name="start-date" />
-      </div>
-      <div>
-        <label for="end-date">End Date:</label>
-        <input type="date" id="end-date" name="end-date" />
-        <button id="filter-logs" class="add-category-btn">Filter</button>
-      </div>
-      <div style="margin-left: auto;">
-        <button class="export-btn">Export Logs</button>
-        <button id="clear-logs" class="clear-btn">Clear Logs</button>
-      </div>
-    </div>
-
-    <!-- Table Section -->
-    <div class="cookie-categories">
-      <table id="logs-table">
-        <thead>
-          <tr>
-            <th>Session ID</th>
-            <th>Consent Type</th>
-            <th>Status</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Populated by JS -->
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Table Controls -->
-    <div class="table-controls">
-      <div>
-        <label for="rows-per-page">Rows per page:</label>
-        <select id="rows-per-page">
-          <option value="20" selected>20</option>
-          <option value="40">40</option>
-          <option value="60">60</option>
-          <option value="80">80</option>
-          <option value="100">100</option>
-        </select>
-      </div>
-      <div class="cookie-categories pagination-controls" id="pagination">
-        <!-- Populated by JS -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Sidebar Loader -->
   <script>
-    fetch('../../shared/sidebar.html')
-      .then(res => {
-        if (!res.ok) throw new Error('Sidebar file not found.');
-        return res.text();
-      })
-      .then(html => {
-        document.getElementById('sidebar').innerHTML = html;
-      })
-      .catch(err => {
-        console.error('Sidebar error:', err);
-        alert('Error loading sidebar. Check console.');
+    document.addEventListener("DOMContentLoaded", function () {
+      function generateUniqueSessionID() {
+        return 'session_' + new Date().getTime() + Math.random().toString(36).substring(2);
+      }
+
+      if (!localStorage.getItem('user_session_id')) {
+        localStorage.setItem('user_session_id', generateUniqueSessionID());
+      }
+      const sessionID = localStorage.getItem('user_session_id');
+
+      function recordConsentAction(action) {
+        const data = {
+          sessionID: sessionID,
+          action: action,
+          timestamp: new Date().toISOString()
+        };
+        firebase.database().ref('consent_logs').push(data);
+      }
+
+      document.getElementById('accept-all').addEventListener('click', () => {
+        gtag('consent', 'update', {
+          'ad_storage': 'granted',
+          'analytics_storage': 'granted',
+          'functionality_storage': 'granted',
+          'personalization_storage': 'granted'
+        });
+        recordConsentAction('accept_all');
       });
+
+      document.getElementById('reject-all').addEventListener('click', () => {
+        gtag('consent', 'update', {
+          'ad_storage': 'denied',
+          'analytics_storage': 'denied',
+          'functionality_storage': 'denied',
+          'personalization_storage': 'denied'
+        });
+        recordConsentAction('reject_all');
+      });
+
+      document.getElementById('customize').addEventListener('click', () => {
+        document.getElementById('cookie-customization-panel').style.display = 'block';
+      });
+
+      document.getElementById('save-preferences').addEventListener('click', () => {
+        const preferences = {
+          necessary: document.getElementById('necessary').checked,
+          functional: document.getElementById('functional').checked,
+          analytics: document.getElementById('analytics').checked,
+          performance: document.getElementById('performance').checked,
+        };
+        gtag('consent', 'update', {
+          'ad_storage': preferences.performance ? 'granted' : 'denied',
+          'analytics_storage': preferences.analytics ? 'granted' : 'denied',
+          'functionality_storage': preferences.functional ? 'granted' : 'denied',
+          'personalization_storage': preferences.necessary ? 'granted' : 'denied'
+        });
+        recordConsentAction('customized_preferences');
+      });
+
+      function updateDashboardCounts(consents) {
+        let total = 0, accept = 0, reject = 0;
+        for (let key in consents) {
+          total++;
+          const action = consents[key].action;
+          if (action === "accept_all" || action === "customized_preferences") accept++;
+          if (action === "reject_all") reject++;
+        }
+        document.getElementById('total-consents').innerText = `Total Consents: ${total}`;
+        document.getElementById('accepted-consents').innerText = `Accepted: ${accept}`;
+        document.getElementById('rejected-consents').innerText = `Rejected: ${reject}`;
+      }
+
+function loadConsentData() {
+  firebase.database().ref('consent_logs').on('value', function(snapshot) {
+    const logs = snapshot.val();
+    const table = document.getElementById('consent-log-table');
+    table.innerHTML = ''; // Clear the table
+
+    if (logs) {
+      updateDashboardCounts(logs); // Function to update any counts/statistics
+
+      // Loop through the logs and populate the table
+      Object.keys(logs).reverse().forEach(id => {
+        const log = logs[id]; // Each log entry
+        const row = document.createElement('tr');
+
+        // Extract session data and preferences for display
+        const sessionID = log.session_id || 'N/A'; // Default to 'N/A' if not found
+        const action = log.action || 'N/A';
+        
+        // Format the timestamp to a more readable format
+        const formattedTimestamp = new Date(log.timestamp).toLocaleString(); // This will format the timestamp
+
+        // Update the row HTML with formatted timestamp
+        row.innerHTML = `
+          <td>${sessionID}</td>
+          <td>${action}</td>
+          <td>${formattedTimestamp}</td>  <!-- Use the formatted timestamp here -->
+        `;
+        table.appendChild(row);
+      });
+    }
+  });
+}
+
+loadConsentData();
+
+
+
+    });
+  </script>
+
+  <!-- gtag function stub -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
   </script>
 </body>
 </html>
