@@ -335,6 +335,56 @@
   });
 </script>
 
+<!-- Consent Mode Setting START-->
+<script>
+document.getElementById('save-consent-mode-settings').addEventListener('click', function() {
+  // Get user preference values
+  const consentModeEnabled = document.getElementById('consent-mode-toggle').checked;
+  const functionalStorage = document.getElementById('map-functional').value;
+  const analyticsStorage = document.getElementById('map-analytics').value;
+  const adStorage = document.getElementById('map-ads').value;
+  const performanceStorage = document.getElementById('map-performance').value;
+
+  // Save to Firebase or another backend as required
+  const consentModeSettings = {
+    enabled: consentModeEnabled,
+    functional: functionalStorage,
+    analytics: analyticsStorage,
+    ads: adStorage,
+    performance: performanceStorage
+  };
+
+  set(ref(db, 'cookieSettings/consentMode'), consentModeSettings)
+    .then(() => {
+      alert('✅ Consent preferences saved successfully.');
+    })
+    .catch((error) => {
+      console.error('❌ Error saving consent preferences:', error);
+      alert('Failed to save consent preferences.');
+    });
+
+  // Trigger Google Consent Mode update
+  if (consentModeEnabled) {
+    gtag('consent', 'update', {
+      'functionality_storage': functionalStorage,
+      'analytics_storage': analyticsStorage,
+      'ad_storage': adStorage,
+      'personalization_storage': performanceStorage
+    });
+  } else {
+    gtag('consent', 'default', {
+      'functionality_storage': 'denied',
+      'analytics_storage': 'denied',
+      'ad_storage': 'denied',
+      'personalization_storage': 'denied'
+    });
+  }
+});
+</script>
+
+<!-- Consent Mode Setting END-->
+
+
 
 
   
