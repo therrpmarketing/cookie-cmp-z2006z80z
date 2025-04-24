@@ -2,72 +2,69 @@ let logsData = [];
 let currentPage = 1;
 let rowsPerPage = 20;
 
-// Firebase fetch
 document.addEventListener("DOMContentLoaded", function () {
+    // Reference to the Firebase database
     const dbRef = firebase.database().ref("consentLogs");
 
+    // Fetch data from Firebase
     dbRef.once("value").then(snapshot => {
         const logs = snapshot.val();
         if (!logs) {
-            renderLogs([]);
+            renderLogs([]);  // If no logs exist, render empty
             return;
         }
 
-        // Convert and filter only session logs
+        // Process the logs, ensuring correct data format
         logsData = Object.entries(logs)
-            .filter(([key]) => key.startsWith("session_"))
+            .filter(([key]) => key.startsWith("session_"))  // Filter to only session logs
             .map(([key, value]) => ({
                 userId: value.session_id || "-",
                 consentType: value.preferences ? Object.keys(value.preferences).join(", ") : "Unknown",
                 status: value.action || "-",
-                date: value.timestamp ? new Date(value.timestamp).toISOString().split("T")[0] : "-"
+                date: value.timestamp ? new Date(value.timestamp).toISOString().split("T")[0] : "-",
             }))
-            .sort((a, b) => new Date(b.date) - new Date(a.date));
+            .sort((a, b) => new Date(b.date) - new Date(a.date));  // Sort by date, descending
 
-        renderLogs(logsData);
+        renderLogs(logsData);  // Render the logs
     }).catch(error => {
-        console.error("Firebase fetch error:", error);
-        renderLogs([]);
+        console.error("Error fetching consent logs:", error);
+        renderLogs([]);  // In case of an error, render empty
     });
 });
 
-// Filter event listener
+// Filter logs based on the date range
 document.getElementById('filter-logs').addEventListener('click', function () {
     const startDate = document.getElementById('start-date').value;
     const endDate = document.getElementById('end-date').value;
     const selectedRows = document.getElementById('rows-per-page').value;
     rowsPerPage = parseInt(selectedRows);
 
-    currentPage = 1;  // Reset page number to 1 when applying a new filter
-
     filterLogs(startDate, endDate);
 });
 
-// Clear logs event listener
+// Clear logs from local storage
 document.getElementById('clear-logs').addEventListener('click', function () {
     if (confirm('Are you sure you want to clear all logs?')) {
-        localStorage.clear(); // still clears mock if stored locally
-        renderLogs([]);
+        localStorage.clear();  // Clear localStorage (mocked for now)
+        renderLogs([]);  // Empty the logs table
     }
 });
 
-// Filter logs based on date
+// Function to filter logs by date
 function filterLogs(startDate, endDate) {
     const filteredLogs = logsData.filter(log => {
         const logDate = new Date(log.date);
         return (!startDate || logDate >= new Date(startDate)) &&
                (!endDate || logDate <= new Date(endDate));
     });
-
-    renderLogs(filteredLogs);
+    renderLogs(filteredLogs);  // Render the filtered logs
 }
 
-// Render logs on the table
+// Function to render the logs in the table
 function renderLogs(logs) {
     const tableBody = document.querySelector('#logs-table tbody');
-    tableBody.innerHTML = ''; // Clear previous rows
+    tableBody.innerHTML = '';  // Clear existing rows
 
-    // Slice logs based on current page and rows per page
     logs.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage).forEach(log => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -79,26 +76,21 @@ function renderLogs(logs) {
         tableBody.appendChild(row);
     });
 
-    generatePagination(logs.length);
+    generatePagination(logs.length);  // Generate pagination controls
 }
 
-// Generate pagination controls dynamically
+// Function to generate pagination buttons
 function generatePagination(totalLogs) {
     const paginationContainer = document.getElementById('pagination');
-    paginationContainer.innerHTML = ''; // Clear previous pagination buttons
+    paginationContainer.innerHTML = '';  // Clear existing pagination
 
     const totalPages = Math.ceil(totalLogs / rowsPerPage);
-    if (currentPage > totalPages) {
-        currentPage = totalPages; // Ensure the current page doesn't exceed total pages after filtering
-    }
-
-    // Create pagination buttons
     for (let i = 1; i <= totalPages; i++) {
         const button = document.createElement('button');
         button.textContent = i;
         button.onclick = () => {
             currentPage = i;
-            renderLogs(logsData);
+            renderLogs(logsData);  // Re-render the table for the selected page
         };
         paginationContainer.appendChild(button);
     }
