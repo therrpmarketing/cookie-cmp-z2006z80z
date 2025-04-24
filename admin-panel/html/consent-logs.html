@@ -119,15 +119,15 @@
   </div>
 
   <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src=https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js></script>
+  <script src=https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js></script>
 
   <script>
     // Initialize Firebase (replace with your config)
     const firebaseConfig = {
       apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
       authDomain: "cookie-cmp-sys.firebaseapp.com",
-      databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+      databaseURL: https://cookie-cmp-sys-default-rtdb.firebaseio.com,
       projectId: "cookie-cmp-sys",
       storageBucket: "cookie-cmp-sys.firebasestorage.app",
       messagingSenderId: "252822009652",
@@ -213,52 +213,42 @@
       let currentPage = 1;
       let rowsPerPage = 20; // Default rows per page
 
-// aaaaaa 
-      
       function renderTable() {
-    const startDateInput = document.getElementById("start-date").value;
-    const endDateInput = document.getElementById("end-date").value;
-  
-    // Convert input to Date object (at midnight)
-    const startDate = startDateInput ? new Date(startDateInput + "T00:00:00") : null;
-    const endDate = endDateInput ? new Date(endDateInput + "T23:59:59") : null;
-  
-    // Filter based on date range
-    let filteredLogs = allLogs.filter(log => {
-      const logDate = new Date(log.timestamp);
-      if (startDate && logDate < startDate) return false;
-      if (endDate && logDate > endDate) return false;
-      return true;
-    });
-  
-    const start = (currentPage - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    const logsToShow = filteredLogs.slice(start, end);
-  
-    const table = document.getElementById('consent-log-table');
-    table.innerHTML = '';
-  
-    logsToShow.forEach(log => {
-      const row = document.createElement('tr');
-      const sessionID = log.session_id || 'N/A';
-      const action = log.action || 'N/A';
-      const formattedTimestamp = new Date(log.timestamp).toLocaleString();
-  
-      row.innerHTML = `
-        <td>${sessionID}</td>
-        <td>${action}</td>
-        <td>${formattedTimestamp}</td>
-      `;
-      table.appendChild(row);
-    });
-  
-    const totalPages = Math.ceil(filteredLogs.length / rowsPerPage) || 1;
-    document.querySelector("span").innerText = `Page ${currentPage} of ${totalPages}`;
-  }
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const logsToShow = allLogs.slice(start, end);
+        const table = document.getElementById('consent-log-table');
+        table.innerHTML = '';
 
-// aaaaaa
+        logsToShow.forEach(log => {
+          const row = document.createElement('tr');
+          const sessionID = log.session_id || 'N/A';
+          const action = log.action || 'N/A';
+          const formattedTimestamp = new Date(log.timestamp).toLocaleString();
 
-      
+          row.innerHTML = `
+            <td>${sessionID}</td>
+            <td>${action}</td>
+            <td>${formattedTimestamp}</td>
+          `;
+          table.appendChild(row);
+        });
+
+        const totalPages = Math.ceil(allLogs.length / rowsPerPage);
+        document.querySelector("span").innerText = `Page ${currentPage} of ${totalPages}`;
+      }
+
+      document.getElementById('rows-per-page').addEventListener('change', function (e) {
+        rowsPerPage = parseInt(e.target.value);
+        renderTable();
+      });
+
+      document.getElementById('prev-page').addEventListener('click', function () {
+        if (currentPage > 1) {
+          currentPage--;
+          renderTable();
+        }
+      });
 
       document.getElementById('next-page').addEventListener('click', function () {
         const totalPages = Math.ceil(allLogs.length / rowsPerPage);
