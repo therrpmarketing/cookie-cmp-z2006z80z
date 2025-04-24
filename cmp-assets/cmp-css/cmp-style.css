@@ -551,3 +551,73 @@ select, input[type="date"] {
 .cmp-consent-log-table tbody tr:hover {
   background-color: #f9f9f9;
 }
+
+
+
+
+/* Admin Dashboard Layout Enhancements */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Chart Container */
+.chart-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+/* Chart Title */
+.chart-card h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+/* Toggle Buttons for Chart View */
+.chart-toggle {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.chart-toggle button {
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.chart-toggle button:hover {
+    background-color: #e0e0e0;
+}
+
+.chart-toggle button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Responsive fix for smaller screens */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
