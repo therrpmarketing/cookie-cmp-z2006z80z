@@ -268,5 +268,165 @@ loadConsentData();
     function gtag() { dataLayer.push(arguments); }
   </script>
 
+<style>
+    /* Additional CSS to match the screenshot exactly */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    /* Sidebar Styles */
+    #sidebar {
+      width: 130px;
+      height: 100vh;
+      background-color: #2d2d2d;
+      position: fixed;
+      top: 0;
+      left: 0;
+      color: white;
+      padding-top: 20px;
+    }
+
+    #sidebar h3 {
+      padding: 0 15px;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    #sidebar a {
+      color: #6d8adb;
+      text-decoration: none;
+      padding: 10px 15px;
+      display: block;
+      font-size: 14px;
+    }
+
+    #sidebar a:hover, #sidebar a.active {
+      background-color: #3b3b3b;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      margin-left: 130px;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .main-content p {
+      color: #666;
+      margin-top: 5px;
+      margin-bottom: 20px;
+    }
+
+    /* Stats Section */
+    .main-content > div:nth-child(3) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .main-content > div:nth-child(3) > div {
+      background: white;
+      border-radius: 5px;
+      padding: 15px;
+      flex: 1;
+      min-width: 200px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .main-content > div:nth-child(3) h3 {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .main-content > div:nth-child(3) p {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 10px 0 0;
+      color: #000;
+    }
+
+    /* Date Filter Controls */
+    .main-content > div:nth-child(4) {
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .main-content > div:nth-child(4) input[type="date"] {
+      padding: 6px 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .main-content > div:nth-child(4) button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 7px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    /* Table Controls */
+    .main-content > div:nth-child(6) {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      align-items: center;
+    }
+
+    .main-content > div:nth-child(6) select {
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .main-content > div:nth-child(6) button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    .main-content > div:nth-child(6) button:last-child {
+      background-color: #dc3545;
+    }
+	</style>
+
+  
+
 </body>
 </html>
