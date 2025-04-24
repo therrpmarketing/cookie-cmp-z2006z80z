@@ -8,48 +8,55 @@
 </head>
 <body>
   <!-- Sidebar -->
-  <div id="sidebar"></div>
+  <div id="sidebar">
+    <h3>Cookie CMP</h3>
+    <a href="#">Dashboard</a>
+    <a href="#">Cookie Categories</a>
+    <a href="#">Customize Banner</a>
+    <a href="#">Consent Logs</a>
+    <a href="#" class="active">Consent Analytics</a>
+    <a href="#">User Preferences</a>
+    <a href="#">Advanced Settings</a>
+  </div>
 
   <!-- Main Content -->
   <div class="main-content">
     <h1>Consent Analytics</h1>
     <p>Visual overview of user consent trends.</p>
 
-    <!-- Stat Cards -->
-    <div class="stat-card-container">
-      <div class="stat-card">
+    <!-- Stats Section -->
+    <div>
+      <div>
         <h3>Total Consents</h3>
-        <p id="total-consents">2,456</p>
+        <p id="total-consents">47</p>
       </div>
-      <div class="stat-card">
+      <div>
         <h3>Accepted</h3>
-        <p id="accepted-consents">1,740</p>
+        <p id="accepted-consents">31</p>
       </div>
-      <div class="stat-card">
+      <div>
         <h3>Rejected</h3>
-        <p id="rejected-consents">450</p>
+        <p id="rejected-consents">8</p>
       </div>
-      <div class="stat-card">
+      <div>
         <h3>Custom Preference</h3>
-        <p id="custom-preferences">266</p>
+        <p id="custom-preferences">26%</p>
       </div>
     </div>
     
     <!-- Date Filter Controls -->
-    <div class="filters-actions">
-      <div>
-        <label for="start-date">Start Date:</label>
-        <input type="date" id="start-date" class="cmp-input" placeholder="dd-mm-yyyy">
-      </div>
-      <div>
-        <label for="end-date">End Date:</label>
-        <input type="date" id="end-date" class="cmp-input" placeholder="dd-mm-yyyy">
-      </div>
-      <button class="filter-btn" id="filter-btn">Filter</button>
+    <div>
+      <label for="start-date">Start Date:</label>
+      <input type="date" id="start-date" placeholder="dd-mm-yyyy">
+      
+      <label for="end-date">End Date:</label>
+      <input type="date" id="end-date" placeholder="dd-mm-yyyy">
+      
+      <button id="filter-btn">Filter</button>
     </div>
     
     <!-- Consent Log Table -->
-    <table class="cmp-consent-log-table">
+    <table>
       <thead>
         <tr>
           <th>Date</th>
@@ -60,59 +67,58 @@
         </tr>
       </thead>
       <tbody id="consent-log-table">
+        <!-- Sample rows as shown in the screenshot -->
         <tr>
-          <td>2025-04-21</td>
-          <td>120</td>
-          <td>30</td>
-          <td>20</td>
-          <td>170</td>
+          <td>session_1745486587659ydptt30e8</td>
+          <td>accept_all</td>
+          <td>24/04/2025, 14:53:09</td>
+          <td></td>
+          <td></td>
         </tr>
         <tr>
-          <td>2025-04-20</td>
-          <td>98</td>
-          <td>22</td>
-          <td>10</td>
-          <td>130</td>
+          <td>session_1745486068747h522jdaem</td>
+          <td>accept_all</td>
+          <td>24/04/2025, 14:50:11</td>
+          <td></td>
+          <td></td>
         </tr>
+        <!-- Additional rows would be populated dynamically -->
       </tbody>
     </table>
     
     <!-- Table Controls -->
-    <div class="table-controls">
+    <div>
       <div>
         <label for="rows-per-page">Rows per page:</label>
         <select id="rows-per-page">
           <option value="20">20</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
         </select>
       </div>
-      <div class="pagination-controls">
-        <button id="prev-page" class="export-btn">Previous</button>
+      <div>
+        <button id="prev-page">Previous</button>
         <span>Page 1 of 5</span>
-        <button id="next-page" class="export-btn">Next</button>
+        <button id="next-page">Next</button>
       </div>
       <div>
-        <button id="export-logs" class="export-btn">Export Logs</button>
-        <button id="clear-logs" class="clear-btn">Clear Logs</button>
+        <button id="export-logs">Export Logs</button>
+        <button id="clear-logs">Clear Logs</button>
       </div>
     </div>
 
-    <!-- Original buttons from your HTML -->
-    <div class="button-group" style="display: none;">
+    <!-- Hidden elements for JavaScript functionality -->
+    <div style="display: none;">
       <button id="accept-all">Accept All</button>
       <button id="reject-all">Reject All</button>
       <button id="customize">Customize</button>
-    </div>
-
-    <!-- Hidden Cookie Customization Panel (Preserved from original) -->
-    <div id="cookie-customization-panel" style="display: none; border: 1px solid #ccc; padding: 20px; border-radius: 12px;">
-      <h3>Cookie Preferences</h3>
-      <label><input type="checkbox" id="necessary" checked disabled /> Necessary</label><br>
-      <label><input type="checkbox" id="functional" /> Functional</label><br>
-      <label><input type="checkbox" id="analytics" /> Analytics</label><br>
-      <label><input type="checkbox" id="performance" /> Performance</label><br><br>
-      <button id="save-preferences">Save Preferences</button>
+      
+      <div id="cookie-customization-panel">
+        <h3>Cookie Preferences</h3>
+        <label><input type="checkbox" id="necessary" checked disabled /> Necessary</label><br>
+        <label><input type="checkbox" id="functional" /> Functional</label><br>
+        <label><input type="checkbox" id="analytics" /> Analytics</label><br>
+        <label><input type="checkbox" id="performance" /> Performance</label><br><br>
+        <button id="save-preferences">Save Preferences</button>
+      </div>
     </div>
   </div>
 
@@ -265,5 +271,163 @@ loadConsentData();
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
   </script>
+
+  <style>
+    /* Additional CSS to match the screenshot exactly */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    /* Sidebar Styles */
+    #sidebar {
+      width: 130px;
+      height: 100vh;
+      background-color: #2d2d2d;
+      position: fixed;
+      top: 0;
+      left: 0;
+      color: white;
+      padding-top: 20px;
+    }
+
+    #sidebar h3 {
+      padding: 0 15px;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    #sidebar a {
+      color: #6d8adb;
+      text-decoration: none;
+      padding: 10px 15px;
+      display: block;
+      font-size: 14px;
+    }
+
+    #sidebar a:hover, #sidebar a.active {
+      background-color: #3b3b3b;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      margin-left: 130px;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .main-content p {
+      color: #666;
+      margin-top: 5px;
+      margin-bottom: 20px;
+    }
+
+    /* Stats Section */
+    .main-content > div:nth-child(3) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .main-content > div:nth-child(3) > div {
+      background: white;
+      border-radius: 5px;
+      padding: 15px;
+      flex: 1;
+      min-width: 200px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .main-content > div:nth-child(3) h3 {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .main-content > div:nth-child(3) p {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 10px 0 0;
+      color: #000;
+    }
+
+    /* Date Filter Controls */
+    .main-content > div:nth-child(4) {
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .main-content > div:nth-child(4) input[type="date"] {
+      padding: 6px 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .main-content > div:nth-child(4) button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 7px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    /* Table Controls */
+    .main-content > div:nth-child(6) {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      align-items: center;
+    }
+
+    .main-content > div:nth-child(6) select {
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .main-content > div:nth-child(6) button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    .main-content > div:nth-child(6) button:last-child {
+      background-color: #dc3545;
+    }
+  </style>
 </body>
 </html>
