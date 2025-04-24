@@ -282,6 +282,24 @@
         link.click();
       });
     });
+    
+    // Load sidebar dynamically
+        fetch('../../shared/sidebar.html')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Sidebar file not found.');
+            }
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById('sidebar').innerHTML = data;
+        })
+        .catch(err => {
+            console.error('Error loading sidebar:', err);
+            alert('Error loading sidebar. Please check the file path or server configuration.');
+        });
+
+    
   </script>
 </body>
 </html>
