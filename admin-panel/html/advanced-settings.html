@@ -117,11 +117,86 @@
       <button class="add-category-btn">Manage Logs</button>
     </div>
 
-    <div class="cookie-categories cmp-card">
+<!--     <div class="cookie-categories cmp-card">
       <h2>Consent Mode & Preferences</h2>
       <p>Control integration with Google Consent Mode v2 and user preference mapping.</p>
       <button class="add-category-btn">Setup Consent Mode</button>
-    </div>
+    </div> -->
+
+<!--     Consent Mode & Preferences Detail - START -->
+          <div class="cookie-categories cmp-card">
+            <h2>Consent Mode & Preferences</h2>
+            <p>Control integration with Google Consent Mode v2 and user preference mapping for analytics and ads.</p>
+          
+            <div class="setting-group">
+              <label for="consent-mode-toggle" class="checkbox-label">
+                <input type="checkbox" id="consent-mode-toggle" />
+                Enable Google Consent Mode v2
+              </label>
+              <p class="description">When enabled, your banner will trigger Google Consent Mode updates using <code>gtag('consent', 'default')</code> and <code>gtag('consent', 'update')</code>.</p>
+            </div>
+          
+            <div class="cmp-table-wrapper">
+              <table class="cmp-table">
+                <thead>
+                  <tr>
+                    <th>Preference Category</th>
+                    <th>Google Consent Mode Tag</th>
+                    <th>Status Mapping</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Functional</td>
+                    <td><code>functionality_storage</code></td>
+                    <td>
+                      <select id="map-functional">
+                        <option value="granted">Granted</option>
+                        <option value="denied">Denied</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Analytics</td>
+                    <td><code>analytics_storage</code></td>
+                    <td>
+                      <select id="map-analytics">
+                        <option value="granted">Granted</option>
+                        <option value="denied">Denied</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Advertisement</td>
+                    <td><code>ad_storage</code></td>
+                    <td>
+                      <select id="map-ads">
+                        <option value="granted">Granted</option>
+                        <option value="denied">Denied</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Performance</td>
+                    <td><code>personalization_storage</code></td>
+                    <td>
+                      <select id="map-performance">
+                        <option value="granted">Granted</option>
+                        <option value="denied">Denied</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          
+            <button class="save-btn" id="save-consent-mode-settings">Save Consent Preferences</button>
+          </div>
+
+<!--     Consent Mode & Preferences Detail - END -->
+
+
+    
 
     <div class="cookie-categories cmp-card">
       <h2>Notification Settings</h2>
