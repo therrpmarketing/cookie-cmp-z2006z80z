@@ -3,17 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- CSP Meta Tag -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://therrpmarketing.github.io; img-src 'self' data:; connect-src 'self';">
   <title>Consent Analytics</title>
-
   <!-- CMP Stylesheet -->
   <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
-  <!-- Firebase SDK -->
-
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
 </head>
 <body>
   <!-- Sidebar -->
@@ -45,7 +37,7 @@
     </div>
 
     <!-- Filter Bar -->
-    <div class="cookie-categories filters-actions">
+    <div class="cookie-categories filters-actions" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 1rem;">
       <div>
         <label for="start-date">Start Date:</label>
         <input type="date" id="start-date" name="start-date" />
@@ -53,11 +45,11 @@
       <div>
         <label for="end-date">End Date:</label>
         <input type="date" id="end-date" name="end-date" />
-        <button class="add-category-btn" onclick="filterLogs()">Filter</button>
+        <button class="add-category-btn">Filter</button>
       </div>
       <div style="margin-left: auto;">
-        <button class="export-btn" onclick="exportLogs()">Export Logs</button>
-        <button class="clear-btn" onclick="clearLogs()">Clear Logs</button>
+        <button class="export-btn">Export Logs</button>
+        <button class="clear-btn">Clear Logs</button>
       </div>
     </div>
 
@@ -74,7 +66,7 @@
           </tr>
         </thead>
         <tbody id="consent-analytics-table">
-          <!-- Dynamic Data will go here -->
+          <!-- Dynamically populated -->
         </tbody>
       </table>
     </div>
@@ -99,98 +91,78 @@
     </div>
   </div>
 
-  <!-- Sidebar Script -->
-  <script>
-    fetch('../../shared/sidebar.html')
-      .then(response => {
-        if (!response.ok) throw new Error('Sidebar file not found.');
-        return response.text();
-      })
-      .then(data => {
-        document.getElementById('sidebar').innerHTML = data;
-      })
-      .catch(err => {
-        console.error('Error loading sidebar:', err);
-        alert('Error loading sidebar. Please check the file path or server configuration.');
-      });
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-    // Firebase configuration
+  <!-- Custom Script -->
+  <script>
+    // Firebase Configuration
     const firebaseConfig = {
-      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-      authDomain: "cookie-cmp-sys.firebaseapp.com",
-      databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
-      projectId: "cookie-cmp-sys",
-      storageBucket: "cookie-cmp-sys.firebasestorage.app",
-      messagingSenderId: "252822009652",
-      appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
-      measurementId: "G-DLGR6XFPP5"
+      apiKey: "your-api-key",
+      authDomain: "your-auth-domain",
+      databaseURL: "your-database-url",
+      projectId: "your-project-id",
+      storageBucket: "your-storage-bucket",
+      messagingSenderId: "your-sender-id",
+      appId: "your-app-id"
     };
 
     // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore(app);
+    firebase.initializeApp(firebaseConfig);
 
-    // Function to fetch and display consent data
-    function fetchConsentData() {
-      db.collection("consentLogs").get().then(querySnapshot => {
+    // Reference to the Firebase Realtime Database
+    const database = firebase.database();
+
+    // Fetch and update data from Firebase
+    window.onload = function() {
+      const consentRef = database.ref('consent_data'); // Path to your Firebase data
+
+      // Fetch data from Firebase
+      consentRef.once('value', function(snapshot) {
+        const data = snapshot.val();
         let totalConsents = 0;
         let accepted = 0;
         let rejected = 0;
         let customPreference = 0;
+        let consentDataTable = '';
 
-        // Data structure for populating cards and table
-        const consentTableRows = [];
-
-        querySnapshot.forEach(doc => {
-          const data = doc.data();
+        // Loop through each consent record
+        for (let sessionId in data) {
+          const consent = data[sessionId];
           totalConsents++;
 
-          if (data.action === "accept_all") accepted++;
-          if (data.action === "reject_all") rejected++;
-          if (data.action === "custom") customPreference++;
+          if (consent.action === 'accept_all') {
+            accepted++;
+          } else if (consent.action === 'reject_all') {
+            rejected++;
+          } else if (consent.action === 'custom') {
+            customPreference++;
+          }
 
-          // Populate table rows
-          consentTableRows.push(`
+          // Add data to the table
+          const date = new Date(consent.timestamp).toLocaleDateString();
+          consentDataTable += `
             <tr>
-              <td>${data.timestamp}</td>
-              <td>${data.action === 'accept_all' ? 1 : 0}</td>
-              <td>${data.action === 'reject_all' ? 1 : 0}</td>
-              <td>${data.action === 'custom' ? 1 : 0}</td>
+              <td>${date}</td>
+              <td>${consent.action === 'accept_all' ? 1 : 0}</td>
+              <td>${consent.action === 'reject_all' ? 1 : 0}</td>
+              <td>${consent.action === 'custom' ? 1 : 0}</td>
               <td>1</td>
             </tr>
-          `);
-        });
+          `;
+        }
 
-        // Update the stats cards
-        document.getElementById("total-consents").textContent = totalConsents;
-        document.getElementById("accepted").textContent = accepted;
-        document.getElementById("rejected").textContent = rejected;
-        document.getElementById("custom-preference").textContent = customPreference;
+        // Update Stat Cards
+        document.getElementById('total-consents').innerText = totalConsents;
+        document.getElementById('accepted').innerText = accepted;
+        document.getElementById('rejected').innerText = rejected;
+        document.getElementById('custom-preference').innerText = customPreference;
 
-        // Populate table with rows
-        document.getElementById("consent-analytics-table").innerHTML = consentTableRows.join("");
-      }).catch(error => {
-        console.error("Error fetching consent data: ", error);
+        // Populate the table
+        document.getElementById('consent-analytics-table').innerHTML = consentDataTable;
       });
-    }
-
-    // Call fetchConsentData when page loads
-    window.onload = fetchConsentData;
-
-    // Filtering functionality (date range)
-    function filterLogs() {
-      const startDate = document.getElementById("start-date").value;
-      const endDate = document.getElementById("end-date").value;
-      // Filter logic to adjust data based on the date range
-    }
-
-    function exportLogs() {
-      // Logic for exporting logs
-    }
-
-    function clearLogs() {
-      // Logic to clear logs or reset filters
-    }
+    };
   </script>
 </body>
 </html>
