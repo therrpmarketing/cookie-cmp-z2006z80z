@@ -19,9 +19,6 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app); // Initialize Realtime Database
 
 
-
-
-
 let logsData = [];
 let currentPage = 1;
 let rowsPerPage = 20;
@@ -42,16 +39,14 @@ document.addEventListener("DOMContentLoaded", function () {
         logsData = Object.entries(logs)
             .filter(([key]) => key.startsWith("session_"))  // Filter to only session logs
             .map(([key, value]) => ({
-                userId: value.session_id || "-",
+                sessionId: value.session_id || "-",
                 consentType: value.preferences ? Object.keys(value.preferences).join(", ") : "Unknown",
                 status: value.action || "-",
                 date: value.timestamp ? new Date(value.timestamp).toISOString().split("T")[0] : "-",
             }))
             .sort((a, b) => new Date(b.date) - new Date(a.date));  // Sort by date, descending
 
-     console.log("Formatted logsData:", logsData);  // Log the formatted data before rendering
-      
-      renderLogs(logsData);  // Render the logs
+        renderLogs(logsData);  // Render the logs
     }).catch(error => {
         console.error("Error fetching consent logs:", error);
         renderLogs([]);  // In case of an error, render empty
@@ -94,7 +89,7 @@ function renderLogs(logs) {
     logs.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage).forEach(log => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${log.userId}</td>
+            <td>${log.sessionId}</td>
             <td>${log.consentType}</td>
             <td>${log.status}</td>
             <td>${log.date}</td>
@@ -121,3 +116,4 @@ function generatePagination(totalLogs) {
         paginationContainer.appendChild(button);
     }
 }
+
