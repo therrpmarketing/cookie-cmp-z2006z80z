@@ -9,10 +9,8 @@
     script-src 'self' 'unsafe-inline' https://therrpmarketing.github.io https://www.gstatic.com https://www.googleapis.com https://*.firebaseio.com;
     connect-src 'self' https://*.firebaseio.com https://*.googleapis.com wss://*.firebaseio.com;
     img-src 'self' data:;">
-
   <title>Consent Logs</title>
   <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
-
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -56,6 +54,13 @@
         </tbody>
       </table>
     </div>
+
+    <!-- Pagination Controls -->
+    <div id="pagination-controls">
+      <button id="prev-page" disabled>Previous</button>
+      <span id="current-page">Page 1</span>
+      <button id="next-page">Next</button>
+    </div>
   </div>
 
   <script>
@@ -70,6 +75,9 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+
+    let currentPage = 1;
+    const logsPerPage = 10;
 
     function getActionLabel(action) {
       switch (action) {
@@ -86,36 +94,61 @@
         tbody.innerHTML = "";
         const logs = snapshot.val();
         if (logs) {
-          Object.keys(logs).reverse().forEach((key) => {
-            const log = logs[key];
+          const logEntries = Object.keys(logs).reverse().map(key => logs[key]);
+          const paginatedLogs = logEntries.slice((currentPage - 1) * logsPerPage, currentPage * logsPerPage);
+
+          if (paginatedLogs.length === 0) {
             const row = document.createElement("tr");
-
-            const sessionCell = document.createElement("td");
-            sessionCell.textContent = log.session_id || "-";
-
-            const actionCell = document.createElement("td");
-            actionCell.textContent = getActionLabel(log.action);
-
-            const timestampCell = document.createElement("td");
-            timestampCell.textContent = log.timestamp
-              ? new Date(log.timestamp).toLocaleString()
-              : "-";
-
-            row.appendChild(sessionCell);
-            row.appendChild(actionCell);
-            row.appendChild(timestampCell);
+            const cell = document.createElement("td");
+            cell.setAttribute("colspan", "3");
+            cell.textContent = "No logs found.";
+            row.appendChild(cell);
             tbody.appendChild(row);
-          });
-        } else {
-          const row = document.createElement("tr");
-          const cell = document.createElement("td");
-          cell.setAttribute("colspan", "3");
-          cell.textContent = "No logs found.";
-          row.appendChild(cell);
-          tbody.appendChild(row);
+          } else {
+            paginatedLogs.forEach((log) => {
+              const row = document.createElement("tr");
+
+              const sessionCell = document.createElement("td");
+              sessionCell.textContent = log.session_id || "-";
+
+              const actionCell = document.createElement("td");
+              actionCell.textContent = getActionLabel(log.action);
+
+              const timestampCell = document.createElement("td");
+              timestampCell.textContent = log.timestamp
+                ? new Date(log.timestamp).toLocaleString()
+                : "-";
+
+              row.appendChild(sessionCell);
+              row.appendChild(actionCell);
+              row.appendChild(timestampCell);
+              tbody.appendChild(row);
+            });
+          }
+
+          updatePaginationControls(logEntries.length);
         }
       });
     }
+
+    function updatePaginationControls(totalLogs) {
+      const totalPages = Math.ceil(totalLogs / logsPerPage);
+      document.getElementById("prev-page").disabled = currentPage === 1;
+      document.getElementById("next-page").disabled = currentPage === totalPages;
+      document.getElementById("current-page").textContent = `Page ${currentPage}`;
+    }
+
+    document.getElementById("prev-page").addEventListener("click", () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderConsentLogs();
+      }
+    });
+
+    document.getElementById("next-page").addEventListener("click", () => {
+      currentPage++;
+      renderConsentLogs();
+    });
 
     document.addEventListener("DOMContentLoaded", () => {
       renderConsentLogs();
