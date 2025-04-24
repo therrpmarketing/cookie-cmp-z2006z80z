@@ -299,6 +299,29 @@
             alert('Error loading sidebar. Please check the file path or server configuration.');
         });
 
+
+// Date Range Logic START
+    document.getElementById('filter-btn').addEventListener('click', function () {
+  const startDate = document.getElementById('start-date').value;
+  const endDate = document.getElementById('end-date').value;
+
+  if (!startDate || !endDate) {
+    alert("Please select both start and end dates.");
+    return;
+  }
+
+  const startTimestamp = new Date(startDate).getTime();
+  const endTimestamp = new Date(endDate).getTime() + 86400000 - 1; // include the full day
+
+  const filteredLogs = allLogs.filter(log => {
+    const logTime = new Date(log.timestamp).getTime();
+    return logTime >= startTimestamp && logTime <= endTimestamp;
+  });
+
+  renderFilteredTable(filteredLogs);
+});
+// Date Range Logic END
+
     
   </script>
 </body>
