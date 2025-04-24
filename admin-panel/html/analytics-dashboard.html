@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
- <!-- Managing Content Security - START -->
+  <!-- CSP Meta Tag -->
+  <!-- Managing Content Security - START -->
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self'; 
     style-src 'self' 'unsafe-inline'; 
@@ -13,12 +13,22 @@
     img-src 'self' data:;">
   <!-- Managing Content Security - END -->
 
+  
   <title>Consent Analytics</title>
+
+  <!-- CMP Stylesheet -->
   <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
+  <!-- Firebase SDK -->
+
+  <script src=https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js></script>
+  <script src=https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js></script>
+
 </head>
 <body>
+  <!-- Sidebar -->
   <div id="sidebar"></div>
 
+  <!-- Main Content -->
   <div class="main-content">
     <h1>Consent Analytics</h1>
     <p>Visual overview of user consent trends.</p>
@@ -52,11 +62,11 @@
       <div>
         <label for="end-date">End Date:</label>
         <input type="date" id="end-date" name="end-date" />
-        <button class="add-category-btn">Filter</button>
+        <button class="add-category-btn" onclick="filterLogs()">Filter</button>
       </div>
       <div style="margin-left: auto;">
-        <button class="export-btn">Export Logs</button>
-        <button class="clear-btn">Clear Logs</button>
+        <button class="export-btn" onclick="exportLogs()">Export Logs</button>
+        <button class="clear-btn" onclick="clearLogs()">Clear Logs</button>
       </div>
     </div>
 
@@ -73,104 +83,123 @@
           </tr>
         </thead>
         <tbody id="consent-analytics-table">
-          <!-- Table rows will be populated here -->
+          <!-- Dynamic Data will go here -->
         </tbody>
       </table>
     </div>
+
+    <!-- Table Controls -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+      <div>
+        <label for="rows-per-page">Rows per page:</label>
+        <select id="rows-per-page">
+          <option value="20" selected>20</option>
+          <option value="40">40</option>
+          <option value="60">60</option>
+          <option value="80">80</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+      <div class="cookie-categories pagination-controls">
+        <button class="add-category-btn">Previous</button>
+        <span>Page 1 of 5</span>
+        <button class="add-category-btn">Next</button>
+      </div>
+    </div>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <!-- Sidebar Script -->
   <script>
-    // Initialize Firebase
+    fetch('../../shared/sidebar.html')
+      .then(response => {
+        if (!response.ok) throw new Error('Sidebar file not found.');
+        return response.text();
+      })
+      .then(data => {
+        document.getElementById('sidebar').innerHTML = data;
+      })
+      .catch(err => {
+        console.error('Error loading sidebar:', err);
+        alert('Error loading sidebar. Please check the file path or server configuration.');
+      });
+
+    // Firebase configuration
     const firebaseConfig = {
-        apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-        authDomain: "cookie-cmp-sys.firebaseapp.com",
-        databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
-        projectId: "cookie-cmp-sys",
-        storageBucket: "cookie-cmp-sys.firebasestorage.app",
-        messagingSenderId: "252822009652",
-        appId: "1:252822009652:web:6bfbdf28d98953ccb89761"
+      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+      authDomain: "cookie-cmp-sys.firebaseapp.com",
+      databaseURL: https://cookie-cmp-sys-default-rtdb.firebaseio.com,
+      projectId: "cookie-cmp-sys",
+      storageBucket: "cookie-cmp-sys.firebasestorage.app",
+      messagingSenderId: "252822009652",
+      appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
+      measurementId: "G-DLGR6XFPP5"
     };
 
-    // Initialize Firebase App and Database
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore(app);
 
     // Function to fetch and display consent data
     function fetchConsentData() {
-      const consentsRef = database.ref('consents'); // Reference to your data
-
-      consentsRef.once('value', (snapshot) => {
-        const data = snapshot.val();
+      db.collection("consentLogs").get().then(querySnapshot => {
         let totalConsents = 0;
         let accepted = 0;
         let rejected = 0;
         let customPreference = 0;
-        const consentDates = {};
 
-        // Calculate totals for each action
-        for (const sessionId in data) {
-          const sessionData = data[sessionId];
+        // Data structure for populating cards and table
+        const consentTableRows = [];
+
+        querySnapshot.forEach(doc => {
+          const data = doc.data();
           totalConsents++;
 
-          if (sessionData.action === 'accept_all') {
-            accepted++;
-          } else if (sessionData.action === 'reject_all') {
-            rejected++;
-          } else if (sessionData.action === 'custom_preference') {
-            customPreference++;
-          }
+          if (data.action === "accept_all") accepted++;
+          if (data.action === "reject_all") rejected++;
+          if (data.action === "custom") customPreference++;
 
-          // Aggregate data by date
-          const date = sessionData.timestamp.split('T')[0]; // Extract date from timestamp
-          if (!consentDates[date]) {
-            consentDates[date] = { accepted: 0, rejected: 0, custom: 0, total: 0 };
-          }
+          // Populate table rows
+          consentTableRows.push(`
+            <tr>
+              <td>${data.timestamp}</td>
+              <td>${data.action === 'accept_all' ? 1 : 0}</td>
+              <td>${data.action === 'reject_all' ? 1 : 0}</td>
+              <td>${data.action === 'custom' ? 1 : 0}</td>
+              <td>1</td>
+            </tr>
+          `);
+        });
 
-          consentDates[date].total++;
-          if (sessionData.action === 'accept_all') consentDates[date].accepted++;
-          else if (sessionData.action === 'reject_all') consentDates[date].rejected++;
-          else if (sessionData.action === 'custom_preference') consentDates[date].custom++;
-        }
+        // Update the stats cards
+        document.getElementById("total-consents").textContent = totalConsents;
+        document.getElementById("accepted").textContent = accepted;
+        document.getElementById("rejected").textContent = rejected;
+        document.getElementById("custom-preference").textContent = customPreference;
 
-        // Update Stat Cards
-        document.getElementById('total-consents').textContent = totalConsents;
-        document.getElementById('accepted').textContent = accepted;
-        document.getElementById('rejected').textContent = rejected;
-        document.getElementById('custom-preference').textContent = customPreference;
-
-        // Populate the Table
-        const tableBody = document.getElementById('consent-analytics-table');
-        tableBody.innerHTML = ''; // Clear existing rows
-
-        for (const date in consentDates) {
-          const row = document.createElement('tr');
-          const dateCell = document.createElement('td');
-          const acceptedCell = document.createElement('td');
-          const rejectedCell = document.createElement('td');
-          const customCell = document.createElement('td');
-          const totalCell = document.createElement('td');
-
-          dateCell.textContent = date;
-          acceptedCell.textContent = consentDates[date].accepted;
-          rejectedCell.textContent = consentDates[date].rejected;
-          customCell.textContent = consentDates[date].custom;
-          totalCell.textContent = consentDates[date].total;
-
-          row.appendChild(dateCell);
-          row.appendChild(acceptedCell);
-          row.appendChild(rejectedCell);
-          row.appendChild(customCell);
-          row.appendChild(totalCell);
-
-          tableBody.appendChild(row);
-        }
+        // Populate table with rows
+        document.getElementById("consent-analytics-table").innerHTML = consentTableRows.join("");
+      }).catch(error => {
+        console.error("Error fetching consent data: ", error);
       });
     }
 
-    // Fetch data when the page loads
+    // Call fetchConsentData when page loads
     window.onload = fetchConsentData;
+
+    // Filtering functionality (date range)
+    function filterLogs() {
+      const startDate = document.getElementById("start-date").value;
+      const endDate = document.getElementById("end-date").value;
+      // Filter logic to adjust data based on the date range
+    }
+
+    function exportLogs() {
+      // Logic for exporting logs
+    }
+
+    function clearLogs() {
+      // Logic to clear logs or reset filters
+    }
   </script>
 </body>
 </html>
