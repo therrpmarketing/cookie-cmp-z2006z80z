@@ -49,7 +49,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }))
             .sort((a, b) => new Date(b.date) - new Date(a.date));  // Sort by date, descending
 
-        renderLogs(logsData);  // Render the logs
+     console.log("Formatted logsData:", logsData);  // Log the formatted data before rendering
+      
+      renderLogs(logsData);  // Render the logs
     }).catch(error => {
         console.error("Error fetching consent logs:", error);
         renderLogs([]);  // In case of an error, render empty
