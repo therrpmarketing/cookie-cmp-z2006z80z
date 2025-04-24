@@ -1,3 +1,27 @@
+// Import Firebase functions for initializing and using Firebase Realtime Database
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, push, set } from "firebase/database";
+
+// Your Firebase configuration details
+const firebaseConfig = {
+  apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+  authDomain: "cookie-cmp-sys.firebaseapp.com",
+  databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+  projectId: "cookie-cmp-sys",
+  storageBucket: "cookie-cmp-sys.firebasestorage.app",
+  messagingSenderId: "252822009652",
+  appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
+  measurementId: "G-DLGR6XFPP5"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app); // Initialize Realtime Database
+
+
+
+
+
 let logsData = [];
 let currentPage = 1;
 let rowsPerPage = 20;
