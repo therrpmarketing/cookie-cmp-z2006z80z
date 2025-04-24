@@ -1,13 +1,37 @@
-const logsData = [
-    { userId: 'user123', consentType: 'Marketing', status: 'Accepted', date: '2025-04-01' },
-    { userId: 'user124', consentType: 'Analytics', status: 'Rejected', date: '2025-04-02' },
-    // More sample logs
-];
-
+let logsData = [];
 let currentPage = 1;
 let rowsPerPage = 20;
 
-document.getElementById('filter-logs').addEventListener('click', function() {
+// Firebase fetch
+document.addEventListener("DOMContentLoaded", function () {
+    const dbRef = firebase.database().ref("consentLogs");
+
+    dbRef.once("value").then(snapshot => {
+        const logs = snapshot.val();
+        if (!logs) {
+            renderLogs([]);
+            return;
+        }
+
+        // Convert and filter only session logs
+        logsData = Object.entries(logs)
+            .filter(([key]) => key.startsWith("session_"))
+            .map(([key, value]) => ({
+                userId: value.session_id || "-",
+                consentType: value.preferences ? Object.keys(value.preferences).join(", ") : "Unknown",
+                status: value.action || "-",
+                date: value.timestamp ? new Date(value.timestamp).toISOString().split("T")[0] : "-"
+            }))
+            .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        renderLogs(logsData);
+    }).catch(error => {
+        console.error("Firebase fetch error:", error);
+        renderLogs([]);
+    });
+});
+
+document.getElementById('filter-logs').addEventListener('click', function () {
     const startDate = document.getElementById('start-date').value;
     const endDate = document.getElementById('end-date').value;
     const selectedRows = document.getElementById('rows-per-page').value;
@@ -16,9 +40,9 @@ document.getElementById('filter-logs').addEventListener('click', function() {
     filterLogs(startDate, endDate);
 });
 
-document.getElementById('clear-logs').addEventListener('click', function() {
+document.getElementById('clear-logs').addEventListener('click', function () {
     if (confirm('Are you sure you want to clear all logs?')) {
-        localStorage.clear();
+        localStorage.clear(); // still clears mock if stored locally
         renderLogs([]);
     }
 });
@@ -65,6 +89,3 @@ function generatePagination(totalLogs) {
         paginationContainer.appendChild(button);
     }
 }
-
-// Initial render
-renderLogs(logsData);
