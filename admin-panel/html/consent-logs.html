@@ -3,17 +3,93 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- CSP Meta Tag -->
   <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    style-src 'self' 'unsafe-inline';
-    script-src 'self' 'unsafe-inline' https://therrpmarketing.github.io https://www.gstatic.com https://www.googleapis.com https://*.firebaseio.com;
+    default-src 'self'; 
+    style-src 'self' 'unsafe-inline'; 
+    script-src 'self' 'unsafe-inline' https://therrpmarketing.github.io https://www.gstatic.com https://www.googleapis.com https://*.firebaseio.com; 
     connect-src 'self' https://*.firebaseio.com https://*.googleapis.com wss://*.firebaseio.com;
     img-src 'self' data:;">
+
   <title>Consent Logs</title>
+
+  <!-- CMP Stylesheet -->
   <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <!-- Firebase SDK -->
+  <script src=https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js></script>
+  <script src=https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js></script>
+
+  <script>
+    // Firebase setup
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+      authDomain: "cookie-cmp-sys.firebaseapp.com",
+      databaseURL: https://cookie-cmp-sys-default-rtdb.firebaseio.com,
+      projectId: "cookie-cmp-sys",
+      storageBucket: "cookie-cmp-sys.appspot.com",
+      messagingSenderId: "252822009652",
+      appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
+      measurementId: "G-DLGR6XFPP5"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    function fetchConsentLogs() {
+      const tableBody = document.getElementById("consent-log-list");
+      if (!tableBody) {
+        console.error("Consent log table body not found.");
+        return;
+      }
+      tableBody.innerHTML = '';
+    
+      database.ref('consentLogs').orderByChild('timestamp').on('value', (snapshot) => {
+        const logs = snapshot.val();
+        tableBody.innerHTML = ''; // Clear on update
+    
+        if (logs) {
+          Object.keys(logs).reverse().forEach(key => {
+            const log = logs[key];
+            const row = document.createElement('tr');
+    
+            const sessionCell = document.createElement('td');
+            sessionCell.textContent = log.session_id || '-';
+    
+            const actionCell = document.createElement('td');
+            actionCell.textContent = log.action || '-';
+    
+            const timestampCell = document.createElement('td');
+            timestampCell.textContent = log.timestamp
+              ? new Date(log.timestamp).toLocaleString()
+              : '-';
+    
+            row.appendChild(sessionCell);
+            row.appendChild(actionCell);
+            row.appendChild(timestampCell);
+    
+            tableBody.appendChild(row);
+          });
+        } else {
+          const row = document.createElement('tr');
+          const cell = document.createElement('td');
+          cell.setAttribute('colspan', '3');
+          cell.textContent = 'No logs found.';
+          row.appendChild(cell);
+          tableBody.appendChild(row);
+        }
+      }, error => {
+        console.error("Error fetching data:", error);
+      });
+    }
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchConsentLogs();
+    });
+  </script>
+
 </head>
 <body>
   <!-- Sidebar -->
@@ -22,16 +98,17 @@
   <!-- Main Content -->
   <div class="main-content">
     <h1>Consent Logs</h1>
-    <p>Track and view user consent actions in real time.</p>
+    <p>Track and view user consent actions.</p>
 
+    <!-- Filters and Actions -->
     <div class="cookie-categories filters-actions">
       <div>
         <label for="start-date">Start Date:</label>
-        <input type="date" id="start-date" />
+        <input type="date" id="start-date" name="start-date" />
       </div>
       <div>
         <label for="end-date">End Date:</label>
-        <input type="date" id="end-date" />
+        <input type="date" id="end-date" name="end-date" />
         <button class="add-category-btn">Filter</button>
       </div>
       <div style="margin-left: auto;">
@@ -40,6 +117,7 @@
       </div>
     </div>
 
+    <!-- Table Section -->
     <div class="cookie-categories">
       <table>
         <thead>
@@ -50,116 +128,46 @@
           </tr>
         </thead>
         <tbody id="consent-log-list">
-          <!-- Populated by JS -->
+          <!-- Logs will be populated here -->
         </tbody>
       </table>
     </div>
 
-    <!-- Pagination Controls -->
-    <div id="pagination-controls">
-      <button id="prev-page" disabled>Previous</button>
-      <span id="current-page">Page 1</span>
-      <button id="next-page">Next</button>
+    <!-- Table Controls -->
+    <div class="table-controls">
+      <div>
+        <label for="rows-per-page">Rows per page:</label>
+        <select id="rows-per-page">
+          <option value="20" selected>20</option>
+          <option value="40">40</option>
+          <option value="60">60</option>
+          <option value="80">80</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+      <div class="cookie-categories pagination-controls">
+        <button class="add-category-btn">Previous</button>
+        <span>Page 1 of 5</span>
+        <button class="add-category-btn">Next</button>
+      </div>
     </div>
   </div>
 
+  <!-- Sidebar Loader -->
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-      authDomain: "cookie-cmp-sys.firebaseapp.com",
-      databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
-      projectId: "cookie-cmp-sys",
-      storageBucket: "cookie-cmp-sys.appspot.com",
-      messagingSenderId: "252822009652",
-      appId: "1:252822009652:web:6bfbdf28d98953ccb89761"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    let currentPage = 1;
-    const logsPerPage = 10;
-
-    function getActionLabel(action) {
-      switch (action) {
-        case 'accept_all': return 'Accepted All';
-        case 'reject_all': return 'Rejected All';
-        case 'save_preferences': return 'Saved Preferences';
-        default: return action;
-      }
-    }
-
-    function renderConsentLogs() {
-      const tbody = document.getElementById("consent-log-list");
-      db.ref("consentLogs").orderByChild("timestamp").on("value", (snapshot) => {
-        tbody.innerHTML = "";
-        const logs = snapshot.val();
-        if (logs) {
-          const logEntries = Object.keys(logs).reverse().map(key => logs[key]);
-          const paginatedLogs = logEntries.slice((currentPage - 1) * logsPerPage, currentPage * logsPerPage);
-
-          if (paginatedLogs.length === 0) {
-            const row = document.createElement("tr");
-            const cell = document.createElement("td");
-            cell.setAttribute("colspan", "3");
-            cell.textContent = "No logs found.";
-            row.appendChild(cell);
-            tbody.appendChild(row);
-          } else {
-            paginatedLogs.forEach((log) => {
-              const row = document.createElement("tr");
-
-              const sessionCell = document.createElement("td");
-              sessionCell.textContent = log.session_id || "-";
-
-              const actionCell = document.createElement("td");
-              actionCell.textContent = getActionLabel(log.action);
-
-              const timestampCell = document.createElement("td");
-              timestampCell.textContent = log.timestamp
-                ? new Date(log.timestamp).toLocaleString()
-                : "-";
-
-              row.appendChild(sessionCell);
-              row.appendChild(actionCell);
-              row.appendChild(timestampCell);
-              tbody.appendChild(row);
-            });
-          }
-
-          updatePaginationControls(logEntries.length);
-        }
+    fetch('../../shared/sidebar.html')
+      .then(res => {
+        if (!res.ok) throw new Error('Sidebar file not found.');
+        return res.text();
+      })
+      .then(html => {
+        document.getElementById('sidebar').innerHTML = html;
+      })
+      .catch(err => {
+        console.error('Sidebar error:', err);
+        alert('Error loading sidebar. Check console.');
       });
-    }
-
-    function updatePaginationControls(totalLogs) {
-      const totalPages = Math.ceil(totalLogs / logsPerPage);
-      document.getElementById("prev-page").disabled = currentPage === 1;
-      document.getElementById("next-page").disabled = currentPage === totalPages;
-      document.getElementById("current-page").textContent = `Page ${currentPage}`;
-    }
-
-    document.getElementById("prev-page").addEventListener("click", () => {
-      if (currentPage > 1) {
-        currentPage--;
-        renderConsentLogs();
-      }
-    });
-
-    document.getElementById("next-page").addEventListener("click", () => {
-      currentPage++;
-      renderConsentLogs();
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-      renderConsentLogs();
-
-      fetch('../../shared/sidebar.html')
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById('sidebar').innerHTML = html;
-        })
-        .catch(err => console.error('Sidebar error:', err));
-    });
   </script>
+
 </body>
 </html>
