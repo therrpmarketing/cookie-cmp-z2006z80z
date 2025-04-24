@@ -5,72 +5,108 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Consent Logs</title>
   <link rel="stylesheet" href="https://therrpmarketing.github.io/cookie-cmp-z2006z80z/style.css" />
- 
 </head>
 <body>
-
-    <!-- Sidebar -->
+  <!-- Sidebar -->
   <div id="sidebar"></div>
 
-    <main class="main-content">
-      <h1>Consent Logs</h1>
-
-     <!-- Main Content -->
+  <!-- Main Content -->
   <div class="main-content">
     <h1>Consent Analytics</h1>
     <p>Visual overview of user consent trends.</p>
 
     <!-- Stat Cards -->
     <div class="stat-card-container">
-      <div class="stat-card" id="total-consents > 
-        <h3>Total Consents: 0</h3>
-        
+      <div class="stat-card">
+        <h3>Total Consents</h3>
+        <p id="total-consents">2,456</p>
       </div>
-      <div class="stat-card id="accepted-consents">
-        <h3>Accepted: 0</h3>
-        
+      <div class="stat-card">
+        <h3>Accepted</h3>
+        <p id="accepted-consents">1,740</p>
       </div>
-      <div class="stat-card id="rejected-consents"">
-        <h3>Rejected: 0</h3>
+      <div class="stat-card">
+        <h3>Rejected</h3>
+        <p id="rejected-consents">450</p>
+      </div>
+      <div class="stat-card">
+        <h3>Custom Preference</h3>
+        <p id="custom-preferences">266</p>
+      </div>
+    </div>
+    
+    <!-- Date Filter Controls -->
+    <div class="filters-actions">
+      <div>
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date" class="cmp-input" placeholder="dd-mm-yyyy">
+      </div>
+      <div>
+        <label for="end-date">End Date:</label>
+        <input type="date" id="end-date" class="cmp-input" placeholder="dd-mm-yyyy">
+      </div>
+      <button class="filter-btn" id="filter-btn">Filter</button>
+    </div>
+    
+    <!-- Consent Log Table -->
+    <table class="cmp-consent-log-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Accepted</th>
+          <th>Rejected</th>
+          <th>Custom</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="consent-log-table">
+        <tr>
+          <td>2025-04-21</td>
+          <td>120</td>
+          <td>30</td>
+          <td>20</td>
+          <td>170</td>
+        </tr>
+        <tr>
+          <td>2025-04-20</td>
+          <td>98</td>
+          <td>22</td>
+          <td>10</td>
+          <td>130</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <!-- Table Controls -->
+    <div class="table-controls">
+      <div>
+        <label for="rows-per-page">Rows per page:</label>
+        <select id="rows-per-page">
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+      <div class="pagination-controls">
+        <button id="prev-page" class="export-btn">Previous</button>
+        <span>Page 1 of 5</span>
+        <button id="next-page" class="export-btn">Next</button>
+      </div>
+      <div>
+        <button id="export-logs" class="export-btn">Export Logs</button>
+        <button id="clear-logs" class="clear-btn">Clear Logs</button>
       </div>
     </div>
 
-      
-      <div class="dashboard-cards">
-        <div class="dashboard-card" id="total-consents">Total Consents: 0</div>
-        <div class="dashboard-card" id="accepted-consents">Accepted: 0</div>
-        <div class="dashboard-card" id="rejected-consents">Rejected: 0</div>
-      </div>
-
-      <div class="button-group">
-        <button id="accept-all">Accept All</button>
-        <button id="reject-all">Reject All</button>
-        <button id="customize">Customize</button>
-      </div>
-
-      <div id="cookie-customization-panel" style="display: none; border: 1px solid #ccc; padding: 20px; border-radius: 12px;">
-        <h3>Cookie Preferences</h3>
-        <label><input type="checkbox" id="necessary" checked disabled /> Necessary</label><br>
-        <label><input type="checkbox" id="functional" /> Functional</label><br>
-        <label><input type="checkbox" id="analytics" /> Analytics</label><br>
-        <label><input type="checkbox" id="performance" /> Performance</label><br><br>
-        <button id="save-preferences">Save Preferences</button>
-      </div>
-
-      <h2>Consent Actions</h2>
-      <table class="consent-table">
-        <thead>
-          <tr>
-            <th>Session ID</th>
-            <th>Action</th>
-            <th>Timestamp</th>
-          </tr>
-        </thead>
-        <tbody id="consent-log-table">
-          <!-- Logs will appear here -->
-        </tbody>
-      </table>
-    </main>
+    <!-- Hidden Cookie Customization Panel (Preserved from original) -->
+    <div id="cookie-customization-panel" style="display: none; border: 1px solid #ccc; padding: 20px; border-radius: 12px;">
+      <h3>Cookie Preferences</h3>
+      <label><input type="checkbox" id="necessary" checked disabled /> Necessary</label><br>
+      <label><input type="checkbox" id="functional" /> Functional</label><br>
+      <label><input type="checkbox" id="analytics" /> Analytics</label><br>
+      <label><input type="checkbox" id="performance" /> Performance</label><br><br>
+      <button id="save-preferences">Save Preferences</button>
+    </div>
   </div>
 
   <!-- Firebase SDK -->
@@ -159,48 +195,68 @@
           if (action === "accept_all" || action === "customized_preferences") accept++;
           if (action === "reject_all") reject++;
         }
-        document.getElementById('total-consents').innerText = `Total Consents: ${total}`;
-        document.getElementById('accepted-consents').innerText = `Accepted: ${accept}`;
-        document.getElementById('rejected-consents').innerText = `Rejected: ${reject}`;
+        document.getElementById('total-consents').innerText = `${total}`;
+        document.getElementById('accepted-consents').innerText = `${accept}`;
+        document.getElementById('rejected-consents').innerText = `${reject}`;
       }
 
-function loadConsentData() {
-  firebase.database().ref('consent_logs').on('value', function(snapshot) {
-    const logs = snapshot.val();
-    const table = document.getElementById('consent-log-table');
-    table.innerHTML = ''; // Clear the table
+      function loadConsentData() {
+        firebase.database().ref('consent_logs').on('value', function(snapshot) {
+          const logs = snapshot.val();
+          const table = document.getElementById('consent-log-table');
+          table.innerHTML = ''; // Clear the table
 
-    if (logs) {
-      updateDashboardCounts(logs); // Function to update any counts/statistics
+          if (logs) {
+            updateDashboardCounts(logs); // Function to update any counts/statistics
 
-      // Loop through the logs and populate the table
-      Object.keys(logs).reverse().forEach(id => {
-        const log = logs[id]; // Each log entry
-        const row = document.createElement('tr');
+            // Loop through the logs and populate the table
+            Object.keys(logs).reverse().forEach(id => {
+              const log = logs[id]; // Each log entry
+              const row = document.createElement('tr');
 
-        // Extract session data and preferences for display
-        const sessionID = log.session_id || 'N/A'; // Default to 'N/A' if not found
-        const action = log.action || 'N/A';
-        
-        // Format the timestamp to a more readable format
-        const formattedTimestamp = new Date(log.timestamp).toLocaleString(); // This will format the timestamp
+              // Extract session data and preferences for display
+              const sessionID = log.session_id || 'N/A'; // Default to 'N/A' if not found
+              const action = log.action || 'N/A';
+              
+              // Format the timestamp to a more readable format
+              const formattedTimestamp = new Date(log.timestamp).toLocaleString(); // This will format the timestamp
 
-        // Update the row HTML with formatted timestamp
-        row.innerHTML = `
-          <td>${sessionID}</td>
-          <td>${action}</td>
-          <td>${formattedTimestamp}</td>  <!-- Use the formatted timestamp here -->
-        `;
-        table.appendChild(row);
+              // Update the row HTML with formatted timestamp
+              row.innerHTML = `
+                <td>${formattedTimestamp}</td>
+                <td>${action === 'accept_all' ? '1' : '0'}</td>
+                <td>${action === 'reject_all' ? '1' : '0'}</td>
+                <td>${action === 'customized_preferences' ? '1' : '0'}</td>
+                <td>1</td>
+              `;
+              table.appendChild(row);
+            });
+          }
+        });
+      }
+
+      loadConsentData();
+
+      // Add event listeners for pagination and export/clear buttons
+      document.getElementById('prev-page').addEventListener('click', () => {
+        // Pagination functionality
       });
-    }
-  });
-}
-
-loadConsentData();
- 
-
-
+      
+      document.getElementById('next-page').addEventListener('click', () => {
+        // Pagination functionality
+      });
+      
+      document.getElementById('export-logs').addEventListener('click', () => {
+        // Export functionality
+      });
+      
+      document.getElementById('clear-logs').addEventListener('click', () => {
+        // Clear logs functionality
+      });
+      
+      document.getElementById('filter-btn').addEventListener('click', () => {
+        // Filter functionality
+      });
     });
   </script>
 
@@ -219,19 +275,11 @@ loadConsentData();
         alert('Error loading sidebar. Please check the file path or server configuration.');
       });
   </script>
-
-
-
   
   <!-- gtag function stub -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
   </script>
-
-
-
-
-  
 </body>
 </html>
