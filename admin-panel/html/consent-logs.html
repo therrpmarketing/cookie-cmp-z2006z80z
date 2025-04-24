@@ -265,6 +265,33 @@
         renderTable();
       });
 
+// Date Logic Function START
+        function renderFilteredTable(filteredLogs) {
+        const table = document.getElementById('consent-log-table');
+        table.innerHTML = '';
+      
+        filteredLogs.forEach(log => {
+          const row = document.createElement('tr');
+          const sessionID = log.session_id || 'N/A';
+          const action = log.action || 'N/A';
+          const formattedTimestamp = new Date(log.timestamp).toLocaleString();
+      
+          row.innerHTML = `
+            <td>${sessionID}</td>
+            <td>${action}</td>
+            <td>${formattedTimestamp}</td>
+          `;
+          table.appendChild(row);
+        });
+      
+        // Optionally update page status (optional visual only)
+        document.querySelector("span").innerText = `Filtered: ${filteredLogs.length} entries`;
+      }
+// Date Logic Function END
+
+
+
+      
       // Export functionality for logs
       document.getElementById('export-logs').addEventListener('click', () => {
         const exportFormat = document.getElementById('export-format').value;
