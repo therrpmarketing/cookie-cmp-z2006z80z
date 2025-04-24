@@ -404,3 +404,122 @@ select, input[type="date"] {
 
 
 /*  Adv. Setting Section Consent log Settings END */
+
+
+/* Consent Log Section */
+.consent-log-section {
+    margin-top: 30px;
+}
+
+.consent-log-section h2 {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Table for Consent Logs */
+#consent-log-list {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#consent-log-list th, #consent-log-list td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+#consent-log-list th {
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+}
+
+#consent-log-list td {
+    background-color: #fff;
+}
+
+/* Empty row styling for when no data is available */
+.empty-row {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 20px;
+}
+
+/* Pagination Controls */
+.pagination-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination-controls button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pagination-controls button:hover {
+    background-color: #0056b3;
+}
+
+/* Filter Actions (Dropdowns, Search, etc.) */
+.filters-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 20px;
+}
+
+.filters-actions select, .filters-actions input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.filters-actions .filter-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.filters-actions .filter-btn:hover {
+    background-color: #45a049;
+}
+
+/* Action Buttons (Export, Clear) */
+.table-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.table-controls .export-btn, .table-controls .clear-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.table-controls .export-btn:hover, .table-controls .clear-btn:hover {
+    background-color: #0056b3;
+}
+
