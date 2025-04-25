@@ -209,7 +209,7 @@ h1 {
 
 .setting-group input, 
 .setting-group select {
-    width: 100%;
+    width: 75%;
     padding: 8px;
     margin-top: 5px;
 }
