@@ -754,6 +754,29 @@ select, input[type="date"] {
   50% { opacity: 0.4; }
   100% { opacity: 1; }
 }
+
+#notificationBubble {
+  display: none;
+  padding: 8px 12px;
+  background-color: #d9534f;
+  color: white;
+  border-radius: 5px;
+  margin-top: 10px;
+  width: fit-content;
+  font-size: 14px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#notificationBubble.visible {
+  display: inline-block;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 /* Notification Section END*/
 
 
