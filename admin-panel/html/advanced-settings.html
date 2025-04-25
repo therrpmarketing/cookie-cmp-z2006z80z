@@ -328,64 +328,86 @@
 
 
 <!-- Firebase Setup for NOTIFICATION SETTING START -->
-        <script>
-          // Initialize Firebase (Already done in your project, so no need to repeat this part)
-          const database = getDatabase(); // This is for Realtime Database
+         <script type="module">
+          // Firebase setup
+          import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+        
+          // Initialize Firebase Realtime Database
+          const database = getDatabase();
+        
+          // Firebase reference to notification settings
+          const notificationSettingsRef = ref(database, 'cookieSettings/notificationSettings');
           
-          // Reference to the notification settings in the Realtime Database
-          const settingsRef = ref(database, 'settings/notificationSettings');
-          
-          // Fetch settings from Firebase Realtime Database
+          // Load the notification settings from Firebase
           function loadNotificationSettings() {
-            get(settingsRef).then((snapshot) => {
+            get(notificationSettingsRef).then((snapshot) => {
               if (snapshot.exists()) {
                 const settings = snapshot.val();
                 // Update checkboxes based on Firebase data
-                document.getElementById('errorNotifications').checked = settings.errorNotifications;
-                document.getElementById('actionNotifications').checked = settings.actionNotifications;
+                document.getElementById('errorNotifications').checked = settings.emailNotifications;
+                document.getElementById('actionNotifications').checked = settings.pushNotifications;
               } else {
-                console.log("No settings found in the database.");
+                console.log("No notification settings found in the database.");
               }
             }).catch((error) => {
-              console.error('Error fetching settings:', error);
+              console.error('Error fetching notification settings:', error);
             });
           }
-          
-          // Save settings to Firebase Realtime Database
-          function saveNotificationSettings() {
-            const errorNotifications = document.getElementById('errorNotifications').checked;
-            const actionNotifications = document.getElementById('actionNotifications').checked;
         
-            const userId = "admin-demo"; // Replace with dynamic user ID
-          
-            // Save the new settings to Firebase
-            set(settingsRef, {
-              errorNotifications: errorNotifications,
-              actionNotifications: actionNotifications
+          // Save the notification settings to Firebase
+          function saveNotificationSettings() {
+            const emailNotifications = document.getElementById('errorNotifications').checked;
+            const pushNotifications = document.getElementById('actionNotifications').checked;
+        
+            // Save the settings to Firebase Realtime Database
+            set(notificationSettingsRef, {
+              emailNotifications: emailNotifications,
+              pushNotifications: pushNotifications
             }).then(() => {
+              // Show success notification bubble
+              showNotificationBubble("Settings saved successfully!");
               alert('Notification settings saved!');
             }).catch((error) => {
-              console.error('Error saving settings:', error);
+              console.error('Error saving notification settings:', error);
             });
           }
-          
-          // Event listener for saving settings when the button is clicked
-          document.querySelector('.save-notification-settings').addEventListener('click', saveNotificationSettings);
-          
-          // Load the settings when the page loads
-          window.onload = function() {
-            loadNotificationSettings();
-          };
-        </script>
-        <!-- Firebase Setup for NOTIFICATION SETTING END -->
         
-        <!-- Notification Card Details - START -->
-        <!-- Advance Setting Handle the Notification card "Configure Alerts" button START -->
-        <script>
-        document.querySelector('.add-category-btn').addEventListener('click', function() {
-          // For demonstration, toggle an alert settings form (you can create an actual form)
-          const alertSettingsForm = document.createElement('div');
-          alertSettingsForm.innerHTML = `
+          // Utility to show the notification bubble
+          function showNotificationBubble(message) {
+            const bubble = document.getElementById("notificationBubble");
+            bubble.querySelector("span").textContent = message;
+            bubble.classList.remove("hidden");
+        
+            setTimeout(() => {
+              bubble.classList.add("hidden");
+            }, 3000);
+          }
+        
+          // Trigger real notifications based on preferences (Optional, for demo/testing)
+          function simulateNotification(type) {
+            get(notificationSettingsRef).then((snapshot) => {
+              if (snapshot.exists()) {
+                const prefs = snapshot.val();
+                
+                if (type === "error" && prefs.emailNotifications) {
+                  showNotificationBubble("⚠️ Error occurred in system");
+                } else if (type === "action" && prefs.pushNotifications) {
+                  showNotificationBubble("✅ New user action recorded");
+                }
+              }
+            }).catch((error) => {
+              console.error('Error triggering notifications:', error);
+            });
+          }
+        
+          // Event listener to save settings when the button is clicked
+          document.querySelector('.save-notification-settings').addEventListener('click', saveNotificationSettings);
+        
+          // Event listener for "Configure Alerts" button (e.g., add more settings dynamically)
+          document.querySelector('.add-category-btn').addEventListener('click', function() {
+            // For demonstration, toggle an alert settings form (you can create an actual form)
+            const alertSettingsForm = document.createElement('div');
+            alertSettingsForm.innerHTML = `
               <h3>Set Notification Preferences</h3>
               <label>
                   <input type="checkbox" id="errorAlerts" /> Enable Alerts for Errors
@@ -394,156 +416,32 @@
                   <input type="checkbox" id="userActionAlerts" /> Enable Alerts for User Actions
               </label><br>
               <button id="saveAlertSettings">Save Settings</button>
-          `;
-          document.querySelector('.cookie-categories').appendChild(alertSettingsForm);
-          
-          // Event listener for the "Save Settings" button
-          document.querySelector('#saveAlertSettings').addEventListener('click', function() {
-            // Get user preferences from checkboxes
-            const errorAlertsEnabled = document.querySelector('#errorAlerts').checked;
-            const userActionAlertsEnabled = document.querySelector('#userActionAlerts').checked;
-            
-            // Save to Firebase Realtime Database
-            saveNotificationSettings(errorAlertsEnabled, userActionAlertsEnabled);
-          });
-        });
+            `;
+            document.querySelector('.cookie-categories').appendChild(alertSettingsForm);
         
-        // Function to save settings to Firebase
-        function saveNotificationSettings(errorAlertsEnabled, userActionAlertsEnabled) {
-          const userId = 'user123'; // This should be dynamic based on the current user (could be a logged-in user's ID)
-          
-          // Set the notification settings in Firebase
-          const settingsRef = ref(getDatabase(), 'notificationSettings/' + userId);
-          set(settingsRef, {
-            errorAlertsEnabled: errorAlertsEnabled,
-            userActionAlertsEnabled: userActionAlertsEnabled
-          })
-          .then(() => {
-            alert("Settings saved successfully!");
-          })
-          .catch((error) => {
-            console.error("Error saving settings: ", error);
-            alert("Failed to save settings.");
+            // Event listener for the "Save Settings" button
+            document.querySelector('#saveAlertSettings').addEventListener('click', function() {
+              const errorAlertsEnabled = document.querySelector('#errorAlerts').checked;
+              const userActionAlertsEnabled = document.querySelector('#userActionAlerts').checked;
+        
+              // Save to Firebase Realtime Database
+              set(notificationSettingsRef, {
+                emailNotifications: errorAlertsEnabled,
+                pushNotifications: userActionAlertsEnabled
+              }).then(() => {
+                showNotificationBubble("Alert settings saved successfully!");
+              }).catch((error) => {
+                console.error("Error saving alert settings: ", error);
+              });
+            });
           });
-        }
+        
+          // Load the settings when the page loads
+          window.onload = function() {
+            loadNotificationSettings();
+          };
         </script>
-        <!-- Advance Setting Handle the Notification card "Configure Alerts" button END -->
-        
-        <!-- Notification Setting Script-START -->
-        <script> 
-        const userId = "admin_default"; // You can replace this with dynamic admin UID if needed
-        
-        import { get, child } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
-        
-        const dbRef = ref(database);
-        get(child(dbRef, `notificationSettings/${userId}`))
-          .then((snapshot) => {
-            if (snapshot.exists()) {
-              const savedSetting = snapshot.val();
-              notificationSetting = savedSetting;
-              updateNotificationUI(); // Reflect the current state in UI
-            } else {
-              console.log("No previous setting found.");
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching notification setting:", error);
-          });
-        </script>
-        <!-- Notification Setting Script-END -->
-        
-        <!-- Notification Setting - Save Preferences to Firebase START -->
-        <script>
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
-        
-        // Replace with your actual admin/user ID logic
-        const adminId = "admin-demo"; 
-        
-        document.querySelector(".save-notification-settings").addEventListener("click", () => {
-          const errorChecked = document.getElementById("errorNotifications").checked;
-          const actionChecked = document.getElementById("actionNotifications").checked;
-        
-          const db = getDatabase();
-          set(ref(db, 'cmp-notification-preferences/' + adminId), {
-            errorNotifications: errorChecked,
-            actionNotifications: actionChecked,
-            timestamp: Date.now()
-          }).then(() => {
-            // Show the notification bubble briefly
-            document.getElementById("notificationBubble").classList.remove("hidden");
-            setTimeout(() => {
-              document.getElementById("notificationBubble").classList.add("hidden");
-            }, 3000);
-          });
-        });
-        </script>
-        <!-- Notification Setting - Save Preferences to Firebase END -->
-        
-        <!-- Notification Setting - Load Settings on Page Load from Firebase START -->
-        <script>
-        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
-        
-        // Same admin ID as before
-        const adminId = "admin-demo";
-        
-        window.addEventListener("DOMContentLoaded", () => {
-          const db = getDatabase();
-          const settingsRef = ref(db, 'cmp-notification-preferences/' + adminId);
-        
-          get(settingsRef).then((snapshot) => {
-            if (snapshot.exists()) {
-              const data = snapshot.val();
-              document.getElementById("errorNotifications").checked = data.errorNotifications || false;
-              document.getElementById("actionNotifications").checked = data.actionNotifications || false;
-            }
-          }).catch((error) => {
-            console.error("Failed to load preferences:", error);
-          });
-        });
-        </script>
-        <!-- Notification Setting - Load Settings on Page Load from Firebase END -->
-        
-        <!-- Notification Setting - Triggering Real Notifications Based on Preferences from Firebase START -->
-        <script>
-        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
-        
-        const adminId = "admin-demo";
-        const db = getDatabase();
-        
-        // Utility function to show the bubble
-        function showNotificationBubble(message = "New notification!") {
-          const bubble = document.getElementById("notificationBubble");
-          bubble.querySelector("span").textContent = message;
-          bubble.classList.add("visible");
-        
-          // Auto-hide after 5 seconds
-          setTimeout(() => {
-            bubble.classList.remove("visible");
-          }, 5000);
-        }
-        
-        // Simulate a system event (you’ll later trigger these from real events)
-        function simulateEvent(type) {
-          const settingsRef = ref(db, 'cmp-notification-preferences/' + adminId);
-        
-          get(settingsRef).then((snapshot) => {
-            if (snapshot.exists()) {
-              const prefs = snapshot.val();
-        
-              if (type === "error" && prefs.errorNotifications) {
-                showNotificationBubble("⚠️ Error occurred in system");
-              } else if (type === "action" && prefs.actionNotifications) {
-                showNotificationBubble("✅ New user action recorded");
-              }
-            }
-          });
-        }
-        
-        // DEMO ONLY: Simulate notifications on page load (remove this part in real use)
-        setTimeout(() => simulateEvent("error"), 2000);
-        setTimeout(() => simulateEvent("action"), 6000);
-        </script>
-<!-- Notification Setting - Triggering Real Notifications Based on Preferences from Firebase END -->
+
 <!-- Notification Card Details - END -->
 
  
