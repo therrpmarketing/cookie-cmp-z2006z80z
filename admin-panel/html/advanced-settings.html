@@ -373,8 +373,8 @@
         </script>
 <!-- Firebase Setup for NOTIFICATION SETTING END -->
 
-
-<!-- Advance Setting Handle the "Configure Alerts" button START -->
+<!-- Notification Card Details - START -->
+<!-- Advance Setting Handle the Notification card "Configure Alerts" button START -->
         <script>
         document.querySelector('.add-category-btn').addEventListener('click', function() {
             // For demonstration, toggle an alert settings form (you can create an actual form)
@@ -421,9 +421,32 @@
             });
         }
         </script>
-<!-- Advance Setting Handle the "Configure Alerts" button END -->
+<!-- Advance Setting Handle the Notification card "Configure Alerts" button END -->
 
-
+    <!--   Notification Setting Script-START -->
+            <script> 
+            const userId = "admin_default"; // You can replace this with dynamic admin UID if needed
+            
+            import { get, child } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+            
+            const dbRef = ref(database);
+            get(child(dbRef, `notificationSettings/${userId}`))
+              .then((snapshot) => {
+                if (snapshot.exists()) {
+                  const savedSetting = snapshot.val();
+                  notificationSetting = savedSetting;
+                  updateNotificationUI(); // Reflect the current state in UI
+                } else {
+                  console.log("No previous setting found.");
+                }
+              })
+              .catch((error) => {
+                console.error("Error fetching notification setting:", error);
+              });
+            </script>
+    <!--   Notification Setting Script-END -->
+  
+<!-- Notification Card Details - START -->
   
 </body>
 </html>
