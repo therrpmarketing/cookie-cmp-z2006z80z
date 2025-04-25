@@ -263,22 +263,22 @@
 
 
   <!-- Firebase Setup for Cookie Expiry with Categories Setting START -->
-         <script type="module">
-        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
-      
-        const firebaseConfig = {
-          apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-          authDomain: "cookie-cmp-sys.firebaseapp.com",
-          databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
-          projectId: "cookie-cmp-sys",
-          storageBucket: "cookie-cmp-sys.firebasestorage.app",
-          messagingSenderId: "252822009652",
-          appId: "1:252822009652:web:6bfbdf28d98953ccb89761"
-        };
-      
-        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+             <script type="module">
+            import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+            import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+          
+            const firebaseConfig = {
+              apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+              authDomain: "cookie-cmp-sys.firebaseapp.com",
+              databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+              projectId: "cookie-cmp-sys",
+              storageBucket: "cookie-cmp-sys.firebasestorage.app",
+              messagingSenderId: "252822009652",
+              appId: "1:252822009652:web:6bfbdf28d98953ccb89761"
+            };
+          
+            const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+            const db = getDatabase(app);
 
         // Define the reference to store settings
         const settingsRef = ref(db, 'notificationSettings');  // This is where we will store notification settings in Firebase
