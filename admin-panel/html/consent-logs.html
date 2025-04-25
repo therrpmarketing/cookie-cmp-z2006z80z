@@ -87,19 +87,9 @@
         <button id="next-page">Next</button>
       </div>
       <div>
-                   <!-- Export Section -->
-            <div style="margin: 20px 0;">
-              <label for="export-format">Export Format:</label>
-              <select id="export-format">
-                <option value="csv">CSV</option>
-                <option value="json">JSON</option>
-              </select>
-              <button id="export-logs">Export Logs</button>
-            </div>
-        
-<!--         <button id="export-logs">Export Logs</button> -->
-        
-        </div>
+        <button id="export-logs">Export Logs</button>
+        <button id="clear-logs">Clear Logs</button>
+      </div>
     </div>
 
     <!-- Hidden elements for JavaScript functionality -->
@@ -120,15 +110,15 @@
   </div>
 
   <!-- Firebase SDK -->
-  <script src=https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js></script>
-  <script src=https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <script>
     // Initialize Firebase (replace with your config)
     const firebaseConfig = {
       apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
       authDomain: "cookie-cmp-sys.firebaseapp.com",
-      databaseURL: https://cookie-cmp-sys-default-rtdb.firebaseio.com,
+      databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
       projectId: "cookie-cmp-sys",
       storageBucket: "cookie-cmp-sys.firebasestorage.app",
       messagingSenderId: "252822009652",
@@ -269,72 +259,7 @@ loadConsentData();
     function gtag() { dataLayer.push(arguments); }
   </script>
 
-
-<!--   // Handle Export Button Click START -->
-<script>
-  document.getElementById("export-logs").addEventListener("click", function () {
-    firebase.database().ref("consent_logs").once("value", function (snapshot) {
-      const logs = snapshot.val();
-      if (!logs) {
-        alert("No data found to export.");
-        return;
-      }
-
-      const exportFormat = document.getElementById("export-format").value;
-
-      // Format the data
-      const processedLogs = Object.keys(logs).map(id => {
-        const log = logs[id];
-        return {
-          session_id: log.sessionID || "N/A",
-          action: log.action || "N/A",
-          timestamp: log.timestamp ? new Date(log.timestamp).toLocaleString() : "N/A"
-        };
-      });
-
-      // Export
-      if (exportFormat === "csv") {
-        exportToCSV(processedLogs);
-      } else {
-        exportToJSON(processedLogs);
-      }
-    });
-  });
-
-  // Convert to CSV and Download
-  function exportToCSV(data) {
-    const headers = Object.keys(data[0]).join(",") + "\n";
-    const rows = data.map(row => Object.values(row).join(",")).join("\n");
-    const csvContent = headers + rows;
-
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "consent_logs.csv";
-    a.click();
-
-    URL.revokeObjectURL(url);
-  }
-
-  // Convert to JSON and Download
-  function exportToJSON(data) {
-    const jsonContent = JSON.stringify(data, null, 2);
-    const blob = new Blob([jsonContent], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "consent_logs.json";
-    a.click();
-
-    URL.revokeObjectURL(url);
-  }
-</script>
-<!-- // Handle Export Button Click END -->
-
-  
+ 
 
 </body>
 </html>
