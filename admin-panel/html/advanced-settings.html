@@ -400,29 +400,29 @@
             });
           }
         
-          // // Event listener to save settings when the button is clicked
-          // document.querySelector('.save-notification-settings').addEventListener('click', saveNotificationSettings);
+          // Event listener to save settings when the button is clicked
+          document.querySelector('.save-notification-settings').addEventListener('click', saveNotificationSettings);
         
-          // // Event listener for "Configure Alerts" button (e.g., add more settings dynamically)
-          // document.querySelector('.add-category-btn').addEventListener('click', function() {
-          //   // For demonstration, toggle an alert settings form (you can create an actual form)
-          //   const alertSettingsForm = document.createElement('div');
-          //   alertSettingsForm.innerHTML = `
-          //     <h3>Set Notification Preferences</h3>
-          //     <label>
-          //         <input type="checkbox" id="errorAlerts" /> Enable Alerts for Errors
-          //     </label><br>
-          //     <label>
-          //         <input type="checkbox" id="userActionAlerts" /> Enable Alerts for User Actions
-          //     </label><br>
-          //     <button id="saveAlertSettings">Save Settings</button>
-          //   `;
-          //   document.querySelector('.cookie-categories').appendChild(alertSettingsForm);
+          // Event listener for "Configure Alerts" button (e.g., add more settings dynamically)
+          document.querySelector('.add-category-btn').addEventListener('click', function() {
+            // For demonstration, toggle an alert settings form (you can create an actual form)
+            const alertSettingsForm = document.createElement('div');
+            alertSettingsForm.innerHTML = `
+              <h3>Set Notification Preferences</h3>
+              <label>
+                  <input type="checkbox" id="errorAlerts" /> Enable Alerts for Errors
+              </label><br>
+              <label>
+                  <input type="checkbox" id="userActionAlerts" /> Enable Alerts for User Actions
+              </label><br>
+              <button id="saveAlertSettings">Save Settings</button>
+            `;
+            document.querySelector('.cookie-categories').appendChild(alertSettingsForm);
         
-          //   // Event listener for the "Save Settings" button
-          //   document.querySelector('#saveAlertSettings').addEventListener('click', function() {
-          //     const errorAlertsEnabled = document.querySelector('#errorAlerts').checked;
-          //     const userActionAlertsEnabled = document.querySelector('#userActionAlerts').checked;
+            // Event listener for the "Save Settings" button
+            document.querySelector('#saveAlertSettings').addEventListener('click', function() {
+              const errorAlertsEnabled = document.querySelector('#errorAlerts').checked;
+              const userActionAlertsEnabled = document.querySelector('#userActionAlerts').checked;
         
               // Save to Firebase Realtime Database
               set(notificationSettingsRef, {
