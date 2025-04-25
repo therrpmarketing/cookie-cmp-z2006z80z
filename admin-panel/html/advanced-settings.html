@@ -448,6 +448,34 @@
               });
             </script>
     <!--   Notification Setting Script-END -->
+
+<!--   Notification Setting - Save Preferences to Firebase START -->
+            <script>
+            import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+          
+            // Replace with your actual admin/user ID logic
+            const adminId = "admin-demo"; 
+          
+            document.querySelector(".save-notification-settings").addEventListener("click", () => {
+              const errorChecked = document.getElementById("errorNotifications").checked;
+              const actionChecked = document.getElementById("actionNotifications").checked;
+          
+              const db = getDatabase();
+              set(ref(db, 'cmp-notification-preferences/' + adminId), {
+                errorNotifications: errorChecked,
+                actionNotifications: actionChecked,
+                timestamp: Date.now()
+              }).then(() => {
+                // Show the notification bubble briefly
+                document.getElementById("notificationBubble").classList.remove("hidden");
+                setTimeout(() => {
+                  document.getElementById("notificationBubble").classList.add("hidden");
+                }, 3000);
+              });
+            });
+          </script>
+  <!--   Notification Setting - Save Preferences to Firebase END -->
+
   
 <!-- Notification Card Details - START -->
   
