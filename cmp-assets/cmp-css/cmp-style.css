@@ -723,3 +723,37 @@ select, input[type="date"] {
       background-color: #dc3545;
     }
 
+
+
+/* Notification Section START*/
+.notification-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.notification-bubble {
+  color: red;
+  font-size: 20px;
+  animation: pulse 1s infinite;
+}
+
+.notification-message {
+  margin-top: 10px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Utility class to hide elements */
+.hidden {
+  display: none;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+/* Notification Section END*/
+
+
