@@ -477,6 +477,75 @@
   <!--   Notification Setting - Save Preferences to Firebase END -->
 
   
+<!--   Notification Setting - Load Settings on Page Load from Firebase START -->
+          <script>
+          import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+        
+          // Same admin ID as before
+          const adminId = "admin-demo";
+        
+          window.addEventListener("DOMContentLoaded", () => {
+            const db = getDatabase();
+            const settingsRef = ref(db, 'cmp-notification-preferences/' + adminId);
+        
+            get(settingsRef).then((snapshot) => {
+              if (snapshot.exists()) {
+                const data = snapshot.val();
+                document.getElementById("errorNotifications").checked = data.errorNotifications || false;
+                document.getElementById("actionNotifications").checked = data.actionNotifications || false;
+              }
+            }).catch((error) => {
+              console.error("Failed to load preferences:", error);
+            });
+          });
+        </script>
+  <!--   Notification Setting - Load Settings on Page Load from Firebase START -->
+
+  <!--   Notification Setting - Triggering Real Notifications Based on Preferences from Firebase START -->
+        <script>
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+      
+        const adminId = "admin-demo";
+        const db = getDatabase();
+      
+        // Utility function to show the bubble
+        function showNotificationBubble(message = "New notification!") {
+          const bubble = document.getElementById("notificationBubble");
+          bubble.querySelector("span").textContent = message;
+          bubble.classList.add("visible");
+      
+          // Auto-hide after 5 seconds
+          setTimeout(() => {
+            bubble.classList.remove("visible");
+          }, 5000);
+        }
+      
+        // Simulate a system event (you’ll later trigger these from real events)
+        function simulateEvent(type) {
+          const settingsRef = ref(db, 'cmp-notification-preferences/' + adminId);
+      
+          get(settingsRef).then((snapshot) => {
+            if (snapshot.exists()) {
+              const prefs = snapshot.val();
+      
+              if (type === "error" && prefs.errorNotifications) {
+                showNotificationBubble("⚠️ Error occurred in system");
+              } else if (type === "action" && prefs.actionNotifications) {
+                showNotificationBubble("✅ New user action recorded");
+              }
+            }
+          });
+        }
+      
+        // DEMO ONLY: Simulate notifications on page load (remove this part in real use)
+        setTimeout(() => simulateEvent("error"), 2000);
+        setTimeout(() => simulateEvent("action"), 6000);
+      </script>
+  <!--   Notification Setting - Triggering Real Notifications Based on Preferences from Firebase END -->
+
+
+
+  
 <!-- Notification Card Details - START -->
   
 </body>
