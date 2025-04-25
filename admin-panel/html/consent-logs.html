@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Consent Logs</title>
-    <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
+  <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
 </head>
 <body>
   <!-- Sidebar -->
-  <div id="sidebar"> </div>
+  <div id="sidebar"></div>
 
   <!-- Main Content -->
   <div class="main-content">
-    <h1>Consent Analytics</h1>
+    <h1>Consent Logs</h1>
     <p>Visual overview of user consent trends.</p>
 
     <!-- Stats Section -->
@@ -45,15 +45,15 @@
       
       <button id="filter-btn">Filter</button>
     </div>
-    
+
     <!-- Consent Log Table -->
     <table>
       <thead>
         <tr>
-          <th>Session ID</th>
-          <th>Action</th>
-          <th>TimeStamp</th>
-                 </tr>
+          <th>Date</th>
+          <th>Accepted</th>
+          <th>Rejected</th>
+        </tr>
       </thead>
       <tbody id="consent-log-table">
         <!-- Sample rows as shown in the screenshot -->
@@ -61,15 +61,13 @@
           <td>session_1745486587659ydptt30e8</td>
           <td>accept_all</td>
           <td>24/04/2025, 14:53:09</td>
-         
         </tr>
         <tr>
           <td>session_1745486068747h522jdaem</td>
           <td>accept_all</td>
           <td>24/04/2025, 14:50:11</td>
-         
         </tr>
-        <!-- Additional rows would be populated dynamically -->
+        <!-- Additional rows will be populated dynamically -->
       </tbody>
     </table>
     
@@ -79,6 +77,10 @@
         <label for="rows-per-page">Rows per page:</label>
         <select id="rows-per-page">
           <option value="20">20</option>
+          <option value="40">40</option>
+          <option value="60">60</option>
+          <option value="80">80</option>
+          <option value="100">100</option>
         </select>
       </div>
       <div>
@@ -86,20 +88,17 @@
         <span>Page 1 of 5</span>
         <button id="next-page">Next</button>
       </div>
-
-      <!-- Export Section -->
-      <div style="margin: 20px 0;">
-        <label for="export-format">Export Format:</label>
-        <select id="export-format">
-          <option value="csv">CSV</option>
-          <option value="json">JSON</option>
-        </select>
-        <button id="export-logs">Export Logs</button>
+      <div>
+        <!-- Export Section -->
+        <div style="margin: 20px 0;">
+          <label for="export-format">Export Format:</label>
+          <select id="export-format">
+            <option value="csv">CSV</option>
+            <option value="json">JSON</option>
+          </select>
+          <button id="export-logs">Export Logs</button>
+        </div>
       </div>
-
-<!--       <div>
-        <button id="export-logs">Export Logs</button>
-        </div> -->
     </div>
 
     <!-- Hidden elements for JavaScript functionality -->
@@ -210,133 +209,98 @@
         document.getElementById('rejected-consents').innerText = `${reject}`;
       }
 
-function loadConsentData() {
-  firebase.database().ref('consent_logs').on('value', function(snapshot) {
-    const logs = snapshot.val();
-    const table = document.getElementById('consent-log-table');
-    table.innerHTML = ''; // Clear the table
+      let allLogs = [];
+      let currentPage = 1;
+      let rowsPerPage = 20; // Default rows per page
 
-    if (logs) {
-      updateDashboardCounts(logs); // Function to update any counts/statistics
+      function renderTable() {
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const logsToShow = allLogs.slice(start, end);
+        const table = document.getElementById('consent-log-table');
+        table.innerHTML = '';
 
-      // Loop through the logs and populate the table
-      Object.keys(logs).reverse().forEach(id => {
-        const log = logs[id]; // Each log entry
-        const row = document.createElement('tr');
+        logsToShow.forEach(log => {
+          const row = document.createElement('tr');
+          const sessionID = log.session_id || 'N/A';
+          const action = log.action || 'N/A';
+          const formattedTimestamp = new Date(log.timestamp).toLocaleString();
 
-        // Extract session data and preferences for display
-        const sessionID = log.session_id || 'N/A'; // Default to 'N/A' if not found
-        const action = log.action || 'N/A';
-        
-        // Format the timestamp to a more readable format
-        const formattedTimestamp = new Date(log.timestamp).toLocaleString(); // This will format the timestamp
+          row.innerHTML = `
+            <td>${sessionID}</td>
+            <td>${action}</td>
+            <td>${formattedTimestamp}</td>
+          `;
+          table.appendChild(row);
+        });
 
-        // Update the row HTML with formatted timestamp
-        row.innerHTML = `
-          <td>${sessionID}</td>
-          <td>${action}</td>
-          <td>${formattedTimestamp}</td>  <!-- Use the formatted timestamp here -->
-        `;
-        table.appendChild(row);
+        const totalPages = Math.ceil(allLogs.length / rowsPerPage);
+        document.querySelector("span").innerText = `Page ${currentPage} of ${totalPages}`;
+      }
+
+      document.getElementById('rows-per-page').addEventListener('change', function (e) {
+        rowsPerPage = parseInt(e.target.value);
+        renderTable();
       });
-    }
-  });
-}
 
-loadConsentData();
+      document.getElementById('prev-page').addEventListener('click', function () {
+        if (currentPage > 1) {
+          currentPage--;
+          renderTable();
+        }
+      });
+
+      document.getElementById('next-page').addEventListener('click', function () {
+        const totalPages = Math.ceil(allLogs.length / rowsPerPage);
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderTable();
+        }
+      });
+
+      // Fetch logs from Firebase and update table
+      firebase.database().ref('consent_logs').on('value', snapshot => {
+        allLogs = snapshot.val() ? Object.values(snapshot.val()) : [];
+        updateDashboardCounts(allLogs);
+        renderTable();
+      });
+
+      // Export functionality for logs
+      document.getElementById('export-logs').addEventListener('click', () => {
+        const exportFormat = document.getElementById('export-format').value;
+        let data = JSON.stringify(allLogs);
+
+        if (exportFormat === 'csv') {
+          const csv = allLogs.map(log => `${log.session_id},${log.action},${new Date(log.timestamp).toLocaleString()}`).join('\n');
+          data = csv;
+        }
+
+        const blob = new Blob([data], { type: exportFormat === 'csv' ? 'text/csv' : 'application/json' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `consent_logs.${exportFormat}`;
+        link.click();
+      });
     });
   </script>
 
-  <!-- Sidebar Script -->
-  <script>
-    fetch('../../shared/sidebar.html')
-      .then(response => {
-        if (!response.ok) throw new Error('Sidebar file not found.');
-        return response.text();
-      })
-      .then(data => {
-        document.getElementById('sidebar').innerHTML = data;
-      })
-      .catch(err => {
-        console.error('Error loading sidebar:', err);
-        alert('Error loading sidebar. Please check the file path or server configuration.');
-      });
-  </script>
-  
-  <!-- gtag function stub -->
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-  </script>
 
-
-<!-- Export Button Logic START -->
-    <script>
-            document.getElementById("export-logs").addEventListener("click", function () {
-            firebase.database().ref("consent_logs").once("value", function (snapshot) {
-              const logs = snapshot.val();
-              if (!logs) {
-                alert("No data found to export.");
-                return;
-              }
-        
-              const exportFormat = document.getElementById("export-format").value;
-        
-              // Format the data
-              const processedLogs = Object.keys(logs).map(id => {
-                const log = logs[id];
-                return {
-                  session_id: log.sessionID || "N/A",
-                  action: log.action || "N/A",
-                  timestamp: log.timestamp ? new Date(log.timestamp).toLocaleString() : "N/A"
-                };
-              });
-        
-              // Export
-              if (exportFormat === "csv") {
-                exportToCSV(processedLogs);
-              } else {
-                exportToJSON(processedLogs);
-              }
-            });
+  <!-- Sidebar Script START-->
+      <script>
+        fetch('../../shared/sidebar.html')
+          .then(response => {
+            if (!response.ok) throw new Error('Sidebar file not found.');
+            return response.text();
+          })
+          .then(data => {
+            document.getElementById('sidebar').innerHTML = data;
+          })
+          .catch(err => {
+            console.error('Error loading sidebar:', err);
+            alert('Error loading sidebar. Please check the file path or server configuration.');
           });
-        
-          // Convert to CSV and Download
-          function exportToCSV(data) {
-            const headers = Object.keys(data[0]).join(",") + "\n";
-            const rows = data.map(row => Object.values(row).join(",")).join("\n");
-            const csvContent = headers + rows;
-        
-            const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-            const url = URL.createObjectURL(blob);
-        
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "consent_logs.csv";
-            a.click();
-        
-            URL.revokeObjectURL(url);
-          }
-        
-          // Convert to JSON and Download
-          function exportToJSON(data) {
-            const jsonContent = JSON.stringify(data, null, 2);
-            const blob = new Blob([jsonContent], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-        
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "consent_logs.json";
-            a.click();
-        
-            URL.revokeObjectURL(url);
-          }
-        </script>
-  <!-- Export Button Logic END -->
-
-
-
+      </script>
+  <!-- Sidebar Script END-->
   
-
 </body>
 </html>
