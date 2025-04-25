@@ -46,6 +46,10 @@
       <button id="filter-btn">Filter</button>
     </div>
 
+    <!-- Date Filter START -->
+    <input type="text" id="tableSearch" placeholder="Search..." style="margin-bottom: 10px;">
+    <!-- Date Filter END -->
+    
     <!-- Consent Log Table -->
     <table>
       <thead>
@@ -301,6 +305,21 @@
       </script>
 <!-- Global Sidebar Script END -->
 
+<!-- Date filter Logic START -->
+      <script>
+      document.getElementById('tableSearch').addEventListener('keyup', function () {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#yourTableId tbody tr'); // Replace with actual table ID
+      
+        rows.forEach(row => {
+          row.style.display = row.textContent.toLowerCase().includes(searchTerm) ? '' : 'none';
+        });
+      });
+      </script>
+  <!-- Date filter Logic END -->
+
+
+  
   
 </body>
 </html>
