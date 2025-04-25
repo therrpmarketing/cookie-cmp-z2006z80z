@@ -657,8 +657,7 @@ select, input[type="date"] {
       color: #333;
     }
     .main-content > div:nth-child(3) p {
-      font-size: 22px;
-      font-weight: bold;
+      font-size: 16px;
       margin: 10px 0 0;
       color: #000;
     }
