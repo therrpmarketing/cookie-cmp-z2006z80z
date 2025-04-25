@@ -155,7 +155,7 @@
             Action Notifications
           </label>
           <br />
-          <button class="cookie-categories save-notification-settings">Save Settings</button>
+          <button class="cookie-categories save-notification-settings onclick="saveNotificationSettings()">Save Settings</button>
         
           <!-- Optional test bubble area -->
           <div id="notificationBubble" class="notification-message hidden">
@@ -282,6 +282,10 @@
       
         const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
         const db = getDatabase(app);
+
+        // Define the reference to store settings
+        const settingsRef = ref(db, 'notificationSettings');  // This is where we will store notification settings in Firebase
+  
       
         // Save general settings
         document.getElementById("save-cookie-settings").addEventListener("click", () => {
