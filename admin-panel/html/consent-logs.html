@@ -46,12 +46,6 @@
       <button id="filter-btn">Filter</button>
     </div>
 
-    <!-- Date Filter START -->
-        <div style="max-width: 300px; margin: 20px 0;">
-          <input type="text" id="tableSearch" placeholder="Search..." style="width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
-        </div>
-    <!-- Date Filter END -->
-    
     <!-- Consent Log Table -->
     <table>
       <thead>
@@ -210,9 +204,9 @@
           if (action === "accept_all" || action === "customized_preferences") accept++;
           if (action === "reject_all") reject++;
         }
-        document.getElementById('total-consents').innerText = `${total}`;
-        document.getElementById('accepted-consents').innerText = `${accept}`;
-        document.getElementById('rejected-consents').innerText = `${reject}`;
+        document.getElementById('total-consents').innerText = ${total};
+        document.getElementById('accepted-consents').innerText = ${accept};
+        document.getElementById('rejected-consents').innerText = ${reject};
       }
 
       let allLogs = [];
@@ -232,16 +226,16 @@
           const action = log.action || 'N/A';
           const formattedTimestamp = new Date(log.timestamp).toLocaleString();
 
-          row.innerHTML = `
+          row.innerHTML = 
             <td>${sessionID}</td>
             <td>${action}</td>
             <td>${formattedTimestamp}</td>
-          `;
+          ;
           table.appendChild(row);
         });
 
         const totalPages = Math.ceil(allLogs.length / rowsPerPage);
-        document.querySelector("span").innerText = `Page ${currentPage} of ${totalPages}`;
+        document.querySelector("span").innerText = Page ${currentPage} of ${totalPages};
       }
 
       document.getElementById('rows-per-page').addEventListener('change', function (e) {
@@ -277,14 +271,14 @@
         let data = JSON.stringify(allLogs);
 
         if (exportFormat === 'csv') {
-          const csv = allLogs.map(log => `${log.session_id},${log.action},${new Date(log.timestamp).toLocaleString()}`).join('\n');
+          const csv = allLogs.map(log => ${log.session_id},${log.action},${new Date(log.timestamp).toLocaleString()}).join('\n');
           data = csv;
         }
 
         const blob = new Blob([data], { type: exportFormat === 'csv' ? 'text/csv' : 'application/json' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `consent_logs.${exportFormat}`;
+        link.download = consent_logs.${exportFormat};
         link.click();
       });
     });
@@ -307,21 +301,6 @@
       </script>
 <!-- Global Sidebar Script END -->
 
-<!-- Date filter Logic START -->
-      <script>
-      document.getElementById('tableSearch').addEventListener('keyup', function () {
-        const searchTerm = this.value.toLowerCase();
-        const rows = document.querySelectorAll('#yourTableId tbody tr'); // Replace with actual table ID
-      
-        rows.forEach(row => {
-          row.style.display = row.textContent.toLowerCase().includes(searchTerm) ? '' : 'none';
-        });
-      });
-      </script>
-  <!-- Date filter Logic END -->
-
-
-  
   
 </body>
 </html>
