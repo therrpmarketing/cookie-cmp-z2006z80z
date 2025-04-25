@@ -129,12 +129,42 @@
         <button class="add-category-btn">Setup Consent Mode</button>
       </div>
  -->
-      <div class="cookie-categories cmp-card">
-        <h2>Notification Settings</h2>
-        <p>Enable admin alerts for user actions, errors, or major events.</p>
-        <button class="add-category-btn">Configure Alerts</button>
-      </div>
 
+<!--   Notification Card Detail START     -->
+            <!--       <div class="cookie-categories cmp-card">
+              <h2>Notification Settings</h2>
+              <p>Enable admin alerts for user actions, errors, or major events.</p>
+              <button class="add-category-btn">Configure Alerts</button>
+            </div> -->
+
+            <div class="cookie-categories cmp-card">
+              <h2>Notification Settings</h2>
+              <p>Enable admin alerts for user actions, errors, or major events.</p>
+            
+              <!-- Notification Settings -->
+              <label>
+                <input type="checkbox" id="errorNotifications" />
+                Error Notifications
+              </label>
+              <br />
+              <label>
+                <input type="checkbox" id="actionNotifications" />
+                Action Notifications
+              </label>
+              <br />
+              <button class="save-notification-settings">Save Settings</button>
+            
+              <!-- Dynamic notification bubble -->
+              <div id="notificationBubble" style="display: none;">
+                <span>New notification!</span>
+              </div>
+            </div>
+
+      
+<!--   Notification Card Detail END     -->
+
+
+      
 <!--       <div class="cookie-categories cmp-card">
         <h2>Custom Styling & Branding</h2>
         <p>Apply your brand theme: logo, colors, button styles.</p>
