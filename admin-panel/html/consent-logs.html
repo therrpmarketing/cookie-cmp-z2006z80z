@@ -50,9 +50,9 @@
     <table>
       <thead>
         <tr>
-          <th>Date</th>
-          <th>Accepted</th>
-          <th>Rejected</th>
+          <th>Session ID</th>
+          <th>Action</th>
+          <th>TimeStamp</th>
                  </tr>
       </thead>
       <tbody id="consent-log-table">
@@ -86,10 +86,20 @@
         <span>Page 1 of 5</span>
         <button id="next-page">Next</button>
       </div>
-      <div>
+
+      <!-- Export Section -->
+      <div style="margin: 20px 0;">
+        <label for="export-format">Export Format:</label>
+        <select id="export-format">
+          <option value="csv">CSV</option>
+          <option value="json">JSON</option>
+        </select>
         <button id="export-logs">Export Logs</button>
-        <button id="clear-logs">Clear Logs</button>
       </div>
+
+<!--       <div>
+        <button id="export-logs">Export Logs</button>
+        </div> -->
     </div>
 
     <!-- Hidden elements for JavaScript functionality -->
@@ -259,7 +269,74 @@ loadConsentData();
     function gtag() { dataLayer.push(arguments); }
   </script>
 
- 
+
+<!-- Export Button Logic START -->
+    <script>
+            document.getElementById("export-logs").addEventListener("click", function () {
+            firebase.database().ref("consent_logs").once("value", function (snapshot) {
+              const logs = snapshot.val();
+              if (!logs) {
+                alert("No data found to export.");
+                return;
+              }
+        
+              const exportFormat = document.getElementById("export-format").value;
+        
+              // Format the data
+              const processedLogs = Object.keys(logs).map(id => {
+                const log = logs[id];
+                return {
+                  session_id: log.sessionID || "N/A",
+                  action: log.action || "N/A",
+                  timestamp: log.timestamp ? new Date(log.timestamp).toLocaleString() : "N/A"
+                };
+              });
+        
+              // Export
+              if (exportFormat === "csv") {
+                exportToCSV(processedLogs);
+              } else {
+                exportToJSON(processedLogs);
+              }
+            });
+          });
+        
+          // Convert to CSV and Download
+          function exportToCSV(data) {
+            const headers = Object.keys(data[0]).join(",") + "\n";
+            const rows = data.map(row => Object.values(row).join(",")).join("\n");
+            const csvContent = headers + rows;
+        
+            const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+            const url = URL.createObjectURL(blob);
+        
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "consent_logs.csv";
+            a.click();
+        
+            URL.revokeObjectURL(url);
+          }
+        
+          // Convert to JSON and Download
+          function exportToJSON(data) {
+            const jsonContent = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonContent], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+        
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "consent_logs.json";
+            a.click();
+        
+            URL.revokeObjectURL(url);
+          }
+        </script>
+  <!-- Export Button Logic END -->
+
+
+
+  
 
 </body>
 </html>
