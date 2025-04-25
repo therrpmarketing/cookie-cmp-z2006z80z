@@ -137,28 +137,31 @@
               <button class="add-category-btn">Configure Alerts</button>
             </div> -->
 
-            <div class="cookie-categories cmp-card">
-              <h2>Notification Settings</h2>
-              <p>Enable admin alerts for user actions, errors, or major events.</p>
-            
-              <!-- Notification Settings -->
-              <label>
-                <input type="checkbox" id="errorNotifications" />
-                Error Notifications
-              </label>
-              <br />
-              <label>
-                <input type="checkbox" id="actionNotifications" />
-                Action Notifications
-              </label>
-              <br />
-              <button class="cookie-categories save-notification-settings">Save Settings</button>
-            
-              <!-- Dynamic notification bubble -->
-              <div id="notificationBubble" style="display: none;">
-                <span>New notification!</span>
-              </div>
-            </div>
+          <div class="cookie-categories cmp-card">
+          <div class="notification-header">
+            <h2>Notification Settings</h2>
+            <span id="notification-bubble" class="notification-bubble hidden">●</span>
+          </div>
+          <p>Enable admin alerts for user actions, errors, or major events.</p>
+        
+          <!-- Notification Checkboxes -->
+          <label>
+            <input type="checkbox" id="errorNotifications" />
+            Error Notifications
+          </label>
+          <br />
+          <label>
+            <input type="checkbox" id="actionNotifications" />
+            Action Notifications
+          </label>
+          <br />
+          <button class="cookie-categories save-notification-settings">Save Settings</button>
+        
+          <!-- Optional test bubble area -->
+          <div id="notificationBubble" class="notification-message hidden">
+            <span>New notification!</span>
+          </div>
+        </div>
 
       
 <!--   Notification Card Detail END     -->
