@@ -4,14 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Managing Content Security - START -->
+<!--   Managing Content Security - START   -->
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self'; 
     style-src 'self' 'unsafe-inline'; 
     script-src 'self' 'unsafe-inline' https://therrpmarketing.github.io https://www.gstatic.com https://www.googleapis.com; 
     connect-src 'self' https://*.firebaseio.com https://*.googleapis.com wss://*.firebaseio.com;
     img-src 'self' data:;">
-  <!-- Managing Content Security - END -->
+
+  <!--   Managing Content Security - END   -->
 
   <title>Advanced Settings</title>
   <link rel="stylesheet" href="../../cmp-assets/cmp-css/cmp-style.css" />
@@ -27,7 +28,8 @@
 
     <!-- Settings Cards Section -->
 
-    <!-- General Cookie Settings Section START -->
+  <!-- General Cookie Settings Section START -->
+    
     <div class="card-grid">
       <div class="cookie-categories cmp-card">
         <h2>General Cookie Settings</h2>
@@ -48,6 +50,7 @@
           </select>
           <p class="description">Choose the SameSite policy for cookies.</p>
         </div>
+                    
       </div>
 
       <div class="cookie-categories cmp-card">
@@ -69,90 +72,91 @@
           </label>
           <p class="description">Prevents access to the cookie via JavaScript for added security.</p>
         </div>
-        <button class="save-btn" id="save-cookie-settings">Save Settings</button>
-      </div>
-    </div>
-    <!-- General Cookie Settings Section END -->
+         <button class="save-btn" id="save-cookie-settings">Save Settings</button>
+        </div>
+  <!-- General Cookie Settings Section END -->
+      
 
-    <!-- Cookie Expiry Settings Section inside START-->
-    <div class="cookie-categories cmp-card">
+  <!-- Cookie Expiry Settings Section inside START-->
+      <div class="cookie-categories cmp-card">
       <h2>Cookie Expiry Settings</h2>
       <p>Manage cookie expiration durations per category.</p>
-
+    
       <div class="cookie-expiry-wrapper">
         <div class="cookie-expiry-group">
           <label for="expiry-necessary">Necessary Cookie Expiry (days):</label>
           <input type="number" id="expiry-necessary" min="1" max="395" value="365">
         </div>
-
+    
         <div class="cookie-expiry-group">
           <label for="expiry-functional">Functional Cookie Expiry (days):</label>
           <input type="number" id="expiry-functional" min="1" max="395" value="180">
         </div>
-
+    
         <div class="cookie-expiry-group">
           <label for="expiry-analytics">Analytics Cookie Expiry (days):</label>
           <input type="number" id="expiry-analytics" min="1" max="395" value="180">
         </div>
-
+    
         <div class="cookie-expiry-group">
           <label for="expiry-performance">Performance Cookie Expiry (days):</label>
           <input type="number" id="expiry-performance" min="1" max="395" value="365">
         </div>
-
+    
         <div class="cookie-expiry-group">
           <label for="expiry-advertisement">Advertisement Cookie Expiry (days):</label>
           <input type="number" id="expiry-advertisement" min="1" max="395" value="365">
         </div>
-
+    
         <button class="save-btn" id="save-expiry-settings">Save Expiry Settings</button>
       </div>
     </div>
-    <!-- Cookie Expiry Settings Section inside END-->
 
-    <!-- Remaining Cards (Consent Logging, Notification, etc.) -->
-    <div class="cookie-categories cmp-card">
-      <h2>Consent Logging Settings</h2>
-      <p>Enable or disable consent logs and define retention policy.</p>
-      <button class="add-category-btn">Manage Logs</button>
-    </div>
+<!-- Cookie Expiry Settings Section inside END-->
 
-    <div class="cookie-categories cmp-card">
-      <h2>Consent Mode & Preferences</h2>
-      <p>Control integration with Google Consent Mode v2 and user preference mapping.</p>
-      <button class="add-category-btn">Setup Consent Mode</button>
-    </div>
+      
+      <div class="cookie-categories cmp-card">
+        <h2>Consent Logging Settings</h2>
+        <p>Enable or disable consent logs and define retention policy.</p>
+        <button class="add-category-btn">Manage Logs</button>
+      </div>
 
-    <div class="cookie-categories cmp-card">
-      <h2>Notification Settings</h2>
-      <p>Enable admin alerts for user actions, errors, or major events.</p>
-      <button class="add-category-btn">Configure Alerts</button>
-    </div>
+      <div class="cookie-categories cmp-card">
+        <h2>Consent Mode & Preferences</h2>
+        <p>Control integration with Google Consent Mode v2 and user preference mapping.</p>
+        <button class="add-category-btn">Setup Consent Mode</button>
+      </div>
 
-    <div class="cookie-categories cmp-card">
-      <h2>Custom Styling & Branding</h2>
-      <p>Apply your brand theme: logo, colors, button styles.</p>
-      <button class="add-category-btn">Customize Branding</button>
-    </div>
+      <div class="cookie-categories cmp-card">
+        <h2>Notification Settings</h2>
+        <p>Enable admin alerts for user actions, errors, or major events.</p>
+        <button class="add-category-btn">Configure Alerts</button>
+      </div>
 
-    <div class="cookie-categories cmp-card">
-      <h2>User Preference Handling</h2>
-      <p>Control how user preferences are stored and retrieved across sessions/devices.</p>
-      <button class="add-category-btn">Edit Handling</button>
-    </div>
+      <div class="cookie-categories cmp-card">
+        <h2>Custom Styling & Branding</h2>
+        <p>Apply your brand theme: logo, colors, button styles.</p>
+        <button class="add-category-btn">Customize Branding</button>
+      </div>
 
-    <div class="cookie-categories cmp-card">
-      <h2>Advanced Security Settings</h2>
-      <p>Restrict access, enable IP filtering, and encryption settings.</p>
-      <button class="add-category-btn">Security Options</button>
-    </div>
+      <div class="cookie-categories cmp-card">
+        <h2>User Preference Handling</h2>
+        <p>Control how user preferences are stored and retrieved across sessions/devices.</p>
+        <button class="add-category-btn">Edit Handling</button>
+      </div>
 
-    <div class="cookie-categories cmp-card">
-      <h2>Debugging & Developer Tools</h2>
-      <p>Enable logging, testing tools, and dev mode toggles.</p>
-      <button class="add-category-btn">Enable Tools</button>
+      <div class="cookie-categories cmp-card">
+        <h2>Advanced Security Settings</h2>
+        <p>Restrict access, enable IP filtering, and encryption settings.</p>
+        <button class="add-category-btn">Security Options</button>
+      </div>
+
+      <div class="cookie-categories cmp-card">
+        <h2>Debugging & Developer Tools</h2>
+        <p>Enable logging, testing tools, and dev mode toggles.</p>
+        <button class="add-category-btn">Enable Tools</button>
+      </div>
     </div>
-  </div>
   </div>
 
   <!-- Sidebar Script -->
@@ -171,79 +175,124 @@
       });
   </script>
 
-  <!-- Firebase Initialization (Once Only) START -->
-  <script type="module">
-    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+<!-- Firebase Setup for General Cookie Setting START -->
 
-    // Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
-      authDomain: "cookie-cmp-sys.firebaseapp.com",
-      databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
-      projectId: "cookie-cmp-sys",
-      storageBucket: "cookie-cmp-sys.appspot.com",
-      messagingSenderId: "252822009652",
-      appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
-      measurementId: "G-DLGR6XFPP5"
-    };
+        <script type="module">
+          // Firebase SDK imports
+          import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+          import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+        
+          // Firebase config
+          const firebaseConfig = {
+            apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+            authDomain: "cookie-cmp-sys.firebaseapp.com",
+            databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+            projectId: "cookie-cmp-sys",
+            storageBucket: "cookie-cmp-sys.appspot.com",
+            messagingSenderId: "252822009652",
+            appId: "1:252822009652:web:6bfbdf28d98953ccb89761",
+            measurementId: "G-DLGR6XFPP5"
+          };
+        
+          // Initialize Firebase
+          const app = initializeApp(firebaseConfig);
+          const db = getDatabase(app);
+        
+          // Function to save general cookie settings
+          function saveGeneralCookieSettings() {
+            const cookieDomain = document.getElementById("cookie-domain").value;
+            const sameSitePolicy = document.getElementById("same-site-policy").value;
+            const secureCookie = document.getElementById("secure-cookie-toggle").checked;
+            const httpOnlyCookie = document.getElementById("http-only-toggle").checked;
+        
+            const settingsData = {
+              cookieDomain,
+              sameSitePolicy,
+              secureCookie,
+              httpOnlyCookie
+            };
+        
+            set(ref(db, "cookieSettings/general"), settingsData)
+              .then(() => {
+                alert("✅ Cookie settings saved successfully.");
+              })
+              .catch((error) => {
+                console.error("❌ Error saving cookie settings:", error);
+                alert("Failed to save settings.");
+              });
+          }
+        
+          // Attach event listener after DOM is loaded
+          document.getElementById("save-cookie-settings").addEventListener("click", saveGeneralCookieSettings);
+        </script>
 
-    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-  </script>
-  <!-- Firebase Initialization (Once Only) END -->
+<!-- Firebase Setup for General Cookie Setting END -->
 
-  <!-- Firebase Setup for General Cookie Settings START -->
-  <script type="module">
-    // Function to save general cookie settings
-    function saveGeneralCookieSettings() {
-      const cookieDomain = document.getElementById("cookie-domain").value;
-      const sameSitePolicy = document.getElementById("same-site-policy").value;
-      const secureCookie = document.getElementById("secure-cookie-toggle").checked;
-      const httpOnlyCookie = document.getElementById("http-only-toggle").checked;
 
-      const settingsData = {
-        cookieDomain,
-        sameSitePolicy,
-        secureCookie,
-        httpOnlyCookie
-      };
-
-      set(ref(db, "cookieSettings/general"), settingsData)
-        .then(() => {
-          alert("✅ Cookie settings saved successfully.");
-        })
-        .catch((error) => {
-          console.error("❌ Error saving cookie settings:", error);
-          alert("Failed to save settings.");
+  <!-- Firebase Setup for Cookie Expiry with Categories Setting START -->
+         <script type="module">
+        import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+      
+        const firebaseConfig = {
+          apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
+          authDomain: "cookie-cmp-sys.firebaseapp.com",
+          databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+          projectId: "cookie-cmp-sys",
+          storageBucket: "cookie-cmp-sys.firebasestorage.app",
+          messagingSenderId: "252822009652",
+          appId: "1:252822009652:web:6bfbdf28d98953ccb89761"
+        };
+      
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+      
+        // Save general settings
+        document.getElementById("save-cookie-settings").addEventListener("click", () => {
+          const cookieDomain = document.getElementById("cookie-domain").value;
+          const sameSitePolicy = document.getElementById("same-site-policy").value;
+          const secureCookie = document.getElementById("secure-cookie-toggle").checked;
+          const httpOnlyCookie = document.getElementById("http-only-toggle").checked;
+      
+          const settingsData = {
+            cookieDomain,
+            sameSitePolicy,
+            secureCookie,
+            httpOnlyCookie
+          };
+      
+          set(ref(db, "cookieSettings/general"), settingsData)
+            .then(() => alert("Cookie settings saved successfully."))
+            .catch((error) => {
+              console.error("Error saving cookie settings:", error);
+              alert("Failed to save settings.");
+            });
         });
-    }
-
-    document.getElementById("save-cookie-settings").addEventListener("click", saveGeneralCookieSettings);
-  </script>
-  <!-- Firebase Setup for General Cookie Settings END -->
-
-  <!-- Firebase Setup for Cookie Expiry Settings START -->
-  <script type="module">
-    document.getElementById("save-expiry-settings").addEventListener("click", () => {
-      const expirySettings = {
-        necessary: parseInt(document.getElementById("expiry-necessary").value),
-        functional: parseInt(document.getElementById("expiry-functional").value),
-        analytics: parseInt(document.getElementById("expiry-analytics").value),
-        performance: parseInt(document.getElementById("expiry-performance").value),
-        advertisement: parseInt(document.getElementById("expiry-advertisement").value)
-      };
-
-      set(ref(db, "cookieSettings/expiry"), expirySettings)
-        .then(() => {
-          alert("✅ Expiry settings saved successfully.");
-        })
-        .catch((error) => {
-          console.error("❌ Error saving expiry settings:", error);
-          alert("Failed to save expiry settings.");
+      
+        // Save expiry settings
+        document.getElementById("save-expiry-settings").addEventListener("click", () => {
+          const expirySettings = {
+            necessary: parseInt(document.getElementById("expiry-necessary").value),
+            functional: parseInt(document.getElementById("expiry-functional").value),
+            analytics: parseInt(document.getElementById("expiry-analytics").value),
+            performance: parseInt(document.getElementById("expiry-performance").value),
+            advertisement: parseInt(document.getElementById("expiry-advertisement").value)
+          };
+      
+          set(ref(db, "cookieSettings/expiry"), expirySettings)
+            .then(() => alert("Cookie expiry settings saved successfully."))
+            .catch((error) => {
+              console.error("Error saving expiry settings:", error);
+              alert("Failed to save expiry settings.");
+            });
         });
-    });
-  </script>
-  <!-- Firebase Setup for Cookie Expiry Settings END -->
+      </script>
+
+
+<!-- Firebase Setup for Cookie Expiry with Categories Setting END -->
+
+
+  
+  
 </body>
 </html>
