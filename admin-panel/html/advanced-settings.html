@@ -140,7 +140,6 @@
             <div class="cookie-categories cmp-card">
             <div class="notification-header">
                 <h2>Notification Settings</h2>
-                <span id="notification-bubble" class="notification-bubble hidden">●</span>
             </div>
             <p>Enable admin alerts for user actions, errors, or major events.</p>
             
@@ -155,7 +154,10 @@
             </label><br />
             <button class="cookie-categories save-notification-settings" onclick="saveNotificationSettings()">Save Settings</button>
 
-           <!-- Notification List (Hidden by default) -->
+        <!-- Notification Bubble -->
+         <div id="notification-bubble" class="notification-bubble hidden"></div>             
+              
+         <!-- Notification List (Hidden by default) -->
             <div id="notification-list" class="notification-list hidden">
                 <ul id="notifications-ul"></ul>
             </div>
@@ -446,9 +448,9 @@
       
 <!-- Notification Card Notification Bubble Details - START -->  
   
-        <script>
-            // Fetch and display notifications
-            function loadNotifications() {
+        <script type="module">
+            
+                      function loadNotifications() {
               const notificationsRef = ref(db, 'cookieSettings/notifications');
               
               get(notificationsRef).then((snapshot) => {
@@ -460,55 +462,27 @@
                 console.error('Error loading notifications:', error);
               });
             }
-            
+          
             function displayNotifications(notifications) {
               const notificationsUl = document.getElementById('notifications-ul');
-              const notificationList = document.getElementById('notification-list');
+              notificationsUl.innerHTML = ''; // Clear any existing notifications
               
-              let unreadCount = 0;
-              notificationsUl.innerHTML = ''; // Clear existing list
-            
               for (const id in notifications) {
                 const notification = notifications[id];
-                const listItem = document.createElement('li');
                 
-                if (!notification.read) {
-                  listItem.classList.add('unread'); // Add 'unread' class if notification is unread
-                }
-            
-                listItem.innerHTML = `
-                  <strong>${notification.type}</strong><br>
-                  ${notification.message}<br>
-                  <small>${notification.timestamp ? new Date(notification.timestamp).toLocaleString() : ''}</small>
-                `;
-            
+                // Create list item for each notification
+                const listItem = document.createElement('li');
+                listItem.textContent = `${notification.type}: ${notification.message}`;
+                
+                // Mark notification as read when clicked
                 listItem.addEventListener('click', () => {
-                  markAsRead(id, notification); // Mark notification as read when clicked
+                  markAsRead(id, notification);
                 });
-            
+                
                 notificationsUl.appendChild(listItem);
-            
-                if (!notification.read) {
-                  unreadCount++;
-                }
               }
-            
-              // Show notification list if there are unread notifications
-              if (unreadCount > 0) {
-                const notificationBubble = document.getElementById('notification-bubble');
-                notificationBubble.textContent = unreadCount;
-                notificationBubble.classList.remove('hidden');
-              } else {
-                const notificationBubble = document.getElementById('notification-bubble');
-                notificationBubble.classList.add('hidden');
-              }
-            
-              // Show notification list if bubble is clicked
-              document.getElementById('notification-bubble').addEventListener('click', () => {
-                notificationList.classList.toggle('hidden');
-              });
             }
-            
+          
             // Mark a notification as read
             function markAsRead(notificationId, notification) {
               const notificationRef = ref(db, `cookieSettings/notifications/${notificationId}`);
@@ -521,13 +495,22 @@
                 console.error('Error marking notification as read:', error);
               });
             }
-            
+          
+            // Show the notification list when the bubble is clicked
+            document.getElementById('notification-bubble').addEventListener('click', () => {
+              const notificationList = document.getElementById('notification-list');
+              notificationList.classList.toggle('hidden'); // Toggle visibility of the notification list
+            });
+          
             // Load notifications after page loads
             window.addEventListener('load', () => {
               loadNotifications();
             });
-         
+
+
+          
         </script>
+            
 <!-- Notification Card Notification Bubble Details - END -->
 
 <!-- Notification Card Details - END -->
