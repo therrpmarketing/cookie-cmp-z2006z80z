@@ -128,7 +128,7 @@
         <p>Control integration with Google Consent Mode v2 and user preference mapping.</p>
         <button class="add-category-btn">Setup Consent Mode</button>
       </div>
- -->
+-->
 
 <!--   Notification Card Detail START     -->
             <!--       <div class="cookie-categories cmp-card">
@@ -140,6 +140,7 @@
             <div class="cookie-categories cmp-card">
             <div class="notification-header">
                 <h2>Notification Settings</h2>
+                <span id="notification-bubble" class="notification-bubble hidden">●</span>
             </div>
             <p>Enable admin alerts for user actions, errors, or major events.</p>
             
@@ -153,15 +154,12 @@
                 Action Notifications
             </label><br />
             <button class="cookie-categories save-notification-settings" onclick="saveNotificationSettings()">Save Settings</button>
-
-             
-              
-         <!-- Notification List (Hidden by default) -->
-            <div id="notification-list" class="notification-list hidden">
-                <ul id="notifications-ul"></ul>
+        
+            <!-- Optional test bubble area -->
+            <div id="notificationBubble" class="notification-message hidden">
+                <span>New notification!</span>
             </div>
-              
-          </div>
+        </div>
      
 <!--   Notification Card Detail END     -->
 
@@ -214,14 +212,14 @@
 
         <script type="module">
           // Firebase SDK imports
-          import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-          import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+          import { initializeApp } from https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js;
+          import { getDatabase, ref, set } from https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js;
         
           // Firebase config
           const firebaseConfig = {
             apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
             authDomain: "cookie-cmp-sys.firebaseapp.com",
-            databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+            databaseURL: https://cookie-cmp-sys-default-rtdb.firebaseio.com,
             projectId: "cookie-cmp-sys",
             storageBucket: "cookie-cmp-sys.appspot.com",
             messagingSenderId: "252822009652",
@@ -266,13 +264,13 @@
 
   <!-- Firebase Setup for Cookie Expiry with Categories Setting START -->
              <script type="module">
-            import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-            import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+            import { initializeApp, getApps, getApp } from https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js;
+            import { getDatabase, ref, set } from https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js;
           
             const firebaseConfig = {
               apiKey: "AIzaSyB0yG8sGI47Zdncr21avyeJauW4Z6qJU8E",
               authDomain: "cookie-cmp-sys.firebaseapp.com",
-              databaseURL: "https://cookie-cmp-sys-default-rtdb.firebaseio.com",
+              databaseURL: https://cookie-cmp-sys-default-rtdb.firebaseio.com,
               projectId: "cookie-cmp-sys",
               storageBucket: "cookie-cmp-sys.firebasestorage.app",
               messagingSenderId: "252822009652",
@@ -287,26 +285,26 @@
   
       
         // Save general settings
-        // document.getElementById("save-cookie-settings").addEventListener("click", () => {
-        //   const cookieDomain = document.getElementById("cookie-domain").value;
-        //   const sameSitePolicy = document.getElementById("same-site-policy").value;
-        //   const secureCookie = document.getElementById("secure-cookie-toggle").checked;
-        //   const httpOnlyCookie = document.getElementById("http-only-toggle").checked;
+        document.getElementById("save-cookie-settings").addEventListener("click", () => {
+          const cookieDomain = document.getElementById("cookie-domain").value;
+          const sameSitePolicy = document.getElementById("same-site-policy").value;
+          const secureCookie = document.getElementById("secure-cookie-toggle").checked;
+          const httpOnlyCookie = document.getElementById("http-only-toggle").checked;
       
-        //   const settingsData = {
-        //     cookieDomain,
-        //     sameSitePolicy,
-        //     secureCookie,
-        //     httpOnlyCookie
-        //   };
+          const settingsData = {
+            cookieDomain,
+            sameSitePolicy,
+            secureCookie,
+            httpOnlyCookie
+          };
       
-        //   set(ref(db, "cookieSettings/general"), settingsData)
-        //     .then(() => alert("Cookie settings saved successfully."))
-        //     .catch((error) => {
-        //       console.error("Error saving cookie settings:", error);
-        //       alert("Failed to save settings.");
-        //     });
-        // });
+          set(ref(db, "cookieSettings/general"), settingsData)
+            .then(() => alert("Cookie settings saved successfully."))
+            .catch((error) => {
+              console.error("Error saving cookie settings:", error);
+              alert("Failed to save settings.");
+            });
+        });
       
         // Save expiry settings
         document.getElementById("save-expiry-settings").addEventListener("click", () => {
@@ -332,7 +330,7 @@
 <!-- Firebase Setup for NOTIFICATION SETTING START -->
          <script type="module">
           // Firebase setup
-          import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+          import { getDatabase, ref, set, get } from https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js;
         
           // Initialize Firebase Realtime Database
           const database = getDatabase();
@@ -444,76 +442,8 @@
           };
         </script>
 
-      
-<!-- Notification Card Notification Bubble Details - START -->  
-  
-        <script type="module">
-            
-                      function loadNotifications() {
-              const notificationsRef = ref(db, 'cookieSettings/notifications');
-              
-              get(notificationsRef).then((snapshot) => {
-                const notifications = snapshot.val();
-                if (notifications) {
-                  displayNotifications(notifications);
-                }
-              }).catch((error) => {
-                console.error('Error loading notifications:', error);
-              });
-            }
-          
-            function displayNotifications(notifications) {
-              const notificationsUl = document.getElementById('notifications-ul');
-              notificationsUl.innerHTML = ''; // Clear any existing notifications
-              
-              for (const id in notifications) {
-                const notification = notifications[id];
-                
-                // Create list item for each notification
-                const listItem = document.createElement('li');
-                listItem.textContent = `${notification.type}: ${notification.message}`;
-                
-                // Mark notification as read when clicked
-                listItem.addEventListener('click', () => {
-                  markAsRead(id, notification);
-                });
-                
-                notificationsUl.appendChild(listItem);
-              }
-            }
-          
-            // Mark a notification as read
-            function markAsRead(notificationId, notification) {
-              const notificationRef = ref(db, `cookieSettings/notifications/${notificationId}`);
-              set(notificationRef, {
-                ...notification,
-                read: true
-              }).then(() => {
-                loadNotifications(); // Reload after marking as read
-              }).catch((error) => {
-                console.error('Error marking notification as read:', error);
-              });
-            }
-          
-            // Show the notification list when the bubble is clicked
-            document.getElementById('notification-bubble').addEventListener('click', () => {
-              const notificationList = document.getElementById('notification-list');
-              notificationList.classList.toggle('hidden'); // Toggle visibility of the notification list
-            });
-          
-            // Load notifications after page loads
-            window.addEventListener('load', () => {
-              loadNotifications();
-            });
-
-
-          
-        </script>
-            
-<!-- Notification Card Notification Bubble Details - END -->
-
 <!-- Notification Card Details - END -->
 
- 
+
 </body>
 </html>
