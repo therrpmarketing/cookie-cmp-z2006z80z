@@ -780,62 +780,39 @@ select, input[type="date"] {
 
 /* Notification Bubble Section START*/
 
-/* Notification Bubble Style */
-.notification-bubble {
-    background-color: red;
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    border-radius: 50%;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: inline-block;
-}
-
-/* Hidden class */
-.hidden {
-    display: none;
-}
-
-/* Notification List (optional styling for dropdown) */
+/* Notification List Style */
 .notification-list {
-    background: #fff;
-    border: 1px solid #ccc;
-    width: 250px;
-    position: absolute;
-    top: 40px;
-    right: 0;
-    z-index: 1000;
-    box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
-    border-radius: 6px;
-    max-height: 300px;
-    overflow-y: auto;
-    padding: 10px;
+  position: absolute;
+  top: 50px;  /* Adjust depending on where you want it */
+  right: 20px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  width: 250px;
+  padding: 10px;
+  max-height: 300px;
+  overflow-y: auto; /* Allows scrolling if the list is long */
+  display: none; /* Hidden by default */
 }
 
-/* Notification List Items */
-.notification-list ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+.notification-list.hidden {
+  display: none;
 }
+
+/* Style for each notification item */
 .notification-list li {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    cursor: pointer;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
 }
+
 .notification-list li.unread {
-    background-color: #f9f9f9;
-    font-weight: bold;
+  background-color: #f7f7f7;
 }
-.notification-list li:last-child {
-    border-bottom: none;
+
+.notification-list li:hover {
+  background-color: #f0f0f0;
 }
+
 
 /* Notification Bubble Section END*/
 
