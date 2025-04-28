@@ -285,26 +285,26 @@
   
       
         // Save general settings
-        document.getElementById("save-cookie-settings").addEventListener("click", () => {
-          const cookieDomain = document.getElementById("cookie-domain").value;
-          const sameSitePolicy = document.getElementById("same-site-policy").value;
-          const secureCookie = document.getElementById("secure-cookie-toggle").checked;
-          const httpOnlyCookie = document.getElementById("http-only-toggle").checked;
+        // document.getElementById("save-cookie-settings").addEventListener("click", () => {
+        //   const cookieDomain = document.getElementById("cookie-domain").value;
+        //   const sameSitePolicy = document.getElementById("same-site-policy").value;
+        //   const secureCookie = document.getElementById("secure-cookie-toggle").checked;
+        //   const httpOnlyCookie = document.getElementById("http-only-toggle").checked;
       
-          const settingsData = {
-            cookieDomain,
-            sameSitePolicy,
-            secureCookie,
-            httpOnlyCookie
-          };
+        //   const settingsData = {
+        //     cookieDomain,
+        //     sameSitePolicy,
+        //     secureCookie,
+        //     httpOnlyCookie
+        //   };
       
-          set(ref(db, "cookieSettings/general"), settingsData)
-            .then(() => alert("Cookie settings saved successfully."))
-            .catch((error) => {
-              console.error("Error saving cookie settings:", error);
-              alert("Failed to save settings.");
-            });
-        });
+        //   set(ref(db, "cookieSettings/general"), settingsData)
+        //     .then(() => alert("Cookie settings saved successfully."))
+        //     .catch((error) => {
+        //       console.error("Error saving cookie settings:", error);
+        //       alert("Failed to save settings.");
+        //     });
+        // });
       
         // Save expiry settings
         document.getElementById("save-expiry-settings").addEventListener("click", () => {
