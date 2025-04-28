@@ -450,78 +450,87 @@
 
 <!-- Notification Card Notification Bubble - START -->
             <script type="module">
-            // Fetch notifications from Firebase
-          function loadNotifications() {
-              const notificationsRef = ref(db, 'cookieSettings/notifications');
-              
-              get(notificationsRef).then((snapshot) => {
-                  const notifications = snapshot.val();
-                  if (notifications) {
-                      displayNotifications(notifications);
-                  }
-              });
-          }
-          
-          // Display notifications in the list and update the notification bubble count
-          function displayNotifications(notifications) {
-              const notificationCount = document.getElementById('notification-count');
-              const notificationList = document.getElementById('notification-list');
-              const notificationsUl = document.getElementById('notifications-ul');
-          
-              let unreadCount = 0;
-              notificationsUl.innerHTML = ''; // Clear current list
-          
-              // Loop through notifications and add to the list
-              for (const id in notifications) {
-                  const notification = notifications[id];
-                  const listItem = document.createElement('li');
-                  listItem.classList.add(notification.read ? '' : 'unread');
-          
-                  listItem.innerHTML = `
-                      <strong>${notification.type}</strong><br>
-                      ${notification.message}<br>
-                      <small>${new Date(notification.timestamp).toLocaleString()}</small>
-                  `;
-          
-                  listItem.addEventListener('click', () => {
-                      markAsRead(id);
+              // Fetch notifications from Firebase
+              function loadNotifications() {
+                  const notificationsRef = ref(db, 'cookieSettings/notifications');
+                  
+                  get(notificationsRef).then((snapshot) => {
+                      const notifications = snapshot.val();
+                      if (notifications) {
+                          displayNotifications(notifications);
+                      }
                   });
+              }
           
-                  notificationsUl.appendChild(listItem);
-          
-                  if (!notification.read) {
-                      unreadCount++;
+              // Display notifications in the list and update the notification bubble count
+              function displayNotifications(notifications) {
+                  const notificationCount = document.getElementById('notification-count');
+                  const notificationList = document.getElementById('notification-list');
+                  const notificationsUl = document.getElementById('notifications-ul');
+                  
+                  let unreadCount = 0;
+                  notificationsUl.innerHTML = ''; // Clear current list
+                  
+                  // Loop through notifications and add to the list
+                  for (const id in notifications) {
+                      const notification = notifications[id];
+                      const listItem = document.createElement('li');
+                      listItem.classList.add(notification.read ? '' : 'unread');
+                      
+                      listItem.innerHTML = `
+                          <strong>${notification.type}</strong><br>
+                          ${notification.message}<br>
+                          <small>${new Date(notification.timestamp).toLocaleString()}</small>
+                      `;
+                      
+                      listItem.addEventListener('click', () => {
+                          markAsRead(id);
+                      });
+                      
+                      notificationsUl.appendChild(listItem);
+                      
+                      if (!notification.read) {
+                          unreadCount++;
+                      }
+                  }
+                  
+                  // Show notification count if there are unread notifications
+                  notificationCount.textContent = unreadCount > 0 ? unreadCount : '';
+                  if (unreadCount > 0) {
+                      document.getElementById('notification-bubble').classList.remove('hidden');
+                  } else {
+                      document.getElementById('notification-bubble').classList.add('hidden');
                   }
               }
           
-              // Show notification count if there are unread notifications
-              notificationCount.textContent = unreadCount > 0 ? unreadCount : '';
-              if (unreadCount > 0) {
-                  document.getElementById('notification-bubble').classList.remove('hidden');
-              } else {
-                  document.getElementById('notification-bubble').classList.add('hidden');
+              // Mark a notification as read
+              function markAsRead(notificationId) {
+                  const notificationRef = ref(db, `cookieSettings/notifications/${notificationId}`);
+                  
+                  // Retrieve notification data first, then mark as read
+                  get(notificationRef).then((snapshot) => {
+                      const notification = snapshot.val();
+                      if (notification) {
+                          // Update notification's read status
+                          set(notificationRef, {
+                              ...notification,
+                              read: true
+                          }).then(() => {
+                              loadNotifications(); // Reload notifications after marking as read
+                          });
+                      }
+                  });
               }
-          }
           
-          // Mark a notification as read
-          function markAsRead(notificationId) {
-              const notificationRef = ref(db, `cookieSettings/notificationSettings/notifications/${notificationId}`);
-              set(notificationRef, {
-                  ...notification,
-                  read: true
-              }).then(() => {
-                  loadNotifications(); // Reload notifications after marking as read
+              // Show notification list when bubble is clicked
+              document.getElementById('notification-bubble').addEventListener('click', () => {
+                  const notificationList = document.getElementById('notification-list');
+                  notificationList.style.display = (notificationList.style.display === 'block') ? 'none' : 'block';
               });
-          }
           
-          // Show notification list when bubble is clicked
-          document.getElementById('notification-bubble').addEventListener('click', () => {
-              const notificationList = document.getElementById('notification-list');
-              notificationList.style.display = (notificationList.style.display === 'block') ? 'none' : 'block';
-          });
-          
-          // Load notifications when the page loads
-          window.onload = loadNotifications;
+              // Load notifications when the page loads
+              window.onload = loadNotifications;
+              
           </script>
 
 <!-- Notification Card Notification Bubble - END -->
