@@ -529,7 +529,9 @@
               });
           
               // Load notifications when the page loads
-              window.onload = loadNotifications;
+             window.onload = function() {
+            loadNotificationSettings();
+          };
               
           </script>
 
