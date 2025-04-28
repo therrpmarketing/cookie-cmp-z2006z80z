@@ -341,7 +341,7 @@
           const database = getDatabase();
         
           // Firebase reference to notification settings
-          const notificationSettingsRef = ref(database, 'cookieSettings/notifications');
+          const notificationSettingsRef = ref(database, 'cookieSettings/notificationSettings');
           
           // Load the notification settings from Firebase
           function loadNotificationSettings() {
@@ -452,7 +452,7 @@
             <script type="module">
             // Fetch notifications from Firebase
           function loadNotifications() {
-              const notificationsRef = ref(db, 'cookieSettings/notificationSettings/notifications');
+              const notificationsRef = ref(db, 'cookieSettings/notifications');
               
               get(notificationsRef).then((snapshot) => {
                   const notifications = snapshot.val();
