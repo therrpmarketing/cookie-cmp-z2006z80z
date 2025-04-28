@@ -777,6 +777,27 @@ select, input[type="date"] {
   to   { opacity: 1; }
 }
 
-/* Notification Section END*/
+
+/* Notification Bubble Section START*/
+
+/* Notification Bubble Style */
+.notification-bubble {
+    background-color: red;
+    color: white;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: inline-block;
+}
+
+/* Hidden class */
+.hidden {
+    display: none;
+}
+
+/* Notification Bubble Section END*/
 
 
